@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261030092313--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261030092821--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -272,18 +272,18 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
   o.querySelector('#stac').innerHTML='<button data-ac="" style="'+(!SET.accent?'font-weight:700;border:2px solid var(--ac)':'')+'">Default</button>'+ACCENTS.map(c=>'<button data-ac="'+c+'" aria-label="accent '+c+'" style="width:30px;height:30px;border-radius:50%;background:'+c+';border:'+(SET.accent===c?'3px solid var(--tx)':'1px solid var(--bd)')+'"></button>').join('')+'<input type="color" id="stcc" value="'+(SET.accent||'#2a6df4')+'" style="width:36px;height:30px;padding:0;border:none;background:none">';
   o.querySelector('#stfn').innerHTML=[['pixel','16-bit pixel'],['clean','Clean (system)']].map(([k,n])=>'<button data-fn="'+k+'" style="'+(SET.font===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+n+'</button>').join('');
   o.querySelector('#stsz').innerHTML=Object.keys(SIZES).map(k=>'<button data-sz="'+k+'" style="'+(SET.size===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+k+'</button>').join('');o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261030092313',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent='Page build: '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261030092821',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent='Page build: '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err)render()})}else if(t.id==='stdn')o.remove()};
  o.addEventListener('change',e=>{if(e.target.id==='stcc'){SET.accent=e.target.value;ch()}else if(e.target.id==='stcp'){SET.compact=e.target.checked;ch()}});o.addEventListener('input',e=>{if(e.target.id==='stcc'){SET.accent=e.target.value;saveSet();applySet()}})}
 $('msb').onclick=openMs;$('set').onclick=openSettings;
 $('hbg').onclick=()=>{if(document.getElementById('hmenu'))return;const d=document.createElement('div');d.id='hmenu';d.style.cssText='position:fixed;inset:0;z-index:98;background:rgba(0,0,0,.55)';
- const items=[['Milestones','ms'],['Account and friends','ac'],['Settings','st'],['Sync and tools','sy'],['Import from GAMEYE','gy'],['Check for updates','up'],['Close all consoles','cl']];
+ const items=[['Milestones','ms'],['Friend updates','fu'],['Account and friends','ac'],['Settings','st'],['Sync and tools','sy'],['Import from GAMEYE','gy'],['Check for updates','up'],['Close all consoles','cl']];
  d.innerHTML='<div id="hpan" style="position:absolute;left:0;top:0;bottom:0;width:78%;max-width:300px;background:var(--card);color:var(--tx);box-shadow:4px 0 20px rgba(0,0,0,.4);padding:calc(14px + env(safe-area-inset-top,0px)) 14px 14px;display:flex;flex-direction:column;gap:8px;transform:translateX(-100%);transition:transform .18s"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="font-size:17px">Chamberla Collector</b><button id="hx" aria-label="Close" style="width:34px;height:34px;padding:0;font-size:20px">×</button></div>'+items.map(([n,k])=>'<button data-hm="'+k+'" style="text-align:left;padding:12px 14px;font-size:15px">'+n+'</button>').join('')+'<small class="mu" style="margin-top:auto">Tap outside to close</small></div>';
  document.body.appendChild(d);requestAnimationFrame(()=>{const p=d.querySelector('#hpan');if(p)p.style.transform='none'});
  d.onclick=e=>{const b=e.target.closest&&e.target.closest('[data-hm]');if(e.target===d||e.target.id==='hx'){d.remove();return}if(!b)return;const k=b.dataset.hm;d.remove();
-  if(k==='ms')openMs();else if(k==='ac')openAccount();else if(k==='st')openSettings();else if(k==='sy')openTools();else if(k==='up'){if(window.gcCheckUpdate)window.gcCheckUpdate(true);else snack('Updates are only available in the Android app','',()=>{})}
+  if(k==='ms')openMs();else if(k==='ac')openAccount();else if(k==='fu')openAccount('up');else if(k==='st')openSettings();else if(k==='sy')openTools();else if(k==='up'){if(window.gcCheckUpdate)window.gcCheckUpdate(true);else snack('Updates are only available in the Android app','',()=>{})}
   else if(k==='gy')pickGameye(r=>{snack(r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection)','',()=>{});if(!r.err)render()});else if(k==='cl')$('cls').click()}};applySet();
 {const f=document.createElement('button');f.id='fab';f.textContent='+';f.setAttribute('aria-label','Add');const m=document.createElement('div');m.id='fabm';m.hidden=true;document.body.appendChild(m);document.body.appendChild(f);const close=()=>{m.hidden=true;f.textContent='+'};f.onclick=e=>{e.stopPropagation();if(!m.hidden){close();return}m.innerHTML='';const add=(n,fn)=>{const b=document.createElement('button');b.textContent=n;b.onclick=e2=>{e2.stopPropagation();close();fn()};m.appendChild(b)};add('Milestones',()=>openMs());if(window.__fabScan)add('Scan barcode',()=>window.__fabScan());add('Add game manually',()=>$('addg').click());m.hidden=false;f.textContent='×'};document.addEventListener('click',e=>{if(!m.hidden&&!m.contains(e.target))close()})}
 
@@ -359,7 +359,7 @@ setTimeout(()=>{if(sbSess()){sbLoadProfile().then(()=>{sbSync().then(()=>pubNow(
 /* ---- UI ---- */
 const pctTxt=p=>(+p).toFixed(1)+'%';
 const tierChip=(pct)=>{const l=msLvl(pct);if(!l.length)return'';const i=MST.indexOf(l[l.length-1]);return'<span style="display:inline-block;padding:1px 7px;border-radius:6px;font-size:11px;font-weight:700;background:'+MCOL[i]+';color:'+(MDK[i]?'#222':'#fff')+';box-shadow:0 0 6px '+MCOL[i]+'">'+MTN[i]+'</span>'};
-function openAccount(){const c=sbCfg();const o=overlay('<div id="acb"></div>');const box=o.querySelector('#acb');
+function openAccount(start){const c=sbCfg();const o=overlay('<div id="acb"></div>');const box=o.querySelector('#acb');
  const hdr=t=>'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 10px"><h3 style="margin:0">'+t+'</h3><button id="acx" aria-label="Close" style="width:34px;height:34px;padding:0;font-size:20px;font-weight:700">×</button></div>';
  const wire=()=>{const x=box.querySelector('#acx');if(x)x.onclick=()=>o.remove()};
  const msg=(t,bad)=>{const m=box.querySelector('#acm');if(m){m.textContent=t||'';m.style.color=bad?'#ff6b6b':'var(--mu)'}};
@@ -417,7 +417,7 @@ function openAccount(){const c=sbCfg();const o=overlay('<div id="acb"></div>');c
   box.querySelector('#vrm').onclick=async()=>{const s=sbSess();const r=await sbApi('/rest/v1/friendships?or=(and(user_id.eq.'+s.uid+',friend_id.eq.'+f.id+'),and(user_id.eq.'+f.id+',friend_id.eq.'+s.uid+'))',{method:'DELETE'});if(r.ok)viewFriends();else msg(sbErr(r),1)};
   const vl=box.querySelector('#vl');if(vl)vl.onclick=async()=>{msg('Loading...');const r=await sbApi('/rest/v1/shared_lists?user_id=eq.'+f.id+'&select=games');if(!r.ok||!r.data||!r.data[0]){msg(r.ok?'Nothing shared yet.':sbErr(r),1);return}const g=r.data[0].games||[],by={};g.forEach(x=>(by[x[0]]=by[x[0]]||[]).push(x[1]));
    box.innerHTML=hdr(esc(f.username)+': games')+'<p class="mu" style="margin:0 0 8px">'+g.length+' games</p><div style="max-height:60vh;overflow:auto">'+Object.keys(by).sort().map(p=>'<b style="display:block;margin:10px 0 4px">'+esc(p)+' ('+by[p].length+')</b>'+by[p].sort().map(t=>'<div style="padding:3px 0;font-size:14px">'+esc(t)+'</div>').join('')).join('')+'</div><div class="ctl" style="margin-top:10px"><button id="vb2">Back</button></div>';wire();box.querySelector('#vb2').onclick=()=>viewFriend(f)}}
- if(!c.url||!c.key)viewConfig();else if(!sbSess())viewAuth('in');else viewHome()}
+ if(!c.url||!c.key)viewConfig();else if(!sbSess())viewAuth('in');else if(start==='up')viewUpdates();else viewHome()}
 
 /* ===== game details ===== */
 function platQ(p){return p.replace(/^(Microsoft|Sony)\s+/,'').split('/')[0]}
