@@ -35,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    static volatile boolean fg = false;
+    private String pendingOpen = null;
     private WebView web;
     private final ExecutorService artQ = Executors.newSingleThreadExecutor();
     private SharedPreferences sec() { return getSharedPreferences("igdb", MODE_PRIVATE); }
@@ -207,6 +209,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onPageFinished(WebView v, String u) {
+                if (pendingOpen != null) {
+                    final String k = pendingOpen;
+                    pendingOpen = null;
+                    v.postDelayed(() -> js("window.gcOpen&&gcOpen('" + k + "')"), 1500);
+                }
+            }
+
+            @Override
             public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                 android.net.Uri u = r.getUrl();
                 if ("appassets.androidplatform.net".equals(u.getHost())) return false;
@@ -219,7 +230,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         web.addJavascriptInterface(new Bridge(), "Android");
+        pendingOpen = getIntent() == null ? null : getIntent().getStringExtra("open");
         web.loadUrl(startUrl());
+        scheduleNotify();
+    }
+
+    @Override
+    protected void onNewIntent(android.content.Intent i) {
+        super.onNewIntent(i);
+        String k = i == null ? null : i.getStringExtra("open");
+        if (k != null) js("window.gcOpen&&gcOpen('" + k + "')");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fg = true;
+        ((android.app.NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancelAll();
+    }
+
+    @Override
+    protected void onPause() {
+        fg = false;
+        super.onPause();
+    }
+
+    private void scheduleNotify() {
+        try {
+            android.app.job.JobScheduler js = (android.app.job.JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            if (getSharedPreferences("ns", MODE_PRIVATE).getString("s", "").isEmpty()) {
+                js.cancel(7001);
+                return;
+            }
+            android.app.job.JobInfo.Builder jb = new android.app.job.JobInfo.Builder(7001,
+                    new android.content.ComponentName(this, NotifyJob.class))
+                    .setRequiredNetworkType(android.app.job.JobInfo.NETWORK_TYPE_ANY)
+                    .setPersisted(true).setPeriodic(15 * 60 * 1000L);
+            js.schedule(jb.build());
+        } catch (Exception e) { /* ignore */ }
     }
 
     @Override
@@ -232,6 +280,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class Bridge {
+        @JavascriptInterface
+        public void nsSession(String json) {
+            try {
+                SharedPreferences sp = getSharedPreferences("ns", MODE_PRIVATE);
+                boolean first = sp.getString("s", "").isEmpty();
+                sp.edit().putString("s", json).apply();
+                scheduleNotify();
+                if (first && android.os.Build.VERSION.SDK_INT >= 33
+                        && checkSelfPermission("android.permission.POST_NOTIFICATIONS") != android.content.pm.PackageManager.PERMISSION_GRANTED)
+                    runOnUiThread(() -> requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"}, 4712));
+            } catch (Exception e) { /* ignore */ }
+        }
+
+        @JavascriptInterface
+        public String nsGet() {
+            return getSharedPreferences("ns", MODE_PRIVATE).getString("s", "");
+        }
+
+        @JavascriptInterface
+        public void nsClear() {
+            getSharedPreferences("ns", MODE_PRIVATE).edit().clear().apply();
+            scheduleNotify();
+        }
+
         @JavascriptInterface
         public boolean hasIgdb() {
             return !sec().getString("id", "").isEmpty() && !sec().getString("sec", "").isEmpty();
