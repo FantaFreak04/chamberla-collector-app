@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261030085810--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261030091947--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -585,7 +585,7 @@ if(window.Android&&Android.art){(function(){
  const pend={};let seq=0;
  window.onGh=(id,code,text)=>{const f=pend[id];delete pend[id];if(f)f(code,text)};
  const call=(method,path,accept,body)=>new Promise(res=>{const id='g'+(++seq);pend[id]=(code,text)=>res({code,text});Android.ghCall(id,method,path,accept||'',body==null?'':body)});
- let msg='',lastOk=0;const stat=()=>{const b=document.getElementById('syncbtn');if(b)b.textContent=info.has?'Sync':'Sync setup';const s=document.getElementById('syncst');if(s)s.textContent=info.has?msg:''};
+ let msg='',lastOk=0;const stat=()=>{const b=document.getElementById('syncbtn');if(b)b.textContent=info.has?'GitHub sync':'Cloud account';const s=document.getElementById('syncst');if(s)s.textContent=info.has?msg:''};
  function toast(m){let d=document.getElementById('pxtoast');if(!d){d=document.createElement('div');d.id='pxtoast';d.style.cssText='position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;z-index:99;max-width:86%;text-align:center';document.body.appendChild(d)}d.textContent=m;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>d.style.display='none',5000)}
  let running=false,again=false;
  async function sync(manual){
@@ -642,7 +642,7 @@ if(window.Android&&Android.art){(function(){
   q('#ghs').onclick=()=>{Android.ghSet(q('#gho').value,q('#ghr').value,q('#ght').value);try{info=JSON.parse(Android.ghInfo())}catch(e){}o.remove();LS.set('gc-syncbase','{}');sync(true);checkUpdate(false)};
  }
  const b=document.createElement('button');b.id='syncbtn';const ctl=document.getElementById('all').parentNode;ctl.insertBefore(b,ctl.firstChild);const ss=document.createElement('small');ss.id='syncst';ss.className='mu';ss.style.cssText='display:block;width:100%;min-height:1.2em';ctl.appendChild(ss);stat();
- b.onclick=()=>{if(!info.has)setup();else{const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:98;display:flex;align-items:flex-start;justify-content:center;padding:12px';o.innerHTML='<div style="background:#fff;color:#111;width:100%;max-width:320px;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px"><b>Sync and updates</b><span style="font-size:13px">'+(msg||'')+'</span><button id="a1" style="padding:8px">Sync now</button><button id="a2" style="padding:8px">Check for app update</button><button id="a3" style="padding:8px">Settings</button><button id="a4" style="padding:8px">Close</button></div>';document.body.appendChild(o);o.querySelector('#a1').onclick=()=>{o.remove();sync(true)};o.querySelector('#a2').onclick=()=>{o.remove();checkUpdate(true)};o.querySelector('#a3').onclick=()=>{o.remove();setup()};o.querySelector('#a4').onclick=()=>o.remove()}};
+ let lp=0;b.oncontextmenu=e=>{e.preventDefault();setup()};b.ontouchstart=()=>{lp=setTimeout(()=>setup(),900)};b.ontouchend=b.ontouchmove=()=>clearTimeout(lp);b.onclick=()=>{if(!info.has){if(typeof openAccount==='function')openAccount();else setup()}else{const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:98;display:flex;align-items:flex-start;justify-content:center;padding:12px';o.innerHTML='<div style="background:#fff;color:#111;width:100%;max-width:320px;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px"><b>Sync and updates</b><span style="font-size:13px">'+(msg||'')+'</span><button id="a1" style="padding:8px">Sync now</button><button id="a2" style="padding:8px">Check for app update</button><button id="a3" style="padding:8px">Settings</button><button id="a4" style="padding:8px">Close</button></div>';document.body.appendChild(o);o.querySelector('#a1').onclick=()=>{o.remove();sync(true)};o.querySelector('#a2').onclick=()=>{o.remove();checkUpdate(true)};o.querySelector('#a3').onclick=()=>{o.remove();setup()};o.querySelector('#a4').onclick=()=>o.remove()}};
  if(info.has)setTimeout(()=>sync(),1500);setTimeout(()=>checkUpdate(false),3000)
 })();
 </script></body></html>
