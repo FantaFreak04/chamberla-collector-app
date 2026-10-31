@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261031030000--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261031030450--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -53,7 +53,7 @@ button{padding:6px 10px;border-radius:8px;border:1px solid var(--bd);background:
 .gw .cs{display:none}
 .cp{cursor:pointer;font-style:normal;font-weight:600;border:1px solid var(--bd);border-radius:6px;padding:0 6px;margin-left:4px;font-size:13px;color:var(--mu)}
 .gw .cp{display:none}
-.mdl{background:var(--bg);color:var(--tx);width:100%;max-width:560px;border-radius:12px;padding:14px;border:1px solid var(--bd)}
+.mdl{box-sizing:border-box;min-width:0;overflow-x:hidden;background:var(--bg);color:var(--tx);width:100%;max-width:560px;border-radius:12px;padding:14px;border:1px solid var(--bd)}
 .mdl .row{border-top:1px solid var(--bd)}
 .mdl textarea{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px;font:12px/1.4 ui-monospace,Consolas,monospace}
 body.nopx .pr,body.nopx .pxv,body.nopx .r1>span:last-child{display:none!important}
@@ -291,7 +291,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
   o.querySelector('#stac').innerHTML='<button data-ac="" style="'+(!SET.accent?'font-weight:700;border:2px solid var(--ac)':'')+'">Default</button>'+ACCENTS.map(c=>'<button data-ac="'+c+'" aria-label="accent '+c+'" style="width:30px;height:30px;border-radius:50%;background:'+c+';border:'+(SET.accent===c?'3px solid var(--tx)':'1px solid var(--bd)')+'"></button>').join('')+'<input type="color" id="stcc" value="'+(SET.accent||'#2a6df4')+'" style="width:36px;height:30px;padding:0;border:none;background:none">';
   o.querySelector('#stfn').innerHTML=[['pixel','16-bit pixel'],['clean','Clean (system)']].map(([k,n])=>'<button data-fn="'+k+'" style="'+(SET.font===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+n+'</button>').join('');
   o.querySelector('#stsz').innerHTML=Object.keys(SIZES).map(k=>'<button data-sz="'+k+'" style="'+(SET.size===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+k+'</button>').join('');o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261031030000',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent='Page build: '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261031030450',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent='Page build: '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err)render()})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
