@@ -122,6 +122,34 @@ public class NotifyJob extends JobService {
             }
         }
 
+        // message requests (people who are not friends yet)
+        long lastR = sp.getLong("lr", -1);
+        r = http("GET", url + "/rest/v1/message_requests?select=id,sender_id,body&recipient_id=eq." + uid
+                + "&status=eq.pending&order=id.asc&limit=30", key, at, null);
+        if (r[0].equals("200")) {
+            JSONArray a = new JSONArray(r[1]);
+            long max = lastR;
+            JSONArray fresh = new JSONArray();
+            for (int i = 0; i < a.length(); i++) {
+                JSONObject m = a.getJSONObject(i);
+                long id = m.getLong("id");
+                if (id > max) max = id;
+                if (lastR >= 0 && id > lastR) fresh.put(m);
+            }
+            if (lastR < 0 || max > lastR) sp.edit().putLong("lr", Math.max(max, 0)).apply();
+            if (show && nm && fresh.length() > 0) {
+                fill(names, fresh, "sender_id", url, key, at);
+                String title = "Message request", text;
+                if (fresh.length() == 1) {
+                    JSONObject m = fresh.getJSONObject(0);
+                    text = nm(names, m.getString("sender_id"), "Someone") + " wants to message you";
+                } else {
+                    text = fresh.length() + " people want to message you";
+                }
+                notify(3, "requests", "Message requests", title, text, "msg");
+            }
+        }
+
         // friend updates
         long lastA = sp.getLong("la", -1);
         r = http("GET", url + "/rest/v1/activity?select=id,user_id,kind,platform,title&user_id=neq." + uid
@@ -143,7 +171,10 @@ public class NotifyJob extends JobService {
                 if (fresh.length() == 1) {
                     JSONObject m = fresh.getJSONObject(0);
                     String who = nm(names, m.getString("user_id"), "A friend");
-                    text = "milestone".equals(m.optString("kind"))
+                    String kd = m.optString("kind");
+                    text = "profile".equals(kd)
+                            ? who + ("Bio".equals(m.getString("title")) ? " updated their bio" : " changed their profile picture")
+                            : "milestone".equals(kd)
                             ? who + " reached " + m.getString("title") + " in " + m.getString("platform")
                             : who + " added " + m.getString("title") + " (" + m.getString("platform") + ")";
                 } else {
