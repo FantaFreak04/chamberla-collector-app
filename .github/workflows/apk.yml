@@ -20,6 +20,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.9' }
       - name: Build
+        env: { VCODE: '${{ github.run_number }}' }
         run: |
           cp index.html android/app/src/main/assets/index.html
           cd android && gradle assembleDebug --no-daemon
@@ -28,4 +29,4 @@ jobs:
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk ChamberlaCollector.apk
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest ChamberlaCollector.apk --title "Chamberla Collector" --notes "Latest Android app. Install once; after that the app updates itself."
+          gh release create latest ChamberlaCollector.apk --title "Chamberla Collector" --notes "Latest Android app, build ${{ github.run_number }}. Install once; the app finds new builds and offers to install them."
