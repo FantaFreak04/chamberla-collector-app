@@ -471,6 +471,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public void shareFile(final String name, final String mime, final String b64) {
+            new Thread(() -> {
+                try {
+                    File dir = new File(getCacheDir(), "shared");
+                    dir.mkdirs();
+                    File f = new File(dir, name.replaceAll("[^A-Za-z0-9._-]", "_"));
+                    FileOutputStream o = new FileOutputStream(f);
+                    o.write(android.util.Base64.decode(b64, android.util.Base64.DEFAULT));
+                    o.close();
+                    final android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, "com.koby.gamechecklist.fp", f);
+                    runOnUiThread(() -> {
+                        android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
+                        i.setType(mime);
+                        i.putExtra(android.content.Intent.EXTRA_STREAM, u);
+                        i.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(android.content.Intent.createChooser(i, "Share"));
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "Could not share that file", Toast.LENGTH_SHORT).show());
+                }
+            }).start();
+        }
+
+        @JavascriptInterface
         public void reloadApp() {
             runOnUiThread(() -> web.loadUrl(startUrl()));
         }
