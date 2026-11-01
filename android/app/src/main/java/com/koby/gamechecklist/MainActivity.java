@@ -174,11 +174,21 @@ public class MainActivity extends AppCompatActivity {
             if (res != RESULT_OK || !lf.exists()) { js("window.onLabelText&&window.onLabelText('',false)"); return; }
             try {
                 android.graphics.BitmapFactory.Options bo = new android.graphics.BitmapFactory.Options();
-                bo.inSampleSize = 2;
+                bo.inJustDecodeBounds = true;
+                android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), bo);
+                bo.inJustDecodeBounds = false;
+                bo.inSampleSize = Math.max(bo.outWidth, bo.outHeight) > 4200 ? 2 : 1;
                 android.graphics.Bitmap bm = android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), bo);
                 if (bm == null) { js("window.onLabelText&&window.onLabelText('',true)"); return; }
+                int deg = 0;
+                try {
+                    int ori = new android.media.ExifInterface(lf.getAbsolutePath()).getAttributeInt(android.media.ExifInterface.TAG_ORIENTATION, android.media.ExifInterface.ORIENTATION_NORMAL);
+                    if (ori == android.media.ExifInterface.ORIENTATION_ROTATE_90) deg = 90;
+                    else if (ori == android.media.ExifInterface.ORIENTATION_ROTATE_180) deg = 180;
+                    else if (ori == android.media.ExifInterface.ORIENTATION_ROTATE_270) deg = 270;
+                } catch (Exception e) { /* keep 0 */ }
                 com.google.mlkit.vision.text.TextRecognizer rec = com.google.mlkit.vision.text.TextRecognition.getClient(com.google.mlkit.vision.text.latin.TextRecognizerOptions.DEFAULT_OPTIONS);
-                rec.process(com.google.mlkit.vision.common.InputImage.fromBitmap(bm, 0))
+                rec.process(com.google.mlkit.vision.common.InputImage.fromBitmap(bm, deg))
                         .addOnSuccessListener(t -> js("window.onLabelText&&window.onLabelText(" + JSONObject.quote(t.getText()) + ",true)"))
                         .addOnFailureListener(e -> js("window.onLabelText&&window.onLabelText('',true)"));
             } catch (Exception e) {
