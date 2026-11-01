@@ -494,6 +494,115 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         }
 
+        private int myBuild() {
+            try {
+                android.content.pm.PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+                return (int) (android.os.Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+
+        private String[] apkInfo() throws Exception {
+            HttpURLConnection c = (HttpURLConnection) new URL("https://api.github.com/repos/FantaFreak04/chamberla-collector-app/releases/tags/latest").openConnection();
+            c.setRequestProperty("Accept", "application/vnd.github+json");
+            c.setRequestProperty("User-Agent", "ChamberlaCollector");
+            c.setConnectTimeout(15000);
+            c.setReadTimeout(20000);
+            if (c.getResponseCode() != 200) throw new Exception("GitHub " + c.getResponseCode());
+            BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String ln;
+            while ((ln = br.readLine()) != null) sb.append(ln);
+            br.close();
+            JSONObject j = new JSONObject(sb.toString());
+            Matcher m = Pattern.compile("build (\\d+)").matcher(j.optString("body", ""));
+            String build = m.find() ? m.group(1) : "0";
+            JSONArray as = j.getJSONArray("assets");
+            String url = as.length() > 0 ? as.getJSONObject(0).getString("browser_download_url") : "";
+            return new String[]{build, url};
+        }
+
+        @JavascriptInterface
+        public int appBuild() {
+            return myBuild();
+        }
+
+        @JavascriptInterface
+        public void apkCheck() {
+            new Thread(() -> {
+                String res = "none", msg = "";
+                try {
+                    String[] i = apkInfo();
+                    int nb = Integer.parseInt(i[0]);
+                    if (nb > myBuild() && !i[1].isEmpty()) {
+                        res = "new";
+                        msg = i[0];
+                    }
+                } catch (Exception e) {
+                    res = "err";
+                    msg = e.getMessage() == null ? "error" : e.getMessage();
+                }
+                js("window.onApk(" + JSONObject.quote(res) + "," + JSONObject.quote(msg) + ")");
+            }).start();
+        }
+
+        @JavascriptInterface
+        public void apkInstall() {
+            if (android.os.Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
+                runOnUiThread(() -> {
+                    try {
+                        startActivity(new android.content.Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, android.net.Uri.parse("package:" + getPackageName())));
+                    } catch (Exception e) {
+                    }
+                });
+                js("window.onApk('perm','')");
+                return;
+            }
+            new Thread(() -> {
+                try {
+                    String[] i = apkInfo();
+                    File dir = new File(getCacheDir(), "shared");
+                    dir.mkdirs();
+                    File f = new File(dir, "update.apk");
+                    HttpURLConnection c = (HttpURLConnection) new URL(i[1]).openConnection();
+                    c.setRequestProperty("User-Agent", "ChamberlaCollector");
+                    c.setConnectTimeout(15000);
+                    c.setReadTimeout(30000);
+                    long total = c.getContentLengthLong();
+                    java.io.InputStream in = c.getInputStream();
+                    FileOutputStream o = new FileOutputStream(f);
+                    byte[] buf = new byte[32768];
+                    long got = 0;
+                    int last = -1, n;
+                    while ((n = in.read(buf)) > 0) {
+                        o.write(buf, 0, n);
+                        got += n;
+                        if (total > 0) {
+                            int pc = (int) (got * 100 / total);
+                            if (pc != last && pc % 5 == 0) {
+                                last = pc;
+                                js("window.onApk('progress','" + pc + "')");
+                            }
+                        }
+                    }
+                    o.close();
+                    in.close();
+                    if (f.length() < 1000000) throw new Exception("download incomplete");
+                    final android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, "com.koby.gamechecklist.fp", f);
+                    runOnUiThread(() -> {
+                        android.content.Intent it = new android.content.Intent(android.content.Intent.ACTION_VIEW);
+                        it.setDataAndType(u, "application/vnd.android.package-archive");
+                        it.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION | android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(it);
+                    });
+                    js("window.onApk('installing','')");
+                } catch (Exception e) {
+                    js("window.onApk('err'," + JSONObject.quote(e.getMessage() == null ? "error" : e.getMessage()) + ")");
+                }
+            }).start();
+        }
+
         @JavascriptInterface
         public void reloadApp() {
             runOnUiThread(() -> web.loadUrl(startUrl()));
