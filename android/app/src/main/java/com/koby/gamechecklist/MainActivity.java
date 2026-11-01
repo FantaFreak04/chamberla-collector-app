@@ -169,6 +169,23 @@ public class MainActivity extends AppCompatActivity {
             fileCb = null;
             return;
         }
+        if (req == 4712) {
+            final File lf = new File(new File(getCacheDir(), "shared"), "label.jpg");
+            if (res != RESULT_OK || !lf.exists()) { js("window.onLabelText&&window.onLabelText('',false)"); return; }
+            try {
+                android.graphics.BitmapFactory.Options bo = new android.graphics.BitmapFactory.Options();
+                bo.inSampleSize = 2;
+                android.graphics.Bitmap bm = android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), bo);
+                if (bm == null) { js("window.onLabelText&&window.onLabelText('',true)"); return; }
+                com.google.mlkit.vision.text.TextRecognizer rec = com.google.mlkit.vision.text.TextRecognition.getClient(com.google.mlkit.vision.text.latin.TextRecognizerOptions.DEFAULT_OPTIONS);
+                rec.process(com.google.mlkit.vision.common.InputImage.fromBitmap(bm, 0))
+                        .addOnSuccessListener(t -> js("window.onLabelText&&window.onLabelText(" + JSONObject.quote(t.getText()) + ",true)"))
+                        .addOnFailureListener(e -> js("window.onLabelText&&window.onLabelText('',true)"));
+            } catch (Exception e) {
+                js("window.onLabelText&&window.onLabelText('',true)");
+            }
+            return;
+        }
         super.onActivityResult(req, res, data);
     }
 
@@ -681,6 +698,26 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .addOnFailureListener(e -> Toast.makeText(MainActivity.this,
                                 "Scan failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
+            });
+        }
+
+        @JavascriptInterface
+        public void scanLabel() {
+            runOnUiThread(() -> {
+                try {
+                    File dir = new File(getCacheDir(), "shared");
+                    dir.mkdirs();
+                    File f = new File(dir, "label.jpg");
+                    if (f.exists()) f.delete();
+                    android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, "com.koby.gamechecklist.fp", f);
+                    android.content.Intent i = new android.content.Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, u);
+                    i.addFlags(android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION | android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    MainActivity.this.startActivityForResult(i, 4712);
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, "Camera not available: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    js("window.onLabelText&&window.onLabelText('',false)");
+                }
             });
         }
 
