@@ -16,12 +16,17 @@ jobs:
       - name: Keep signing key
         uses: actions/cache@v4
         with:
-          path: /home/runner/.android
-          key: android-debug-key-v2
+          path: /home/runner/ci-key
+          key: android-signing-key-v3
+      - name: Create signing key if missing
+        run: |
+          mkdir -p /home/runner/ci-key
+          [ -f /home/runner/ci-key/key.jks ] || keytool -genkeypair -keystore /home/runner/ci-key/key.jks -storepass android -keypass android -alias key -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Chamberla Collector"
+          ls -l /home/runner/ci-key
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.9' }
       - name: Build
-        env: { VCODE: '${{ github.run_number }}' }
+        env: { VCODE: '${{ github.run_number }}', KEYSTORE_PATH: '/home/runner/ci-key/key.jks' }
         run: |
           cp index.html android/app/src/main/assets/index.html
           cd android && gradle assembleDebug --no-daemon
