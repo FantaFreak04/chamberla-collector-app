@@ -1,4 +1,4 @@
-# Build number comes from the run number; the app offers newer builds itself. Signing key is cached (v3).
+# Build number comes from the run number; the app offers newer builds itself. Signing key is cached (v3), same key every build.
 name: Build APK
 on:
   workflow_dispatch:
