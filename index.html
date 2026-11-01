@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261101133304--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261101222538--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -293,7 +293,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261101133304',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261101222538',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
@@ -989,7 +989,8 @@ const LB_STOP=new Set(['the','a','an','of','and','for','in','to']);
 const lbTok=s=>{const t=String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\([^)]*\)|\[[^\]]*\]/g,' ').replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').split(' ').filter(w=>w&&!LB_STOP.has(w));return new Set(t)};
 function lbSame(a,b){const A=lbTok(a),B=lbTok(b);if(!A.size||!B.size)return false;let n=0;A.forEach(x=>{if(B.has(x))n++});return n>=1&&n/Math.min(A.size,B.size)>=.8&&n/Math.max(A.size,B.size)>=.5}
 function lbLookup(db,raw){const cs=new Set(),tk=String(raw).toUpperCase().replace(/[^A-Z0-9\-\s]/g,' ').split(/\s+/).filter(Boolean);
- for(let i=0;i<tk.length;i++){let j=tk[i];for(let n=0;n<3&&i+n<tk.length;n++){if(n)j+=tk[i+n];const a=j.replace(/[^A-Z0-9]/g,'');if(a.length>=4&&a.length<=20){cs.add(a);cs.add(a.replace(/O/g,'0'));cs.add(a.replace(/I/g,'1'))}}}
+ for(let i=0;i<tk.length;i++){const pr=tk[i].split('-').filter(Boolean);if(pr.length>1){pr.forEach((x,m)=>{if(x.length>=4&&x.length<=20)cs.add(x);if(m+1<pr.length){const y=(x+pr[m+1]).replace(/[^A-Z0-9]/g,'');if(y.length>=5&&y.length<=20)cs.add(y)}})}const al=tk[i].replace(/[^A-Z0-9]/g,'');if(al.length>=7&&al.length<=14)for(let w=0;w+4<=al.length;w++)cs.add(al.slice(w,w+4));
+  let j=tk[i];for(let n=0;n<3&&i+n<tk.length;n++){if(n)j+=tk[i+n];const a=j.replace(/[^A-Z0-9]/g,'');if(a.length>=4&&a.length<=20){cs.add(a);cs.add(a.replace(/O/g,'0'));cs.add(a.replace(/I/g,'1'))}}}
  const out=[];cs.forEach(c=>{if(db.c[c]!==undefined)out.push([c,db.t[db.c[c]]])});return out}
 window.__verLabel=function(p,k,code){const ck=p+'|'+k;VER[ck]=ld();lss('gc-ver',JSON.stringify(VER));verFlag(ck,'l');if(!sbSess())return;sbApi('/rest/v1/game_scans?on_conflict=user_id,game_key',{method:'POST',headers:{Prefer:'resolution=ignore-duplicates'},body:{user_id:sbSess().uid,game_key:ck,source:'label',upc:code}})};
 function openLabelVerify(p,k,title,done){const o=overlay('<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px"><h3 style="margin:0">Verify with label</h3><button id="lbx" aria-label="Close" style="width:34px;height:34px;padding:0;font-size:20px;font-weight:700">×</button></div><p style="margin:0 0 4px"><b>'+esc(title)+'</b> <small class="mu">'+esc(p)+'</small></p><p class="mu" style="font-size:12px;margin:0 0 8px">Take a clear photo of the printed code on the disc or cartridge label (like SLUS-00594 or NUS-NGEE-USA). The app checks that the code belongs to this game. Worn, shiny or tiny print may not read, and you can type the code instead.</p><div id="lbn" hidden style="margin:0 0 8px"><button id="lbcam" style="width:100%;padding:12px;font-weight:700">\uD83D\uDCF7 Scan label with camera</button></div><input type="file" id="lbf" accept="image/*" capture="environment" style="max-width:100%;margin:0 0 8px"><div style="display:flex;gap:6px"><input id="lbc" placeholder="Or type the code" maxlength="30" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;text-transform:uppercase"><button id="lbk">Check</button></div><div id="lbr" style="margin-top:10px;font-size:14px"></div>');
@@ -1176,7 +1177,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='21.01';
+const PAGE_VER='22.01';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1189,6 +1190,7 @@ const PATCH=[
   'New: Household library. A shared pool of games for a couple or family, separate from your own library. Menu, Household library. Needs the database update.',
   'New: Invite a friend to an event. If they accept, the event shows "with <friend>" on the main screen card. Needs the database update.',
   'Changed: your streak is now a big card near the top of your profile, showing today and tomorrow\'s bonus.',
+  'Fixed: Verify with label now understands codes printed with dashes and region, like NTR-CLJE-USA on DS cartridges.',
   'Fixed: Steam status no longer flickers to Offline for a few minutes after you were just online or in a game.',
   'Changed: days as a member now count the day you joined as day 1, so it matches your streak.',
   'New: daily streak bonus XP. Each day in a row gives 5 XP more than the day before, up to 35 a day, and it starts over at 5 if you miss a day. Counted back through your existing activity.',
