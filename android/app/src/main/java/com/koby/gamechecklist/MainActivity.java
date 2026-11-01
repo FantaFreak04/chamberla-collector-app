@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        web.setOverScrollMode(android.view.View.OVER_SCROLL_NEVER);
         web.addJavascriptInterface(new Bridge(), "Android");
         pendingOpen = getIntent() == null ? null : getIntent().getStringExtra("open");
         web.loadUrl(startUrl());
@@ -272,7 +273,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (web.canGoBack()) web.goBack(); else super.onBackPressed();
+        // Close any open panel first; if nothing was open, close the app.
+        web.evaluateJavascript("(window.gcBack&&gcBack())?'1':'0'", value -> {
+            if (!"\"1\"".equals(value)) finish();
+        });
     }
 
     private void js(final String code) {
