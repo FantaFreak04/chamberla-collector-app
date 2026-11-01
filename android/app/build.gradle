@@ -1,4 +1,5 @@
 plugins { id 'com.android.application' }
+def buildNum = Integer.parseInt(System.getenv('VCODE') ?: '1')
 android {
     namespace 'com.koby.gamechecklist'
     compileSdk 34
@@ -6,8 +7,8 @@ android {
         applicationId 'com.koby.gamechecklist'
         minSdk 23
         targetSdk 34
-        versionCode (System.getenv('VCODE') ?: '1').toInteger()
-        versionName '1.' + (System.getenv('VCODE') ?: '0')
+        versionCode buildNum
+        versionName '1.' + buildNum
     }
     buildTypes { release { minifyEnabled false } }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
