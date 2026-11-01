@@ -9,13 +9,62 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Chamberla Collector"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".MainActivity" android:exported="true"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+        <activity android:name=".MainActivity" android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity-alias android:name=".Icon0" android:targetActivity=".MainActivity" android:exported="true" android:enabled="true" android:icon="@mipmap/ic_launcher_0" android:label="Chamberla Collector">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+        <activity-alias android:name=".Icon1" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_1" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon2" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_2" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon3" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_3" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon4" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_4" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon5" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_5" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon6" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_6" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon7" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_7" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias android:name=".Icon8" android:targetActivity=".MainActivity" android:exported="true" android:enabled="false" android:icon="@mipmap/ic_launcher_8" android:label="Chamberla Collector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         <provider android:name="androidx.core.content.FileProvider" android:authorities="com.koby.gamechecklist.fp" android:exported="false" android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>

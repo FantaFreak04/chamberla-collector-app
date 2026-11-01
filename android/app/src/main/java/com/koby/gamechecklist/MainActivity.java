@@ -702,6 +702,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public int getIcon() {
+            try {
+                android.content.pm.PackageManager pm = getPackageManager();
+                for (int i = 0; i < 9; i++) {
+                    int st = pm.getComponentEnabledSetting(new android.content.ComponentName(getPackageName(), "com.koby.gamechecklist.Icon" + i));
+                    if (st == android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED || (st == android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && i == 0)) return i;
+                }
+            } catch (Exception e) { /* fall through */ }
+            return 0;
+        }
+
+        @JavascriptInterface
+        public void setIcon(final int n) {
+            runOnUiThread(() -> {
+                try {
+                    if (n < 0 || n > 8) return;
+                    android.content.pm.PackageManager pm = getPackageManager();
+                    pm.setComponentEnabledSetting(new android.content.ComponentName(getPackageName(), "com.koby.gamechecklist.Icon" + n),
+                            android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED, android.content.pm.PackageManager.DONT_KILL_APP);
+                    for (int i = 0; i < 9; i++) {
+                        if (i == n) continue;
+                        pm.setComponentEnabledSetting(new android.content.ComponentName(getPackageName(), "com.koby.gamechecklist.Icon" + i),
+                                android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED, android.content.pm.PackageManager.DONT_KILL_APP);
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, "Could not change the icon: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @JavascriptInterface
         public void scanLabel() {
             runOnUiThread(() -> {
                 try {
