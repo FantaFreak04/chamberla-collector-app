@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261101095708--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261101095810--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -290,7 +290,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
   o.querySelector('#stac').innerHTML='<button data-ac="" style="'+(!SET.accent?'font-weight:700;border:2px solid var(--ac)':'')+'">Default</button>'+ACCENTS.map(c=>'<button data-ac="'+c+'" aria-label="accent '+c+'" style="width:30px;height:30px;border-radius:50%;background:'+c+';border:'+(SET.accent===c?'3px solid var(--tx)':'1px solid var(--bd)')+'"></button>').join('')+'<input type="color" id="stcc" value="'+(SET.accent||'#2a6df4')+'" style="width:36px;height:30px;padding:0;border:none;background:none">';
   o.querySelector('#stfn').innerHTML=[['pixel','16-bit pixel'],['clean','Clean (system)']].map(([k,n])=>'<button data-fn="'+k+'" style="'+(SET.font===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+n+'</button>').join('');
   o.querySelector('#stsz').innerHTML=Object.keys(SIZES).map(k=>'<button data-sz="'+k+'" style="'+(SET.size===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+k+'</button>').join('');o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261101095708',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261101095810',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
@@ -984,7 +984,7 @@ function lbLookup(db,raw){const cs=new Set(),tk=String(raw).toUpperCase().replac
  for(let i=0;i<tk.length;i++){let j=tk[i];for(let n=0;n<3&&i+n<tk.length;n++){if(n)j+=tk[i+n];const a=j.replace(/[^A-Z0-9]/g,'');if(a.length>=4&&a.length<=20){cs.add(a);cs.add(a.replace(/O/g,'0'));cs.add(a.replace(/I/g,'1'))}}}
  const out=[];cs.forEach(c=>{if(db.c[c]!==undefined)out.push([c,db.t[db.c[c]]])});return out}
 window.__verLabel=function(p,k,code){const ck=p+'|'+k;VER[ck]=ld();lss('gc-ver',JSON.stringify(VER));verFlag(ck,'l');if(!sbSess())return;sbApi('/rest/v1/game_scans?on_conflict=user_id,game_key',{method:'POST',headers:{Prefer:'resolution=ignore-duplicates'},body:{user_id:sbSess().uid,game_key:ck,source:'label',upc:code}})};
-function openLabelVerify(p,k,title,done){const o=overlay('<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px"><h3 style="margin:0">Verify with label</h3><button id="lbx" aria-label="Close" style="width:34px;height:34px;padding:0;font-size:20px;font-weight:700">×</button></div><p style="margin:0 0 4px"><b>'+esc(title)+'</b> <small class="mu">'+esc(p)+'</small></p><p class="mu" style="font-size:12px;margin:0 0 8px">Take a clear photo of the printed code on the disc or cartridge label (like SLUS-00594 or NUS-NGEE-USA). The app checks that the code belongs to this game. Worn, shiny or tiny print may not read, and you can type the code instead.</p><input type="file" id="lbf" accept="image/*" capture="environment" style="max-width:100%;margin:0 0 8px"><div style="display:flex;gap:6px"><input id="lbc" placeholder="Or type the code" maxlength="30" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;text-transform:uppercase"><button id="lbk">Check</button></div><div id="lbr" style="margin-top:10px;font-size:14px"></div>');
+function openLabelVerify(p,k,title,done){const o=overlay('<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px"><h3 style="margin:0">Verify with label</h3><button id="lbx" aria-label="Close" style="width:34px;height:34px;padding:0;font-size:20px;font-weight:700">×</button></div><p style="margin:0 0 4px"><b>'+esc(title)+'</b> <small class="mu">'+esc(p)+'</small></p><p class="mu" style="font-size:12px;margin:0 0 8px">Take a clear photo of the printed code on the disc or cartridge label (like SLUS-00594 or NUS-NGEE-USA). The app checks that the code belongs to this game. Worn, shiny or tiny print may not read, and you can type the code instead.</p><div id="lbn" hidden style="margin:0 0 8px"><button id="lbcam" style="width:100%;padding:12px;font-weight:700">\uD83D\uDCF7 Scan label with camera</button></div><input type="file" id="lbf" accept="image/*" capture="environment" style="max-width:100%;margin:0 0 8px"><div style="display:flex;gap:6px"><input id="lbc" placeholder="Or type the code" maxlength="30" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;text-transform:uppercase"><button id="lbk">Check</button></div><div id="lbr" style="margin-top:10px;font-size:14px"></div>');
  o.querySelector('#lbx').onclick=()=>o.remove();const R=o.querySelector('#lbr');
  const verdict=async(text,viaPhoto)=>{R.textContent='Checking...';const db=await serGet(p);
   if(db.none){R.innerHTML='There is no code list for this console yet.';return}if(db.err){R.innerHTML='Could not load the code list. Check your internet connection.';return}
@@ -994,6 +994,7 @@ function openLabelVerify(p,k,title,done){const o=overlay('<div style="display:fl
   R.innerHTML=(viaPhoto?'Could not read a known code from the photo. Try a closer, brighter shot, or type the code.':'That code was not found for this console.')};
  o.querySelector('#lbk').onclick=()=>{const v=o.querySelector('#lbc').value.trim();if(v.length<4){R.textContent='Type the code printed on the label.';return}verdict(v,false)};
  const load=()=>new Promise((res,rej)=>{if(window.Tesseract)return res();const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js';s.onload=res;s.onerror=()=>rej(new Error('Could not load the text reader. Check your internet connection.'));document.head.appendChild(s)});
+ if(window.Android&&typeof Android.scanLabel==='function'){o.querySelector('#lbn').hidden=false;o.querySelector('#lbf').hidden=true;o.querySelector('#lbcam').onclick=()=>{R.textContent='Opening the camera...';window.onLabelText=async(t,ok)=>{if(!ok&&!t){R.textContent='No photo taken.';return}if(!t||t.trim().length<3){R.textContent='Could not read any text. Try a closer, brighter shot, or type the code.';return}R.textContent='Reading the label...';await verdict(t,true)};Android.scanLabel()}}
  o.querySelector('#lbf').onchange=async e=>{const f=e.target.files[0];if(!f)return;R.textContent='Loading the text reader (first time takes a moment)...';try{await load();R.textContent='Reading the photo...';const w=await Tesseract.createWorker('eng');const {data}=await w.recognize(f);await w.terminate();await verdict(data.text,true)}catch(err){R.textContent=(err&&err.message)||'Scan failed.'}}}
 
 /* ===== phone gestures: no pull-to-refresh, back closes panels ===== */
@@ -1099,7 +1100,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='18.16';
+const PAGE_VER='18.17';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1108,6 +1109,7 @@ const PATCH=[
   'Changed: Shelf card, Inventory record, CSV export and GAMEYE import are all under Share and export in the menu.',
   'Changed: Settings is grouped into Appearance, Data and About. Brand new users get a Start here card.',
   'Removed: leftover photo code.',
+  'New: Verify with label can open the camera directly and read the label. This needs the latest app version.',
   'New: Sort: Loose games first.',
   'New: profiles now show Verified and Double-checked as separate counts.',
   'Fixed: a game verified by barcode can now also get its label checked from its page, which makes it Double-checked.'
