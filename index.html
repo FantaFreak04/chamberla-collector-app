@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261101095929--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261101124954--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -290,7 +290,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
   o.querySelector('#stac').innerHTML='<button data-ac="" style="'+(!SET.accent?'font-weight:700;border:2px solid var(--ac)':'')+'">Default</button>'+ACCENTS.map(c=>'<button data-ac="'+c+'" aria-label="accent '+c+'" style="width:30px;height:30px;border-radius:50%;background:'+c+';border:'+(SET.accent===c?'3px solid var(--tx)':'1px solid var(--bd)')+'"></button>').join('')+'<input type="color" id="stcc" value="'+(SET.accent||'#2a6df4')+'" style="width:36px;height:30px;padding:0;border:none;background:none">';
   o.querySelector('#stfn').innerHTML=[['pixel','16-bit pixel'],['clean','Clean (system)']].map(([k,n])=>'<button data-fn="'+k+'" style="'+(SET.font===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+n+'</button>').join('');
   o.querySelector('#stsz').innerHTML=Object.keys(SIZES).map(k=>'<button data-sz="'+k+'" style="'+(SET.size===k?'font-weight:700;border:2px solid var(--ac)':'')+'">'+k+'</button>').join('');o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261101095929',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261101124954',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
@@ -838,6 +838,7 @@ function openAccount(start){const c=sbCfg();const o=overlay('<div id="acb"></div
   {const a=box.querySelector('#vrp');if(a)a.onclick=()=>reportUser(f);const b=box.querySelector('#vbl');if(b)b.onclick=()=>blockUser(f,viewFriends)}const vrm=box.querySelector('#vrm');if(vrm)vrm.onclick=async()=>{const s=sbSess();const r=await sbApi('/rest/v1/friendships?or=(and(user_id.eq.'+s.uid+',friend_id.eq.'+f.id+'),and(user_id.eq.'+f.id+',friend_id.eq.'+s.uid+'))',{method:'DELETE'});if(r.ok)viewFriends();else msg(sbErr(r),1)};
   const vl=box.querySelector('#vl');if(vl)vl.onclick=async()=>{msg('Loading...');let g;if(me){g=[];D.forEach((r,i)=>{if(!off.has(i))g.push([r[0],r[1]])})}else{const r=await sbApi('/rest/v1/shared_lists?user_id=eq.'+f.id+'&select=games');if(!r.ok||!r.data||!r.data[0]){msg(r.ok?'Nothing shared yet.':sbErr(r),1);return}g=r.data[0].games||[]}const by={};g.forEach(x=>(by[x[0]]=by[x[0]]||[]).push(x[1]));
    box.innerHTML=hdr(esc(f.username)+': games')+'<p class="mu" style="margin:0 0 8px">'+g.length+' games</p><div style="max-height:60vh;overflow:auto">'+Object.keys(by).sort().map(p=>'<b style="display:block;margin:10px 0 4px">'+esc(p)+' ('+by[p].length+')</b>'+by[p].sort().map(t=>'<div style="padding:3px 0;font-size:14px"><a href="#" data-gm="'+esc(JSON.stringify([p,t]))+'" style="color:inherit">'+esc(t)+'</a></div>').join('')).join('')+'</div><div class="ctl" style="margin-top:10px"><button id="vb2">Back</button></div>';wire();box.querySelector('#vb2').onclick=()=>viewFriend(f);box.querySelectorAll('a[data-gm]').forEach(a=>a.onclick=e=>{e.preventDefault();try{const[p,t]=JSON.parse(a.dataset.gm);openGame(p,key(t),t)}catch(x){}})}}
+ {const rec=n=>{const f=eval(n);const g=function(...a){box.__re=()=>f.apply(null,a);return f.apply(this,a)};return g};try{viewHome=rec('viewHome');viewFriends=rec('viewFriends');viewMessages=rec('viewMessages');viewChat=rec('viewChat');viewFriend=rec('viewFriend');viewUpdates=rec('viewUpdates');viewFriendList=rec('viewFriendList');viewLoans=rec('viewLoans');viewWeekly=rec('viewWeekly');viewTeams=rec('viewTeams');viewMarket=rec('viewMarket');viewMeetups=rec('viewMeetups');viewStranger=rec('viewStranger');viewCompare=rec('viewCompare');viewBlocked=rec('viewBlocked');viewSocialMs=rec('viewSocialMs')}catch(e){}window.__acc=o;o.__refresh=()=>box.__re&&box.__re()}
  if(!c.url||!c.key)viewConfig();else if(!sbSess())viewAuth('in');else if(start==='up')viewUpdates();else if(start==='msg')viewMessages();else if(start==='fr')viewFriends();else if(start==='me')viewMe();else if(start==='loan')viewLoans();else if(start==='meet')viewMeetups(viewHome);else if(start==='soc')viewSocialMs(viewHome);else viewHome()}
 
 /* ===== game details ===== */
@@ -1002,7 +1003,7 @@ try{document.documentElement.style.overscrollBehaviorY='contain';document.body.s
 /* pull down to refresh */
 (function(){let y0=null,dy=0,busy=false,ind=null;const TH=70;
 const mk=()=>{if(ind)return ind;ind=document.createElement('div');ind.style.cssText='position:fixed;left:50%;top:0;transform:translate(-50%,-60px);z-index:90;padding:8px 16px;border-radius:20px;background:var(--card);color:var(--tx);border:1px solid var(--bd);font-size:13px;box-shadow:0 2px 10px rgba(0,0,0,.35);pointer-events:none;transition:none';document.body.appendChild(ind);return ind};
-const blocked=t=>{if(document.querySelector('.mdl,#hpan'))return true;for(let e=t;e&&e!==document.body;e=e.parentElement){if(e.scrollTop>0)return true}return false};
+const blocked=t=>{if(document.querySelector('#hpan'))return true;for(let e=t;e&&e!==document.body;e=e.parentElement){if(e.scrollTop>0)return true}return false};
 const top0=()=>(document.scrollingElement||document.documentElement).scrollTop<=0;
 document.addEventListener('touchstart',e=>{y0=null;if(busy||e.touches.length!==1||!top0()||blocked(e.target))return;y0=e.touches[0].clientY;dy=0},{passive:true});
 document.addEventListener('touchmove',e=>{if(y0===null)return;dy=e.touches[0].clientY-y0;if(dy<=0){if(ind)ind.style.transform='translate(-50%,-60px)';return}const i=mk();const v=Math.min(dy*.5,60);i.style.transition='none';i.style.transform='translate(-50%,'+(v-40)+'px)';i.textContent=dy>=TH?'Release to refresh':'Pull to refresh'},{passive:true});
@@ -1010,6 +1011,7 @@ document.addEventListener('touchend',async()=>{if(y0===null)return;const go=dy>=
  try{if(typeof sbSess==='function'&&sbSess()&&typeof sbSync==='function'){await Promise.race([sbSync(),new Promise(r=>setTimeout(r,8000))])}}catch(e){}
  let ur='none';try{if(window.gcPullUpdate)ur=await window.gcPullUpdate()}catch(e){}
  if(ur==='ready'&&window.Android&&Android.reloadApp){ind.textContent='Installing update...';setTimeout(()=>Android.reloadApp(),300);return}
+ if(document.querySelector('.mdl')){try{try{render()}catch(e){}const acc=window.__acc;if(acc&&document.body.contains(acc)&&acc.__refresh)await acc.__refresh()}catch(e){}ind.textContent='Refreshed';setTimeout(()=>{ind.style.transition='transform .2s';ind.style.transform='translate(-50%,-60px)';busy=false},600);return}
  setTimeout(()=>location.reload(),350)},{passive:true});
 })();
 window.gcBack=function(){try{const cand=[...document.body.children].filter(el=>{if(!el.querySelector)return false;const cs=getComputedStyle(el);return cs.position==='fixed'&&(+cs.zIndex||0)>=50&&(el.querySelector('.mdl')||el.querySelector('#hpan'))});const top=cand[cand.length-1];if(top){top.remove();return true}}catch(e){}return false};
@@ -1100,7 +1102,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='18.18';
+const PAGE_VER='19.01';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1109,6 +1111,7 @@ const PATCH=[
   'Changed: Shelf card, Inventory record, CSV export and GAMEYE import are all under Share and export in the menu.',
   'Changed: Settings is grouped into Appearance, Data and About. Brand new users get a Start here card.',
   'Removed: leftover photo code.',
+  'New: Pull down to refresh works on any screen without sending you back to the main screen.',
   'New: Verify with label can open the camera directly and read the label. This needs the latest app version.',
   'New: Sort: Loose games first.',
   'New: profiles now show Verified and Double-checked as separate counts.',
