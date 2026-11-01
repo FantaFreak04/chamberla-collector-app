@@ -16,8 +16,8 @@ jobs:
       - name: Keep signing key
         uses: actions/cache@v4
         with:
-          path: ~/.android
-          key: android-debug-key-v1
+          path: /home/runner/.android
+          key: android-debug-key-v2
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.9' }
       - name: Build
