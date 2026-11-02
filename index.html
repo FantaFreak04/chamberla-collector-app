@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261102005131--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261102012241--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -293,7 +293,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261102005131',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261102012241',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
@@ -1179,7 +1179,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   const anchor=document.querySelector('.stk');if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(c,anchor)}catch(e){}}
  setInterval(stEnsure,1500);setTimeout(stEnsure,600)}
 /* ===== tidy: highlights toggle, view options ===== */
-{const css=document.createElement('style');css.textContent='#hpan,.mdl{overscroll-behavior:contain}body:has(#hpan),body:has(.mdl){overflow:hidden}body.hlc #evhome,body.hlc #rvhome{display:none!important}#hlbtn{width:100%;text-align:left;margin:0 0 10px;padding:9px 12px;border-radius:12px;font-size:14px}body:not(.vopen) #mn,body:not(.vopen) #hd,body:not(.vopen) #view,body:not(.vopen) #tl,body:not(.vopen) #px,body:not(.vopen) #fin,body:not(.vopen) #own,body:not(.vopen) #mode{display:none!important}';document.head.appendChild(css);
+{const css=document.createElement('style');css.textContent='#hpan{overscroll-behavior:contain}body:has(#hpan),body:has(.mdl){overflow:hidden}body.hlc #evhome,body.hlc #rvhome{display:none!important}#hlbtn{width:100%;text-align:left;margin:0 0 10px;padding:9px 12px;border-radius:12px;font-size:14px}body:not(.vopen) #mn,body:not(.vopen) #hd,body:not(.vopen) #view,body:not(.vopen) #tl,body:not(.vopen) #px,body:not(.vopen) #fin,body:not(.vopen) #own,body:not(.vopen) #mode{display:none!important}';document.head.appendChild(css);
  let hl=true;try{hl=localStorage.getItem('gc-hl')!=='0'}catch(e){}document.body.classList.toggle('hlc',hl);
  let vo=false;try{vo=localStorage.getItem('gc-vo')==='1'}catch(e){}document.body.classList.toggle('vopen',vo);
  const vb=document.getElementById('mn');if(vb&&!document.getElementById('vob')){const b=document.createElement('button');b.id='vob';b.textContent=vo?'View options ▴':'View options ▾';vb.parentNode.insertBefore(b,vb);b.onclick=()=>{const o=!document.body.classList.contains('vopen');document.body.classList.toggle('vopen',o);b.textContent=o?'View options ▴':'View options ▾';try{localStorage.setItem('gc-vo',o?'1':'0')}catch(e){}}}
@@ -1190,7 +1190,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='22.04';
+const PAGE_VER='22.05';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
