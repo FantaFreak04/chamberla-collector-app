@@ -264,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                 android.net.Uri u = r.getUrl();
                 if ("appassets.androidplatform.net".equals(u.getHost())) return false;
+                String sch = u.getScheme();
+                if (sch == null || !(sch.equals("https") || sch.equals("http") || sch.equals("mailto"))) return true;
                 try {
                     startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, u));
                 } catch (Exception e) {
