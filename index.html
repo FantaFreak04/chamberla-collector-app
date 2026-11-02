@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261102012241--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261102014554--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -157,7 +157,7 @@ function render(){
  const P=Object.keys(by).map(p=>{let v=0,n=0;by[p].forEach(([r,i])=>{A++;if(!off.has(i)){n++;TT+=cpn(r,r[0]+'|'+key(r[1]));v+=pv(r)||0}});add.forEach(ak=>{const ix=ak.indexOf('|');if(ak.slice(0,ix)!==p)return;const k=ak.slice(ix+1),px=PX[p]&&PX[p][k];if(!px)return;const c=cond[ak],x=c==='New'?px[2]:(c==='CIB'||c==='Boxed')?px[1]:px[0];v+=(x==null?px[0]:x)||0});T+=v;N+=n;return{p,v,n}});{let mc={};try{msCalc().rows.forEach(r=>mc[r.p]=r.pct)}catch(e){}P.sort((a,b)=>(mc[b.p]||0)-(mc[a.p]||0)||b.v-a.v)}
  $('list').classList.toggle('grid',grid);$('list').classList.toggle('tiles',tiles);$('tl')&&($('tl').textContent=tiles?'Consoles: tiles':'Consoles: bars');$('list').style.setProperty('--tw',tw+'px');$('view').textContent=grid?'View: big icons':'View: list';$('tw').hidden=!grid;$('tw').value=tw;$('own').textContent={all:'Show: all games',own:'Show: owned only',miss:'Show: missing',wish:'Show: wishlist'}[flt];$('s1').textContent=N+add.size;window.__GN=N+add.size;$('s1t').textContent=showTot?' · '+(TT+add.size+[...add].reduce((q,k)=>q+(xtra[k]||0),0))+' total':'';$('s2').textContent=m$(T);window.__TV=T;$('s3').textContent=A?Math.round(N/A*100)+'%':'0%';
  const MF={Xbox:[0,0,0],Nintendo:[0,0,0],Sega:[0,0,0],PlayStation:[0,0,0],Atari:[0,0,0],SNK:[0,0,0],NEC:[0,0,0],'3DO':[0,0,0],Mattel:[0,0,0],Coleco:[0,0,0]},mfOf=n=>/neo geo/i.test(n)?'SNK':/turbografx|pc engine/i.test(n)?'NEC':/^3do/i.test(n)?'3DO':/intellivision/i.test(n)?'Mattel':/colecovision/i.test(n)?'Coleco':/atari/i.test(n)?'Atari':/xbox/i.test(n)?'Xbox':/playstation|psp|vita|ps\d/i.test(n)?'PlayStation':/sega|genesis|dreamcast|saturn|master system|game gear|32x/i.test(n)?'Sega':'Nintendo';
- $('list').innerHTML=P.map(x=>{if(mfHide.has(mfOf(x.p)))return'';
+ window.LZ={}; $('list').innerHTML=P.map(x=>{if(mfHide.has(mfOf(x.p)))return'';
   const p=x.p,L=lists[p]||PRE[p],own=by[p];let items,extra=[],hit=0,tt=+tot[p]||0;
   if(L){const om=Object.create(null);own.forEach(o=>om[key(o[0][1])]=o);
    items=L.map(t=>{const k=key(t),o=om[k],on=o?!off.has(o[1]):add.has(p+'|'+k);if(on)hit++;return{t,k,o,on}});
@@ -174,7 +174,7 @@ function render(){
   return `<details data-p="${esc(p)}"${open.has(p)?' open':''}><summary><div class="r1"><span>${badge(mfOf(p))}${esc(p)}${tt?': '+cp.toFixed(1)+'%'+(PART[p]?' (incomplete)':''):''}</span><span>${m$(x.v)}</span></div><div class="mu">${tt?cp.toFixed(1)+'% of the '+tt+' '+(L?'listed':'physical')+' games on this platform'+(PART[p]?' (incomplete)':'')+' · ':(PART[p]?'list incomplete (added '+PART[p]+') · ':'set platform total inside · ')}${L?Math.max(hit,x.n):x.n} games · ${gp.toFixed(1)}% of your games<span class="pxv"> · ${sh.toFixed(1)}% of your total dollar value</span></div><div class="bar"><i style="width:${tt?cp:gp}%"></i></div><div class="tl">${badge(mfOf(p))}<b>${esc(p)}</b><span>${tt?Math.round(cp)+'%':x.n}</span></div></summary>`
   +(L?'':`<div class="row"><span class="nm">Total physical games on this platform</span><input type="number" class="tot" data-p="${esc(p)}" min="1" placeholder="physical total"${tt?' value="'+tt+'"':''}></div>`)
   +(true?`<div class="row"><span class="nm">${L?(L.length?'Full list: '+L.length+' unique games':'List not loaded yet. Paste titles with Add titles.')+(PART[p]?' so far ('+PART[p]+')':''):'Full list not added'}</span><button data-goal="${esc(p)}">${goal.has(p)?'Unset goal':'Set goal'}</button><button data-imp="${esc(p)}">Add titles</button>${L?'<button data-rm="'+esc(p)+'">Remove</button>':''}</div><div class="row" data-box="${esc(p)}" hidden><textarea class="imp" data-p="${esc(p)}" rows="5" placeholder="Paste titles to add, one per line (merged into the list)"></textarea><button data-go="${esc(p)}">Build</button></div>`:'')
-  +(grid?'<div class="gw">':'')+items.map(row).join('')+(grid?'</div>':'')+(extra.length?'<div class="mu" style="padding:8px 10px">Owned, but not matched to the list:</div>'+extra.map(row).join(''):'')+'</details>'}).join('')||'<p class="mu">No matches.</p>';
+  +(()=>{const bh=()=>(grid?'<div class="gw">':'')+items.map(row).join('')+(grid?'</div>':'')+(extra.length?'<div class="mu" style="padding:8px 10px">Owned, but not matched to the list:</div>'+extra.map(row).join(''):'');if(open.has(p))return bh();window.LZ[p]=bh;return'<div class="lz"></div>'})()+'</details>'}).join('')||'<p class="mu">No matches.</p>';
  $('mf').innerHTML=Object.keys(MF).filter(k=>!mfHide.has(k)).map(k=>{const m=MF[k];return `<div class="stat"><b>${badge(k)}${k}: ${m[1]?(m[0]/m[1]*100).toFixed(1)+'%':'\u2014'}</b><span>${m[1]?m[0]+' of '+m[1]+' listed games'+(m[2]?' (incomplete)':''):'no lists added yet'}</span></div>`}).join('');
 }
 $('list').addEventListener('click',e=>{const cpb=e.target.closest&&e.target.closest('[data-cp]');if(cpb){e.preventDefault();const [op,...r]=cpb.dataset.cp.split('|'),ck=r.join('|');if(op==='+')xtra[ck]=(xtra[ck]||0)+1;else if((xtra[ck]||0)>0){xtra[ck]--;if(!xtra[ck])delete xtra[ck]}save();render();return}const w=e.target.closest&&e.target.closest('[data-w]');if(w){e.preventDefault();const k=w.dataset.w;wish.has(k)?wish.delete(k):wish.add(k);save();render();return}if(e.target.dataset.goal){const g=e.target.dataset.goal;goal.has(g)?goal.delete(g):goal.add(g);open.add(g);save();render();return}const t=e.target,p=t.dataset.imp||t.dataset.rm||t.dataset.go;if(!p)return;
@@ -184,7 +184,7 @@ $('list').addEventListener('click',e=>{const cpb=e.target.closest&&e.target.clos
  ta.value.split(/\r?\n/).forEach(s=>{s=s.replace(/^\s*(\d+[.)]|[-*•])\s*/,'').trim();const k=key(s);if(s&&k&&!seen.has(k)){seen.add(k);L.push(s)}});
  if(L.length){lists[p]=L;open.add(p);save();render()}});
 $('list').addEventListener('change',e=>{if(e.target.dataset.c){const k=e.target.dataset.c;e.target.value?cond[k]=e.target.value:delete cond[k];save();render();return}if(e.target.classList.contains('tot')){const v=+e.target.value,p=e.target.dataset.p;v>0?tot[p]=v:delete tot[p];save();render();return}if(e.target.dataset.a){const k=e.target.dataset.a;e.target.checked?add.add(k):add.delete(k);save();render();return}const i=+e.target.dataset.i;e.target.checked?off.delete(i):off.add(i);save();render()});
-$('list').addEventListener('toggle',e=>{const p=e.target.dataset.p;if(p)e.target.open?open.add(p):open.delete(p)},true);
+$('list').addEventListener('toggle',e=>{const p=e.target.dataset.p;if(p){e.target.open?open.add(p):open.delete(p);if(e.target.open){const z=e.target.querySelector(':scope>.lz');if(z&&window.LZ[p]){z.outerHTML=window.LZ[p]();delete window.LZ[p];try{window.__afterLazy&&window.__afterLazy(e.target)}catch(x){}}}}},true);
 $('tl').onclick=()=>{tiles=!tiles;try{localStorage.setItem('gc-tiles',tiles?'1':'0')}catch(e){}render()};$('view').onclick=()=>{grid=!grid;try{localStorage.setItem('gc-grid',grid?'1':'0')}catch(e){}render()};
 $('tw').oninput=e=>{tw=+e.target.value;$('list').style.setProperty('--tw',tw+'px');try{localStorage.setItem('gc-tw',tw)}catch(x){}};
 $('cls').onclick=()=>{open.clear();noAuto=true;render();window.scrollTo(0,0)};
@@ -293,7 +293,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261102012241',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261102014554',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
@@ -1190,7 +1190,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='22.05';
+const PAGE_VER='22.06';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1200,6 +1200,7 @@ const PATCH=[
   'Changed: Settings is grouped into Appearance, Data and About. Brand new users get a Start here card.',
   'Removed: leftover photo code.',
   'Fixed: scrolling the menu or any open screen no longer scrolls the page behind it.',
+  'Fixed: the app is much faster to open and to scroll. Console lists now load their games when you open them, which cut the work on the main screen by about 90 percent.',
   'Changed: Household library looks better. Big numbers for games, value and consoles, member avatars, console icons with counts, colored tags showing who added each game, and Leave and Delete tucked under More.',
   'New: Add my library to a household in one step, all consoles or just one.',
   'New: App icon colors. Settings, Appearance, App icon. Nine color choices for the app icon. Needs the latest app version.',
