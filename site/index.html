@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chamberla Collector</title>
+<meta name="description" content="Track your physical video game collection, verify each game by barcode and label, and compare shelves with friends. No ads.">
+<meta property="og:title" content="Chamberla Collector">
+<meta property="og:description" content="Track and verify your physical video game collection. Compare shelves with friends. No ads.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/shelf.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e9e4f2; --card:#ffffff; --ink:#1d1b22; --mute:#5f5a6b; --violet:#7c3aed; --violet-d:#5b21b6; --line:#c9bfdc; --stamp:#16875a;
+  --pix:'Pixelify Sans',ui-monospace,Consolas,monospace; --body:'Atkinson Hyperlegible',system-ui,sans-serif;
+}
+:root[data-theme=dark]{--bg:#17141f;--card:#221e2e;--ink:#f1edf9;--mute:#b2abc4;--violet:#a78bfa;--violet-d:#c4b5fd;--line:#3a3350;--stamp:#4ade9b}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#17141f;--card:#221e2e;--ink:#f1edf9;--mute:#b2abc4;--violet:#a78bfa;--violet-d:#c4b5fd;--line:#3a3350;--stamp:#4ade9b}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--violet-d)}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+.logo{font:700 20px/1 var(--pix);letter-spacing:.04em;text-decoration:none;color:var(--ink)}
+.top nav{display:flex;gap:18px;font-size:16px}
+.top nav a{color:var(--ink);text-decoration:none}
+.top nav a:hover{text-decoration:underline}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:36px 0 64px}
+h1{font:700 clamp(38px,6.2vw,68px)/1.02 var(--pix);margin:0 0 20px;letter-spacing:.01em}
+.lede{font-size:20px;max-width:30em;margin:0 0 28px;color:var(--ink)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px}
+.btn{display:inline-block;padding:14px 22px;border-radius:12px;font:700 17px/1.2 var(--body);text-decoration:none;border:2px solid var(--violet);min-height:48px}
+.btn.p{background:var(--violet);color:#fff}
+.btn.p:hover{background:var(--violet-d);border-color:var(--violet-d)}
+.btn.s{background:transparent;color:var(--violet-d)}
+.btn.s:hover{background:var(--card)}
+.fine{font-size:15px;color:var(--mute);margin:0;max-width:34em}
+
+/* the one memorable thing: a case that gets scanned and stamped */
+.stage{position:relative;display:flex;justify-content:center;padding:10px 0 30px}
+.phone{width:min(300px,78vw);border-radius:34px;border:8px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:0 22px 40px -20px rgba(29,27,34,.55)}
+.phone img{display:block;width:100%;height:auto}
+.case{position:absolute;left:-6px;bottom:0;width:190px;transform:rotate(-5deg);background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:12px 12px 10px;box-shadow:0 14px 26px -16px rgba(29,27,34,.6)}
+.case .t{font:700 14px/1.2 var(--pix);margin:0 0 8px}
+.bars{position:relative;height:54px;border-radius:4px;overflow:hidden;background:
+  repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 13px,var(--ink) 13px 14px,transparent 14px 17px)}
+.scan{position:absolute;top:0;bottom:0;width:3px;left:0;background:#e0245e;box-shadow:0 0 10px #e0245e;animation:sweep 1.6s .5s ease-in-out 1 both}
+@keyframes sweep{0%{left:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:calc(100% - 3px);opacity:0}}
+.stamp{position:absolute;right:-18px;top:-16px;transform:rotate(9deg) scale(1);border:3px solid var(--stamp);color:var(--stamp);background:var(--card);border-radius:8px;padding:4px 9px;font:700 14px/1.1 var(--pix);animation:stamp .35s 2.1s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:rotate(9deg) scale(2.2);opacity:0}to{transform:rotate(9deg) scale(1);opacity:1}}
+.case small{display:block;margin-top:6px;font-size:13px;color:var(--mute)}
+
+/* sections */
+section{padding:64px 0;border-top:2px solid var(--line)}
+h2{font:700 clamp(28px,4vw,40px)/1.1 var(--pix);margin:0 0 14px;max-width:18em}
+.sub{max-width:34em;color:var(--mute);margin:0 0 30px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{counter-increment:s;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:20px 20px 22px}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--violet);color:#fff;font:700 18px/1 var(--pix);margin-bottom:12px}
+.steps h3{font:700 22px/1.2 var(--pix);margin:0 0 8px}
+.steps p{margin:0;color:var(--mute);font-size:17px}
+.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+.split.rev{grid-template-columns:1.1fr .9fr}
+.split .phone{margin:0 auto}
+.two{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+.two .phone{width:min(240px,70vw)}
+.list{padding:0;margin:0 0 6px;list-style:none}
+.list li{padding:10px 0 10px 30px;position:relative;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list li::before{content:"";position:absolute;left:2px;top:19px;width:12px;height:12px;background:var(--violet);border-radius:2px}
+.list b{font-family:var(--pix);font-weight:700}
+.honest{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:20px 22px;max-width:44em}
+.honest p{margin:0 0 8px}.honest p:last-child{margin:0}
+footer{padding:36px 0 48px;border-top:2px solid var(--line);font-size:16px;color:var(--mute)}
+footer .row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between}
+footer a{color:var(--ink)}
+
+@media (max-width:600px){.top nav{display:none}}
+@media (max-width:820px){
+  .hero,.split,.split.rev{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .stage{padding-bottom:70px}
+  .case{left:50%;transform:translateX(-120%) rotate(-5deg);bottom:-6px;width:170px}
+  .split .phone{margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){.scan{display:none}.stamp{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="./">Chamberla Collector</a>
+    <nav aria-label="Main"><a href="#verify">Verification</a><a href="#friends">Friends</a><a href="#free">Free</a></nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Prove the games on your shelf.</h1>
+      <p class="lede">Chamberla Collector tracks the physical games you own on every console. Scan a barcode and the game is marked verified, so your collection shows what is real, not just what is claimed.</p>
+      <div class="cta">
+        <a class="btn p" href="https://github.com/FantaFreak04/chamberla-collector-app/releases/tag/latest">Download for Android</a>
+        <a class="btn s" href="https://fantafreak04.github.io/chamberla-collector-app/">Open in your browser</a>
+      </div>
+      <p class="fine">Scanning is in the Android app. The browser version tracks your collection and friends but cannot scan yet, so it works on iPhone too.</p>
+    </div>
+    <div class="stage">
+      <div class="phone"><img src="img/shelf.png" width="390" height="800" alt="The home screen showing a collection with percentages for each console and a total value"></div>
+      <div class="case" aria-hidden="true">
+        <div class="t">Barcode match</div>
+        <div class="bars"><div class="scan"></div></div>
+        <small>label check is in beta</small>
+        <div class="stamp">Double-checked</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="verify">
+    <h2>A game counts when you can show it</h2>
+    <p class="sub">Anyone can tick a box. Verification checks the real thing in your hands. The barcode is the reliable step. The label check is newer and still improving.</p>
+    <ol class="steps">
+      <li><h3>Scan the barcode</h3><p>Point the camera at the box. If the barcode matches the title, the game is marked verified.</p></li>
+      <li><h3>Check the label (beta)</h3><p>Photograph the printed code on a disc or cartridge and the app compares it with known codes for that title. It works on about 30 consoles, but reading the print is hit and miss, and many newer consoles have no code list yet. Loose games can use it too.</p></li>
+      <li><h3>Get double-checked</h3><p>When both the barcode and the label match, the game shows as double-checked. Profiles count verified and double-checked games separately, so a plain barcode scan is still worth showing.</p></li>
+    </ol>
+  </section>
+
+  <section id="shelf">
+    <div class="split">
+      <div class="phone" style="width:min(300px,78vw)"><img loading="lazy" src="img/profile.png" width="390" height="800" alt="A profile showing 28 verified and 12 double-checked games, a streak and a level"></div>
+      <div>
+        <h2>Your whole shelf, console by console</h2>
+        <ul class="list">
+          <li><b>Completion.</b> See how much of each console's library you own, from Atari to Switch.</li>
+          <li><b>Value.</b> An estimated total from market prices, kept honest: it is self-reported, not an appraisal.</li>
+          <li><b>Streaks and milestones.</b> Daily check-ins and collection goals earn XP and badges.</li>
+          <li><b>Loose, boxed or sealed.</b> Record the condition of every copy.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="friends">
+    <div class="split rev">
+      <div>
+        <h2>Compare shelves with friends</h2>
+        <p class="sub">Add friends with a code or an invite link. Rankings, shared events and a shared family library keep the hobby social.</p>
+        <ul class="list">
+          <li><b>Leaderboard.</b> See who is closest to finishing a console.</li>
+          <li><b>Household library.</b> Couples and families can share one pool of games, with your own library kept separate.</li>
+          <li><b>Events.</b> Find retro game events and invite a friend to go.</li>
+        </ul>
+      </div>
+      <div class="two">
+        <div class="phone"><img loading="lazy" src="img/friends.png" width="390" height="800" alt="Friends screen with friend requests and a leaderboard"></div>
+        <div class="phone"><img loading="lazy" src="img/household.png" width="390" height="800" alt="A household library shared by two members"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="free">
+    <h2>Free, with no ads</h2>
+    <div class="honest">
+      <p>Chamberla Collector has no ads and no trackers. It is built by one person, and the screenshots above use demo data, not anyone's real collection.</p>
+      <p>It is still early. Features are added often, and the best way to shape it is to try it and tell me what you would change.</p>
+    </div>
+    <div class="cta" style="margin-top:24px">
+      <a class="btn p" href="https://github.com/FantaFreak04/chamberla-collector-app/releases/tag/latest">Download for Android</a>
+      <a class="btn s" href="mailto:support@chamberlacollector.com">Send feedback</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row">
+      <span>Chamberla Collector</span>
+      <span><a href="mailto:support@chamberlacollector.com">support@chamberlacollector.com</a> &nbsp;&middot;&nbsp; <a href="https://github.com/FantaFreak04/chamberla-collector-app">GitHub</a></span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
