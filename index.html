@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261102031813--><html lang="en"><head><meta charset="utf-8">
+<!DOCTYPE html><!--gc-build:20261102033456--><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -293,7 +293,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261102031813',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261102033456',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='stdn')o.remove()};
@@ -1080,7 +1080,7 @@ window.onApk=function(s,d){
   o.querySelector('#apg').onclick=()=>{apkSay('Starting download...');try{Android.apkInstall()}catch(e){apkSay('Could not start the download.')}}}};
 function appUpdate(manual){if(!(window.Android&&Android.apkCheck)){if(manual)snack(window.Android?'This version of the app cannot update itself. Install the latest APK once, and later updates will be built in.':'App updates are only for the Android app','',()=>{});return}
  window.__apkManual=!!manual;try{Android.apkCheck()}catch(e){}}
-setTimeout(()=>{try{if(!(window.Android&&Android.apkCheck))return;const t=Date.now(),l=+localStorage.getItem('gc-apkchk')||0;if(t-l<6*36e5)return;localStorage.setItem('gc-apkchk',String(t));appUpdate(false)}catch(e){}},8000);
+{const ak=()=>{try{if(!(window.Android&&Android.apkCheck))return;if(!sbSess()&&performance.now()<6e5){setTimeout(ak,20000);return}const t=Date.now(),l=+localStorage.getItem('gc-apkchk')||0;if(t-l<6*36e5)return;localStorage.setItem('gc-apkchk',String(t));appUpdate(false)}catch(e){}};setTimeout(ak,8000)}
 /* ===== bottom tab bar ===== */
 {const css=document.createElement('style');css.textContent='#tbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:stretch;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -2px 10px rgba(0,0,0,.18)}#tbar button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;background:transparent;color:var(--mu,inherit);font:inherit;font-size:11px;padding:7px 0 6px;min-height:54px;position:relative;border-radius:0;box-shadow:none}#tbar button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}#tbar button.on{color:var(--ac,#7c3aed);font-weight:700}#tbar .sp{flex:1;pointer-events:none}#tbar .tb{position:absolute;top:3px;left:calc(50% + 6px);background:#e5484d;color:#fff;border-radius:9px;min-width:16px;height:16px;font-size:10px;line-height:16px;text-align:center;padding:0 4px;font-weight:700}body.hasbar{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}body.hasbar #fab{right:auto;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px))}body.hasbar #fabm{right:auto;left:50%;transform:translateX(-50%);align-items:center;bottom:calc(92px + env(safe-area-inset-bottom,0px))}body.kbd #tbar{display:none}';document.head.appendChild(css);
  const I={home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',fr:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2.1.7 3.5 2.6 3.5 5.5"/></svg>',ms:'<svg viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4v-4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>',me:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/></svg>'};
@@ -1197,7 +1197,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='22.07';
+const PAGE_VER='22.08';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1207,6 +1207,7 @@ const PATCH=[
   'Changed: Settings is grouped into Appearance, Data and About. Brand new users get a Start here card.',
   'Removed: leftover photo code.',
   'Fixed: scrolling the menu or any open screen no longer scrolls the page behind it.',
+  'Fixed: new accounts no longer get the update popups before they can sign in. The app and page update checks now wait until you are signed in.',
   'Changed: Friends screen redesigned. Friend requests and the leaderboard come first, shortcuts are big tiles, and Add a friend is a button that opens when you want it.',
   'Fixed: the app is much faster to open and to scroll. Console lists now load their games when you open them, which cut the work on the main screen by about 90 percent.',
   'Changed: Household library looks better. Big numbers for games, value and consoles, member avatars, console icons with counts, colored tags showing who added each game, and Leave and Delete tucked under More.',
@@ -1642,6 +1643,6 @@ if(window.Android&&Android.art){(function(){
  }
  const b=document.createElement('button');b.id='syncbtn';const ctl=document.getElementById('all').parentNode;ctl.insertBefore(b,ctl.firstChild);const ss=document.createElement('small');ss.id='syncst';ss.className='mu';ss.style.cssText='display:block;width:100%;min-height:1.2em';ctl.appendChild(ss);stat();
  let lp=0;b.oncontextmenu=e=>{e.preventDefault();setup()};b.ontouchstart=()=>{lp=setTimeout(()=>setup(),900)};b.ontouchend=b.ontouchmove=()=>clearTimeout(lp);b.onclick=()=>{if(!info.has){if(typeof openAccount==='function')openAccount();else setup()}else{const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:98;display:flex;align-items:flex-start;justify-content:center;padding:12px';o.innerHTML='<div style="background:#fff;color:#111;width:100%;max-width:320px;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px"><b>Sync and updates</b><span style="font-size:13px">'+(msg||'')+'</span><button id="a1" style="padding:8px">Sync now</button><button id="a2" style="padding:8px">Check for app update</button><button id="a3" style="padding:8px">Settings</button><button id="a4" style="padding:8px">Close</button></div>';document.body.appendChild(o);o.querySelector('#a1').onclick=()=>{o.remove();sync(true)};o.querySelector('#a2').onclick=()=>{o.remove();checkUpdate(true)};o.querySelector('#a3').onclick=()=>{o.remove();setup()};o.querySelector('#a4').onclick=()=>o.remove()}};
- if(info.has)setTimeout(()=>sync(),1500);setTimeout(()=>checkUpdate(false),3000)
+ if(info.has)setTimeout(()=>sync(),1500);{const qu=()=>{try{if((window.sbSess&&sbSess())||performance.now()>6e5)checkUpdate(false);else setTimeout(qu,20000)}catch(e){}};setTimeout(qu,3000)}
 })();
 </script></body></html>
