@@ -37,6 +37,17 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     static volatile boolean fg = false;
     private String pendingOpen = null;
+    private String pendingInvite = null;
+
+    private static String inviteCode(android.content.Intent i) {
+        try {
+            android.net.Uri u = i == null ? null : i.getData();
+            if (u == null) return null;
+            String c = "chamberla".equals(u.getScheme()) ? u.getLastPathSegment() : u.getQueryParameter("add");
+            if (c != null && c.matches("[A-Za-z0-9]{4,8}")) return c.toUpperCase();
+        } catch (Exception e) { /* ignore */ }
+        return null;
+    }
     private WebView web;
     private final ExecutorService artQ = Executors.newSingleThreadExecutor();
     private SharedPreferences sec() { return getSharedPreferences("igdb", MODE_PRIVATE); }
@@ -237,6 +248,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageFinished(WebView v, String u) {
+                if (pendingInvite != null) {
+                    final String c = pendingInvite;
+                    pendingInvite = null;
+                    v.postDelayed(() -> js("window.gcInvite&&gcInvite('" + c + "')"), 1500);
+                }
                 if (pendingOpen != null) {
                     final String k = pendingOpen;
                     pendingOpen = null;
@@ -259,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
         web.setOverScrollMode(android.view.View.OVER_SCROLL_NEVER);
         web.addJavascriptInterface(new Bridge(), "Android");
         pendingOpen = getIntent() == null ? null : getIntent().getStringExtra("open");
+        pendingInvite = inviteCode(getIntent());
         web.loadUrl(startUrl());
         scheduleNotify();
     }
@@ -266,6 +283,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(android.content.Intent i) {
         super.onNewIntent(i);
+        String ic = inviteCode(i);
+        if (ic != null) js("window.gcInvite&&gcInvite('" + ic + "')");
         String k = i == null ? null : i.getStringExtra("open");
         if (k != null) js("window.gcOpen&&gcOpen('" + k + "')");
     }
