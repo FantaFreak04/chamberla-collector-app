@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261102170608--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261102202547--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -295,7 +295,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261102170608',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261102202547',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1215,8 +1215,8 @@ setTimeout(dblSync,7000);setInterval(()=>{if(!document.hidden)dblSync()},60000);
 {function stEnsure(){try{const ex=document.getElementById('startcard');let done=false;try{done=localStorage.getItem('gc-start')==='1'}catch(e){}const n=(typeof ownedMap==='function')?ownedMap().size:1;
   if(done||n>0||(typeof GMODE!=='undefined'&&GMODE==='own')){if(ex)ex.remove();return}
   if(ex)return;const c=document.createElement('div');c.id='startcard';c.style.cssText='background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:0 0 12px';
-  c.innerHTML='<b>Start here</b><div class="mu" style="margin:4px 0 8px;font-size:13px">Your collection is empty. Pick one way to begin:</div><div style="display:flex;flex-direction:column;gap:8px"><button data-s="scan" style="padding:10px;text-align:left"><b>Scan a game</b><br><small class="mu">Tap + then Scan barcode (Android app)</small></button><button data-s="gy" style="padding:10px;text-align:left"><b>Import from GAMEYE</b><br><small class="mu">Bring in a GAMEYE export (.csv)</small></button><button data-s="tick" style="padding:10px;text-align:left"><b>Tick games in a console</b><br><small class="mu">Open a console below and tick what you own</small></button></div><button data-s="x" style="margin-top:8px;padding:6px 10px;font-size:12px">Hide this</button>';
-  c.onclick=e=>{const b=e.target.closest('button[data-s]');if(!b)return;const k=b.dataset.s;if(k==='x'){try{localStorage.setItem('gc-start','1')}catch(x){}c.remove();return}if(k==='scan'){if(window.__fabScan)window.__fabScan();else snack('Scanning is in the Android app. Use + then Add game manually here.','',()=>{})}else if(k==='gy')pickGameye(r=>{if(!r.err)render();importSummary(r)});else if(k==='tick'){const l=document.getElementById('list');if(l)l.scrollIntoView({behavior:'smooth'})}};
+  c.innerHTML='<b>Start here</b><div class="mu" style="margin:4px 0 8px;font-size:13px">Your collection is empty. Pick one way to begin:</div><div style="display:flex;flex-direction:column;gap:8px"><button data-s="scan" style="padding:10px;text-align:left"><b>Scan a game</b><br><small class="mu">Tap + then Scan barcode</small></button><button data-s="gy" style="padding:10px;text-align:left"><b>Import from GAMEYE</b><br><small class="mu">Bring in a GAMEYE export (.csv)</small></button><button data-s="tick" style="padding:10px;text-align:left"><b>Tick games in a console</b><br><small class="mu">Open a console below and tick what you own</small></button></div><button data-s="x" style="margin-top:8px;padding:6px 10px;font-size:12px">Hide this</button>';
+  c.onclick=e=>{const b=e.target.closest('button[data-s]');if(!b)return;const k=b.dataset.s;if(k==='x'){try{localStorage.setItem('gc-start','1')}catch(x){}c.remove();return}if(k==='scan'){if(window.__fabScan)window.__fabScan();else snack('Scanning needs camera access. Use + then Add game manually instead.','',()=>{})}else if(k==='gy')pickGameye(r=>{if(!r.err)render();importSummary(r)});else if(k==='tick'){const l=document.getElementById('list');if(l)l.scrollIntoView({behavior:'smooth'})}};
   const anchor=document.querySelector('.stk');if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(c,anchor)}catch(e){}}
  setInterval(()=>{if(!document.hidden)stEnsure()},1500);setTimeout(stEnsure,600)}
 /* ===== tidy: highlights toggle, view options ===== */
@@ -1231,11 +1231,12 @@ setTimeout(dblSync,7000);setInterval(()=>{if(!document.hidden)dblSync()},60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='23.07';
+const PAGE_VER='24.01';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
- {d:'Nov 1, 2026',t:'Tidy up',i:[
+ {d:'Nov 2, 2026',t:'Tidy up',i:[
+  'New: Barcode scanning now works in the browser, including Safari on iPhone. Tap + then Scan barcode, or type the number under the barcode.',
   'New: Account, Delete my account removes your account and everything stored online. Suspended accounts cannot delete themselves.',
   'New: Privacy policy and Rules and terms are linked in your Account screen.',
   'Changed: Background timers pause while the app is hidden, which saves battery and data.',
@@ -1503,8 +1504,102 @@ function paintBd(){let d;try{d=msCalc()}catch(e){return}const col={};d.rows.conc
 render=function(){_r.apply(this,arguments);renderGoals();paintHdr();checkMs();paintBd();recVal()};
 render();
 {const u=(new URLSearchParams(location.search).get('u')||'').trim();if(u&&/^[A-Za-z0-9]{4,8}$/.test(u))setTimeout(()=>viewPublic(u),300)}
+
+/* ===== web barcode scanner (browser only; the Android app uses its own scanner) ===== */
+if(!window.Android){(function(){
+ const LB=['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+ const runsOf=b=>{const r=[];let c=b[0],n=0;for(const x of b){if(x===c)n++;else{r.push(n);c=x;n=1}}r.push(n);return r};
+ const PAT=[];LB.forEach((s,d)=>{const w=runsOf(s);PAT.push({w,d,t:'L'});PAT.push({w:w.slice().reverse(),d,t:'G'})});
+ const PAR=['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+ function near(r,i,types){const s=r[i]+r[i+1]+r[i+2]+r[i+3];if(!s)return null;let best=null,bd=1e9;
+  for(const p of PAT){if(types.indexOf(p.t)<0)continue;let e=0;for(let k=0;k<4;k++){const d=r[i+k]*7/s-p.w[k];e+=d*d}if(e<bd){bd=e;best=p}}
+  return bd<0.55?best:null}
+ function sumOk(d){const n=d.length;let t=0;for(let i=0;i<n;i++){const w=n===13?(i%2?3:1):(i%2?1:3);t+=d[i]*w}return t%10===0}
+ /* r = alternating run widths; fb = true when r[0] is a dark bar */
+ function decodeRuns(r,fb){
+  for(let s=fb?0:1;s+42<r.length;s+=2){
+   const u=(r[s]+r[s+1]+r[s+2])/3;if(u<1)continue;
+   if(Math.abs(r[s]-u)>u*.5||Math.abs(r[s+1]-u)>u*.5||Math.abs(r[s+2]-u)>u*.5)continue;
+   if(s>0&&r[s-1]<u*3)continue;
+   for(const n of [6,4]){
+    if(s+3+4*n+5+4*n+3>r.length)continue;
+    let i=s+3,dg=[],par='',ok=true;
+    for(let k=0;k<n;k++){const p=near(r,i,'LG');if(!p){ok=false;break}dg.push(p.d);par+=p.t;i+=4}
+    if(!ok)continue;
+    const m=r.slice(i,i+5),mu=(m[0]+m[1]+m[2]+m[3]+m[4])/5;
+    if(m.some(x=>Math.abs(x-mu)>mu*.6))continue;i+=5;
+    for(let k=0;k<n;k++){const p=near(r,i,'L');if(!p){ok=false;break}dg.push(p.d);i+=4}
+    if(!ok)continue;
+    const e=[r[i],r[i+1],r[i+2]],eu=(e[0]+e[1]+e[2])/3;
+    if(e.some(x=>Math.abs(x-eu)>eu*.6))continue;
+    let digs;
+    if(n===6){const f=PAR.indexOf(par);if(f<0)continue;digs=[f].concat(dg)}
+    else{if(par!=='LLLL')continue;digs=dg}
+    if(!sumOk(digs))continue;
+    let c=digs.join('');if(c.length===13&&c[0]==='0')c=c.slice(1);return c}}
+  return null}
+ function decodeLine(g,n){
+  const W=Math.max(12,(n/8)|0),pre=new Int32Array(n+1);for(let i=0;i<n;i++)pre[i+1]=pre[i]+g[i];
+  const b=new Uint8Array(n);for(let i=0;i<n;i++){const a=Math.max(0,i-W),z=Math.min(n,i+W+1);b[i]=g[i]<(pre[z]-pre[a])/(z-a)*0.9?1:0}
+  const r=runsOf(b);if(r.length<44)return null;
+  const fb=b[0]===1;let c=decodeRuns(r,fb);if(c)return c;
+  const rr=r.slice().reverse();return decodeRuns(rr,((r.length-1)%2===0)?fb:!fb)}
+ /* gray: Uint8 w*h. Scans rows and columns through the middle of the frame. */
+ function decodeGray(gray,w,h){
+  const out=[];const row=new Uint8Array(w);
+  const sy=Math.max(2,(h/36)|0);
+  for(let y=(h*.15)|0;y<h*.85;y+=sy){for(let x=0;x<w;x++)row[x]=gray[y*w+x];const c=decodeLine(row,w);if(c)out.push(c)}
+  const col=new Uint8Array(h),sx=Math.max(2,(w/36)|0);
+  for(let x=(w*.15)|0;x<w*.85;x+=sx){for(let y=0;y<h;y++)col[y]=gray[y*w+x];const c=decodeLine(col,h);if(c)out.push(c)}
+  return out}
+ window.__eanDecode=decodeGray;
+ const okCode=c=>{if(!/^\d+$/.test(c))return false;if(c.length===12)c='0'+c;else if(c.length!==13&&c.length!==8)return false;return sumOk(c.split('').map(Number))};
+
+ function openCam(){
+  const old=document.getElementById('wscam');if(old)old.remove();
+  const o=document.createElement('div');o.id='wscam';o.style.cssText='position:fixed;inset:0;z-index:98;background:#000;color:#fff;display:flex;flex-direction:column';
+  o.innerHTML='<video playsinline muted autoplay style="flex:1;min-height:0;width:100%;object-fit:cover"></video>'
+   +'<div style="position:absolute;left:8%;right:8%;top:30%;height:26%;border:2px solid rgba(255,255,255,.85);border-radius:12px;pointer-events:none"></div>'
+   +'<div id="wsm" style="position:absolute;left:0;right:0;top:12px;text-align:center;padding:0 16px;text-shadow:0 1px 3px #000">Point at the barcode on the back of the case</div>'
+   +'<div style="padding:12px;display:flex;gap:8px;background:#111"><input id="wsn" inputmode="numeric" placeholder="Or type the number" style="flex:1;min-width:0;padding:10px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;font-size:16px"><button id="wsg" style="padding:10px 14px">Look up</button><button id="wsx" style="padding:10px 14px">Cancel</button></div>';
+  document.body.appendChild(o);
+  const v=o.querySelector('video'),msg=o.querySelector('#wsm');let stream=null,alive=true,seen={};
+  const stop=()=>{alive=false;try{stream&&stream.getTracks().forEach(t=>t.stop())}catch(e){}o.remove()};
+  const done=c=>{stop();window.onUpc&&window.onUpc(c)};
+  o.querySelector('#wsx').onclick=stop;
+  const go=()=>{const c=o.querySelector('#wsn').value.replace(/\D/g,'');if(!okCode(c)){msg.textContent='That number does not look right. Check the digits under the barcode.';return}done(c)};
+  o.querySelector('#wsg').onclick=go;o.querySelector('#wsn').onkeydown=e=>{if(e.key==='Enter')go()};
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){msg.textContent='This browser cannot open the camera. Type the number under the barcode instead.';return}
+  const cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});
+  let bd=null;try{if(window.BarcodeDetector)bd=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e']})}catch(e){}
+  const hit=c=>{seen[c]=(seen[c]||0)+1;if(seen[c]>=2){done(c);return true}return false};
+  const tick=async()=>{
+   if(!alive)return;
+   try{
+    if(v.videoWidth){
+     if(bd){const r=await bd.detect(v);for(const b of r){let c=b.rawValue||'';if(c.length===13&&c[0]==='0')c=c.slice(1);if(okCode(c)&&hit(c))return}}
+     if(!bd||!alive){}
+     if(!bd){
+      const sc=Math.min(1,1280/v.videoWidth),w=Math.round(v.videoWidth*sc),h=Math.round(v.videoHeight*sc);cv.width=w;cv.height=h;cx.drawImage(v,0,0,w,h);
+      const d=cx.getImageData(0,0,w,h).data,g=new Uint8Array(w*h);for(let i=0,j=0;j<g.length;i+=4,j++)g[j]=(d[i]*77+d[i+1]*150+d[i+2]*29)>>8;
+      for(const c of decodeGray(g,w,h)){if(hit(c))return}}
+    }
+   }catch(e){}
+   if(alive)setTimeout(tick,120)};
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false}).then(s=>{
+   if(!alive){s.getTracks().forEach(t=>t.stop());return}
+   stream=s;v.srcObject=s;v.play().catch(()=>{});tick()
+  }).catch(e=>{msg.textContent=(e&&e.name==='NotAllowedError')?'Camera is blocked for this site. Allow it in your browser settings, or type the number below.':'Could not open the camera. Type the number under the barcode instead.'})}
+
+ async function lookup(upc){let t='';
+  try{const ac=new AbortController();const to=setTimeout(()=>ac.abort(),8000);const r=await fetch('https://api.upcitemdb.com/prod/trial/lookup?upc='+encodeURIComponent(upc),{signal:ac.signal});clearTimeout(to);
+   if(r.ok){const j=await r.json();if(j&&j.items&&j.items.length)t=String(j.items[0].title||'')}}catch(e){}
+  window.onTitle&&window.onTitle(upc,t)}
+ window.__wscan={scan:openCam,lookup};
+})()}
+
 /* ===== barcode scanning (APK only) ===== */
-if(window.Android){(function(){
+const NB=window.Android||window.__wscan;if(NB){(function(){
  const UK='gc-upc';let um={};try{um=JSON.parse(localStorage.getItem(UK)||'{}')}catch(e){}
  const saveU=()=>{try{localStorage.setItem(UK,JSON.stringify(um))}catch(e){}};
  const PL=[['xbox series','Microsoft Xbox Series X'],['xbox one','Microsoft Xbox One'],['xbox 360','Microsoft Xbox 360'],['xbox','Microsoft Xbox'],['playstation 5','Sony PlayStation 5'],['ps5','Sony PlayStation 5'],['playstation 4','Sony PlayStation 4'],['ps4','Sony PlayStation 4'],['playstation 3','Sony PlayStation 3'],['ps3','Sony PlayStation 3'],['playstation 2','Sony PlayStation 2'],['ps2','Sony PlayStation 2'],['vita','Sony PlayStation Vita'],['psp','Sony PSP'],['switch','Nintendo Switch'],['wii u','Nintendo Wii U'],['wii','Nintendo Wii'],['3ds','Nintendo 3DS'],['nintendo ds','Nintendo DS'],['gamecube','Nintendo GameCube'],['nintendo 64','Nintendo 64'],['dreamcast','Sega Dreamcast'],['saturn','Sega Saturn'],['genesis','Sega Genesis/Mega Drive']];
@@ -1527,9 +1622,9 @@ if(window.Android){(function(){
  const CONDS=['Loose','Boxed','CIB','New','Digital','Key card'];
  function askCond(p,k,title){const ck=p+'|'+k,cur=cond[ck]||'';const o=ui('<b>'+esc(title||'')+'</b><div class="mu" style="margin:4px 0 10px">What condition is this copy?</div><div class="ctl">'+CONDS.map(c=>'<button data-cc="'+c+'" style="padding:12px 14px;font-size:15px'+(c===cur?';font-weight:700;border-width:2px':'')+'">'+c+'</button>').join('')+'</div><div style="margin-top:10px"><button id="ccx">Skip</button></div>');o.querySelector('#ccx').onclick=close;o.querySelectorAll('[data-cc]').forEach(b=>b.onclick=()=>{cond[ck]=b.dataset.cc;save();render();close();toast((title||'')+' · '+b.dataset.cc)})}
  function toast(m){const t=document.createElement('div');t.textContent=m;t.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:10px;z-index:100;max-width:90%';document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
- window.onUpc=function(upc){const m=um[upc];if(m){const i=m.indexOf('|'),p=m.slice(0,i),k=m.slice(i+1);{const ti=(all()[p]||[]).find(t=>key(t)===k);if(owns(p,k)){try{window.__verMark&&window.__verMark(p,k,upc)}catch(e){}offerCopy(p,k,ti)}else{const o=ui('<b>'+esc(ti||'')+'</b><div class="mu" style="margin:4px 0 10px">'+esc(p)+'<br>This barcode matches that game. Is this the right one?</div><div class="ctl"><button id="scy" style="padding:12px 14px;font-size:15px;font-weight:600">Yes, add it</button><button id="scn" style="padding:12px 14px;font-size:15px">Not this game</button></div>');o.querySelector('#scy').onclick=()=>{tick(p,k,upc);askCond(p,k,ti)};o.querySelector('#scn').onclick=()=>{delete um[upc];saveU();close();toast('Okay, pick the right game');Android.lookup(upc)}}}return}toast('Looking up '+upc+'…');Android.lookup(upc)};
+ window.onUpc=function(upc){const m=um[upc];if(m){const i=m.indexOf('|'),p=m.slice(0,i),k=m.slice(i+1);{const ti=(all()[p]||[]).find(t=>key(t)===k);if(owns(p,k)){try{window.__verMark&&window.__verMark(p,k,upc)}catch(e){}offerCopy(p,k,ti)}else{const o=ui('<b>'+esc(ti||'')+'</b><div class="mu" style="margin:4px 0 10px">'+esc(p)+'<br>This barcode matches that game. Is this the right one?</div><div class="ctl"><button id="scy" style="padding:12px 14px;font-size:15px;font-weight:600">Yes, add it</button><button id="scn" style="padding:12px 14px;font-size:15px">Not this game</button></div>');o.querySelector('#scy').onclick=()=>{tick(p,k,upc);askCond(p,k,ti)};o.querySelector('#scn').onclick=()=>{delete um[upc];saveU();close();toast('Okay, pick the right game');NB.lookup(upc)}}}return}toast('Looking up '+upc+'…');NB.lookup(upc)};
  window.onTitle=function(upc,title){pick(upc,title)};
- window.__fabScan=()=>Android.scan();
+ window.__fabScan=()=>NB.scan();
 })()}
 
 /* ===== box art (APK only, IGDB) ===== */
