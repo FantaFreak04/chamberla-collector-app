@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261102043826--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261102044815--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -294,7 +294,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261102043826',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261102044815',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -391,7 +391,7 @@ window.__artFor=function(pl,ti,cb){const k=pl+'|'+ti;let C={};try{C=JSON.parse(l
  const c=C[k];if(c&&(c.u||c.c)){cb(c);return}if(c&&c.x&&Date.now()-c.x<6048e5){cb(null);return}
  const nk=t=>String(t||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,''),plat=String(pl).replace(/^(Microsoft|Sony|Nintendo|Sega)\s+(?=\S)/,(m,v)=>/Nintendo|Sega/.test(v)?v+' ':'');
  const fail=()=>{save({x:Date.now()});cb(null)},ok=u=>{save({u});cb({u})};
- const viaIgdb=()=>{let on=false;try{on=!!sbSess()}catch(e){}if(!on){fail();return}sbApi('/functions/v1/igdb',{method:'POST',body:{title:ti}}).then(r=>{const w=r.ok&&Array.isArray(r.data)?r.data.find(x=>x.cover&&x.cover.image_id):null;if(w)ok('https://images.igdb.com/igdb/image/upload/t_cover_big/'+w.cover.image_id+'.jpg');else fail()}).catch(fail)};
+ const viaIgdb=()=>fail();
  const u='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrlimit=4&gsrsearch='+encodeURIComponent(ti+' video game '+plat)+'&prop=pageimages&piprop=thumbnail&pithumbsize=400&redirects=1';
  let done=false;const t=setTimeout(()=>{if(!done){done=true;viaIgdb()}},9000);
  fetch(u).then(r=>r.json()).then(j=>{if(done)return;done=true;clearTimeout(t);const pg=Object.values((j.query||{}).pages||{}).sort((a,b)=>a.index-b.index),want=nk(ti);
@@ -1220,12 +1220,13 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(b.textContent!==t)b.textContent=t}
  setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='22.13';
+const PAGE_VER='22.14';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
  {d:'Nov 1, 2026',t:'Tidy up',i:[
   'Changed: Rivals and Events cards no longer use emojis.',
+  'Changed: Box art and descriptions now come only from Libretro and Wikipedia. The IGDB lookup is gone.',
   'Changed: Patch notes use larger text.',
   'New: Settings, Error log keeps recent errors so you can copy them to support.',
   'Changed: Events and Rivals now sit in one Highlights card you can open or close. Occasional controls are tucked behind View options.',
@@ -1537,15 +1538,15 @@ if(window.Android&&Android.art){(function(){
    if(!hit){done(null);return}done({s:(hit.extract||'').trim(),u:hit.thumbnail?hit.thumbnail.source:'',n:hit.title})}).catch(()=>{clearTimeout(t);done(null)})}
  const onArt0=window.onArt;window.onArt=function(key,res,err){if(err)return onArt0(key,res,err);const plat=key.split('|')[0],ti=key.slice(plat.length+1),nw=pickRes(res,plat);if(nw&&nw.c&&nw.s)return onArt0(key,res,err);
   wikiFind(plat,ti,w=>{if(w){const o=cache[key]||{};cache[key]=Object.assign({},o,{s:w.s||o.s||''},(nw&&nw.c)||!w.u?{}:{u:w.u})}onArt0(key,res,err);{const a=cache[key];if(a&&!a.c&&!a.u){a.x=Date.now();saveC();paint(key)}}})};
- const canProxy=()=>{try{return typeof sbSess==='function'&&!!sbSess()&&typeof sbApi==='function'}catch(e){return false}};
+ const canProxy=()=>false;
  let pxBad=0;function viaProxy(k,title,done){if(Date.now()<pxBad){done(false);return}sbApi('/functions/v1/igdb',{method:'POST',body:{title}}).then(r=>{if(r.ok&&Array.isArray(r.data)){window.onArt(k,r.data,null);done(true)}else{if(r.status===500||r.status===502||r.status===401)pxBad=Date.now()+300000;done(false)}}).catch(()=>done(false))}
- window.__artInfo=function(plat,title,cb){const k=plat+'|'+title;if(cache[k]&&cache[k].s){cb(cache[k]);return}if(!Android.hasIgdb()||bad){const fin=()=>{if(canProxy()){_wait[k]=cb;viaProxy(k,title,ok=>{if(!ok){delete _wait[k];cb(cache[k]||null)}})}else cb(cache[k]||null)};wikiFind(plat,title,w=>{if(w){cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n},cache[k]&&(cache[k].u||cache[k].c)?{}:{u:w.u});saveC();paint(k);if(cache[k].s)cb(cache[k]);else fin()}else fin()});return}_wait[k]=cb;Android.art(k,title)};
+ window.__artInfo=function(plat,title,cb){const k=plat+'|'+title;if(cache[k]&&cache[k].s){cb(cache[k]);return}if(!false||bad){const fin=()=>{if(canProxy()){_wait[k]=cb;viaProxy(k,title,ok=>{if(!ok){delete _wait[k];cb(cache[k]||null)}})}else cb(cache[k]||null)};wikiFind(plat,title,w=>{if(w){cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n},cache[k]&&(cache[k].u||cache[k].c)?{}:{u:w.u});saveC();paint(k);if(cache[k].s)cb(cache[k]);else fin()}else fin()});return}_wait[k]=cb;Android.art(k,title)};
  window.__artFor=function(pl,ti,cb){const k=pl+'|'+ti,c=cache[k];if(c&&(c.u||c.c)){cb(c);return}if(c&&c.x&&Date.now()-c.x<6048e5){cb(null);return}
   const give=()=>cb(cache[k]&&(cache[k].u||cache[k].c)?cache[k]:null);
   libFind(pl,ti,u=>{if(u){cache[k]=Object.assign({},cache[k]||{},{u,n:ti,s:(cache[k]&&cache[k].s)||''});saveC();give();return}
    wikiFind(pl,ti,w=>{if(w&&w.u){cache[k]=Object.assign({},cache[k]||{},{u:w.u,n:w.n||ti,s:w.s||''});saveC();give();return}
     if(w&&w.s)cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n||ti});
-    if(!bad&&Android.hasIgdb()){_wait[k]=()=>give();Android.art(k,ti);return}
+    if(!bad&&false){_wait[k]=()=>give();Android.art(k,ti);return}
     if(canProxy()){_wait[k]=()=>give();viaProxy(k,ti,ok=>{if(!ok){delete _wait[k];give()}});return}
     give()})})};
  function toast(t){let d=document.getElementById('arttoast');if(!d){d=document.createElement('div');d.id='arttoast';d.style.cssText='position:fixed;bottom:12px;left:12px;right:12px;background:#222;color:#fff;padding:10px;border-radius:8px;z-index:99;font-size:14px';document.body.appendChild(d)}d.textContent=t;setTimeout(()=>d.remove(),4000)}
@@ -1564,7 +1565,7 @@ if(window.Android&&Android.art){(function(){
    libFind(pl,ti,u=>{if(u){pending.delete(k);cache[k]=Object.assign({},cache[k]||{},{u,n:ti,s:(cache[k]&&cache[k].s)||''});saveC();paint(k);return}
     wikiFind(pl,ti,w=>{if(w&&w.u){pending.delete(k);cache[k]=Object.assign({},cache[k]||{},{u:w.u,n:w.n||ti,s:w.s||''});saveC();paint(k);return}
      if(w&&w.s)cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n||ti});
-     if(!bad&&Android.hasIgdb()){Android.art(k,ti);return}if(canProxy()){viaProxy(k,ti,ok=>{if(!ok)none()});return}none()})})}),{rootMargin:'200px'});
+     if(!bad&&false){Android.art(k,ti);return}if(canProxy()){viaProxy(k,ti,ok=>{if(!ok)none()});return}none()})})}),{rootMargin:'200px'});
  function scanRows(){document.querySelectorAll('details[open] label.row').forEach(lb=>{if(lb.querySelector('.nm')&&!lb.dataset.ao){lb.dataset.ao=1;io.observe(lb)}})}
  const r0=render;render=function(){r0.apply(this,arguments);scanRows()};
  document.addEventListener('toggle',scanRows,true);
@@ -1573,7 +1574,7 @@ if(window.Android&&Android.art){(function(){
   document.body.appendChild(o);o.querySelector('#igx').onclick=()=>o.remove();
   o.querySelector('#igclr').onclick=()=>{Android.clearIgdb();bad=false;o.remove();toast('Credentials cleared')};
   o.querySelector('#igsave').onclick=()=>{const i=o.querySelector('#igid').value,s=o.querySelector('#igsec').value;if(!i||!s)return;Android.setIgdb(i,s);bad=false;cache=Object.fromEntries(Object.entries(cache).filter(([k,v])=>v&&v.c));saveC();o.remove();render()}}
- if(Android.hasIgdb()){const b=document.createElement('button');b.textContent='Box art setup (IGDB)';const ctl=document.getElementById('all').parentNode;ctl.insertBefore(b,ctl.firstChild);b.onclick=setup}
+ if(false){const b=document.createElement('button');b.textContent='Box art setup (IGDB)';const ctl=document.getElementById('all').parentNode;ctl.insertBefore(b,ctl.firstChild);b.onclick=setup}
  scanRows();
 })()}
 
