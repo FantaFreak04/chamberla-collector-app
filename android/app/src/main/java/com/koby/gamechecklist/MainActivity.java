@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                 if (pendingOpen != null) {
                     final String k = pendingOpen;
                     pendingOpen = null;
-                    v.postDelayed(() -> js("window.gcOpen&&gcOpen('" + k + "')"), 1500);
+                    v.postDelayed(() -> js("window.gcOpen&&gcOpen(" + JSONObject.quote(k) + ")"), 1500);
                 }
             }
 
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         String ic = inviteCode(i);
         if (ic != null) js("window.gcInvite&&gcInvite('" + ic + "')");
         String k = i == null ? null : i.getStringExtra("open");
-        if (k != null) js("window.gcOpen&&gcOpen('" + k + "')");
+        if (k != null) js("window.gcOpen&&gcOpen(" + JSONObject.quote(k) + ")");
     }
 
     @Override
