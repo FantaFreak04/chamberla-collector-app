@@ -1,4 +1,4 @@
-# Build number comes from the run number; the app offers newer builds itself. Signing key is cached (v3), same key every build.
+# Build number comes from the run number; the app offers newer builds itself. Signing key comes from repository secrets, same key every build.
 name: Build APK
 on:
   workflow_dispatch:
@@ -13,20 +13,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
-      - name: Keep signing key
-        uses: actions/cache@v4
-        with:
-          path: /home/runner/ci-key
-          key: android-signing-key-v3
-      - name: Create signing key if missing
+      - name: Load signing key from repository secrets
+        env: { KEYSTORE_B64: '${{ secrets.KEYSTORE_B64 }}' }
         run: |
+          if [ -z "$KEYSTORE_B64" ]; then echo "Missing KEYSTORE_B64 secret. Not building with a throwaway key."; exit 1; fi
           mkdir -p /home/runner/ci-key
-          [ -f /home/runner/ci-key/key.jks ] || keytool -genkeypair -keystore /home/runner/ci-key/key.jks -storepass android -keypass android -alias key -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Chamberla Collector"
-          ls -l /home/runner/ci-key
+          echo "$KEYSTORE_B64" | base64 -d > /home/runner/ci-key/key.jks
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.9' }
       - name: Build
-        env: { VCODE: '${{ github.run_number }}', KEYSTORE_PATH: '/home/runner/ci-key/key.jks' }
+        env: { VCODE: '${{ github.run_number }}', KEYSTORE_PATH: '/home/runner/ci-key/key.jks', KEYSTORE_PASSWORD: '${{ secrets.KEYSTORE_PASSWORD }}', KEY_ALIAS: '${{ secrets.KEY_ALIAS }}', KEY_PASSWORD: '${{ secrets.KEY_PASSWORD }}' }
         run: |
           cp index.html android/app/src/main/assets/index.html
           cd android && gradle assembleDebug --no-daemon
