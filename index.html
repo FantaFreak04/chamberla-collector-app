@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261102074209--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261102074939--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -294,7 +294,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261102074209',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261102074939',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickGameye(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -808,7 +808,7 @@ function openAccount(start){const c=sbCfg();const o=overlay('<div id="acb"></div
   function queue(p){pend.push(p);deliver(p)}
   function send(){const t=ci.value.trim();if(!t)return;ci.value='';queue({id:'p'+Date.now()+Math.random().toString(36).slice(2,6),body:t,st:'sending',created_at:new Date().toISOString()})}
   box.querySelector('#cs').onclick=send;ci.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();send()}};
-  await load();tm=setInterval(load,6000);ci.focus()}
+  await load();tm=setInterval(()=>{if(!document.hidden)load()},6000);ci.focus()}
  async function viewUpdates(){const s=sbSess();box.innerHTML=hdr('Friend updates')+'<p class="mu" id="acm" style="font-size:12px;margin:0 0 8px">Loading...</p><div id="ul"></div><div class="ctl" style="margin-top:10px"><button id="ub">Back</button></div>';wire();box.querySelector('#ub').onclick=viewFriends;
   const a=await sbApi('/rest/v1/activity?select=*&order=created_at.desc&limit=80');if(!a.ok){msg(sbErr(a),1);return}
   const rows=a.data||[];lss('gc-actview',new Date().toISOString());auUn=0;window.updHb&&window.updHb();const ids=[...new Set(rows.map(x=>x.user_id).filter(i=>i!==s.uid))];let nm={},av={},PF={};if(ids.length){const p=await sbApi('/rest/v1/profiles?id=in.('+ids.join(',')+')&select=id,username,avatar,bio,last_seen,updated_at,joined_at,share_online,stats,share_counts,share_lists,showcase,wishlist,share_wish,steam_id,region');if(p.ok)(p.data||[]).forEach(x=>{nm[x.id]=x.username;av[x.id]=x.avatar;PF[x.id]=x})}
@@ -961,7 +961,7 @@ function openRivals(){let d;try{d=msCalc()}catch(e){d={cos:[]}}
    +(x?'<div style="margin-top:8px;font-size:13px"><div style="display:flex;justify-content:space-between"><span>You</span><b>'+x.me+' games · '+x.mp.toFixed(1)+'%</b></div>'+bar(x.mp,'var(--ac)')+'<div style="display:flex;justify-content:space-between;margin-top:6px"><span>'+esc(x.name)+' <small class="mu">('+RV_DIFF[x.d]+')</small></span><b>'+x.rv+' games · '+x.rp.toFixed(1)+'%</b></div>'+bar(x.rp,'#8e44ad')+'<div style="margin-top:6px"><b>'+(x.me>x.rv?'You are ahead by '+(x.me-x.rv):x.me<x.rv?esc(x.name)+' leads by '+(x.rv-x.me):'Tied')+'</b></div></div>':'')+'</div>'}).join('')||'<p class="mu">Tick some games first, then add a rival.</p>';
   o.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const co=b.dataset.add,c=d.cos.find(x=>x.p===co),df=+o.querySelector('[data-df="'+co+'"]').value;RV[co]={s:new Date().toISOString(),b:c?c.h:0,d:df};rvSave();draw()});
   o.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{delete RV[b.dataset.rm];rvSave();draw()})};draw()}
-setTimeout(rvHome,900);setTimeout(rvHome,2500);setInterval(()=>{if(Object.keys(RV).length)rvHome()},8000);
+setTimeout(rvHome,900);setTimeout(rvHome,2500);setInterval(()=>{if(!document.hidden&&Object.keys(RV).length)rvHome()},8000);
 
 /* ===== verified (barcode scanned) games ===== */
 let VER={};try{VER=JSON.parse(localStorage.getItem('gc-ver')||'{}')||{}}catch(e){}
@@ -970,7 +970,7 @@ function verFlag(ck,f){const c=VERM[ck]||'';if(!c.includes(f)){VERM[ck]=c+f;lss(
 function verLevel(ck){const c=VERM[ck]||'';return (c.includes('b')&&c.includes('l'))||(c.includes('o')&&VER[ck])?2:(VER[ck]?1:0)}
 function verHow(ck){const c=VERM[ck]||'';return c.includes('b')&&c.includes('l')?'barcode and label':c.includes('o')?'owner\'s own library record':''}
 function libFlag(){try{if(!D.length)return;let ch=0;D.forEach((r,i)=>{if(off.has(i))return;const ck=r[0]+'|'+key(r[1]);const c=cond[ck]||r[3]||'';if(!VER[ck]||!(c==='Boxed'||c==='CIB'||c==='New'))return;const f=VERM[ck]||'';if(!f.includes('o')){VERM[ck]=f+'o';ch=1}});if(ch)lss('gc-verm',JSON.stringify(VERM))}catch(e){}}
-setTimeout(libFlag,4500);setInterval(libFlag,60000);
+setTimeout(libFlag,4500);setInterval(()=>{if(!document.hidden)libFlag()},60000);
 async function libClean(){try{const s0=sbSess();if(!s0||!D.length)return;const day=new Date().toISOString().slice(0,10);if(lsg('gc-libclean')===day)return;
  const r=await sbApi('/rest/v1/game_scans?select=game_key&source=eq.library&limit=2000');if(!r.ok)return;const idx={};D.forEach((x,i)=>{if(!off.has(i))idx[x[0]+'|'+key(x[1])]=x});let n=0;
  for(const g of (r.data||[])){const ck=g.game_key,row=idx[ck];if(!row)continue;const c=cond[ck]||row[3]||'';if(c==='Boxed'||c==='CIB'||c==='New'||/[bl]/.test(VERM[ck]||''))continue;
@@ -1201,7 +1201,7 @@ try{const L0=JSON.parse(lsg('gc-logins')||'[]');L0.push(dayISO(new Date()));cons
 setTimeout(stkRefresh,1200);setInterval(stkRefresh,1800000);
 /* ===== double-checked sync ===== */
 let __dblSig='';async function dblSync(){try{if(!sbSess()||!D.length)return;const ks=[];D.forEach((r,i)=>{if(off.has(i))return;const ck=r[0]+'|'+key(r[1]);if(verLevel(ck)===2)ks.push(ck)});add.forEach(ck=>{if(verLevel(ck)===2&&ks.indexOf(ck)<0)ks.push(ck)});const sig=ks.length+':'+ks.slice(0,3).join();if(!ks.length||sig===__dblSig)return;const r=await sbApi('/rest/v1/rpc/mark_double',{method:'POST',body:{keys:ks.slice(0,2000)}});if(r.ok)__dblSig=sig}catch(e){}}
-setTimeout(dblSync,7000);setInterval(dblSync,60000);
+setTimeout(dblSync,7000);setInterval(()=>{if(!document.hidden)dblSync()},60000);
 /* ===== first-run start card ===== */
 {function stEnsure(){try{const ex=document.getElementById('startcard');let done=false;try{done=localStorage.getItem('gc-start')==='1'}catch(e){}const n=(typeof ownedMap==='function')?ownedMap().size:1;
   if(done||n>0||(typeof GMODE!=='undefined'&&GMODE==='own')){if(ex)ex.remove();return}
@@ -1209,7 +1209,7 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   c.innerHTML='<b>Start here</b><div class="mu" style="margin:4px 0 8px;font-size:13px">Your collection is empty. Pick one way to begin:</div><div style="display:flex;flex-direction:column;gap:8px"><button data-s="scan" style="padding:10px;text-align:left"><b>Scan a game</b><br><small class="mu">Tap + then Scan barcode (Android app)</small></button><button data-s="gy" style="padding:10px;text-align:left"><b>Import from GAMEYE</b><br><small class="mu">Bring in a GAMEYE export (.csv)</small></button><button data-s="tick" style="padding:10px;text-align:left"><b>Tick games in a console</b><br><small class="mu">Open a console below and tick what you own</small></button></div><button data-s="x" style="margin-top:8px;padding:6px 10px;font-size:12px">Hide this</button>';
   c.onclick=e=>{const b=e.target.closest('button[data-s]');if(!b)return;const k=b.dataset.s;if(k==='x'){try{localStorage.setItem('gc-start','1')}catch(x){}c.remove();return}if(k==='scan'){if(window.__fabScan)window.__fabScan();else snack('Scanning is in the Android app. Use + then Add game manually here.','',()=>{})}else if(k==='gy')pickGameye(r=>{if(!r.err)render();importSummary(r)});else if(k==='tick'){const l=document.getElementById('list');if(l)l.scrollIntoView({behavior:'smooth'})}};
   const anchor=document.querySelector('.stk');if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(c,anchor)}catch(e){}}
- setInterval(stEnsure,1500);setTimeout(stEnsure,600)}
+ setInterval(()=>{if(!document.hidden)stEnsure()},1500);setTimeout(stEnsure,600)}
 /* ===== tidy: highlights toggle, view options ===== */
 {const css=document.createElement('style');css.textContent='#hpan{overscroll-behavior:contain}body:has(#hpan),body:has(.mdl){overflow:hidden}body.hlc #evhome,body.hlc #rvhome{display:none!important}#hlbtn{width:100%;text-align:left;margin:0 0 10px;padding:9px 12px;border-radius:12px;font-size:14px}body:not(.vopen) #mn,body:not(.vopen) #hd,body:not(.vopen) #view,body:not(.vopen) #tl,body:not(.vopen) #px,body:not(.vopen) #fin,body:not(.vopen) #own,body:not(.vopen) #mode{display:none!important}';document.head.appendChild(css);
  let hl=true;try{hl=localStorage.getItem('gc-hl')!=='0'}catch(e){}document.body.classList.toggle('hlc',hl);
@@ -1220,15 +1220,16 @@ setTimeout(dblSync,7000);setInterval(dblSync,60000);
   if(!b){b=document.createElement('button');b.id='hlbtn';const first=ev||rv;first.parentNode.insertBefore(b,first);b.onclick=()=>{const h=!document.body.classList.contains('hlc');document.body.classList.toggle('hlc',h);try{localStorage.setItem('gc-hl',h?'1':'0')}catch(e){}hlEnsure()}}
   else{const first=ev||rv;if(b.nextElementSibling!==first&&b.parentNode===first.parentNode)first.parentNode.insertBefore(b,first)}
   if(b.textContent!==t)b.textContent=t}
- setInterval(hlEnsure,1200);setTimeout(hlEnsure,300)}
+ setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='22.16';
+const PAGE_VER='22.17';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
  {d:'Nov 1, 2026',t:'Tidy up',i:[
   'New: Account, Delete my account removes your account and everything stored online. Suspended accounts cannot delete themselves.',
   'New: Privacy policy and Rules and terms are linked in your Account screen.',
+  'Changed: Background timers pause while the app is hidden, which saves battery and data.',
   'Changed: Rivals and Events cards no longer use emojis.',
   'Fixed: A capital Z no longer looks like a 2 in the pixel font.',
   'Changed: The Highlights button no longer has a pin emoji.',
