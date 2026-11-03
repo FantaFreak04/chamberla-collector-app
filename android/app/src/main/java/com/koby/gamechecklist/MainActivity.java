@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                 i.addCategory(android.content.Intent.CATEGORY_OPENABLE);
                 i.setType("*/*");
                 try {
-                    startActivityForResult(android.content.Intent.createChooser(i, "Choose your GAMEYE export (.csv)"), 4711);
+                    startActivityForResult(android.content.Intent.createChooser(i, "Choose your collection CSV"), 4711);
                 } catch (Exception e) {
                     fileCb = null;
                     return false;
