@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
     private android.webkit.ValueCallback<android.net.Uri[]> fileCb;
     private boolean photoMode = false;
+    private int photoMax = 1280;
 
     @Override
     protected void onActivityResult(int req, int res, android.content.Intent data) {
@@ -185,13 +186,15 @@ public class MainActivity extends AppCompatActivity {
             final File lf = new File(new File(getCacheDir(), "shared"), "label.jpg");
             if (photoMode) {
                 photoMode = false;
+                final int pm = photoMax;
+                photoMax = 1280;
                 if (res != RESULT_OK || !lf.exists()) { js("window.onPhotoData&&window.onPhotoData('')"); return; }
                 try {
                     android.graphics.BitmapFactory.Options po = new android.graphics.BitmapFactory.Options();
                     po.inJustDecodeBounds = true;
                     android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), po);
                     int big = Math.max(po.outWidth, po.outHeight), ss = 1;
-                    while (big / (ss * 2) >= 1280) ss *= 2;
+                    while (big / (ss * 2) >= pm) ss *= 2;
                     po.inJustDecodeBounds = false;
                     po.inSampleSize = ss;
                     android.graphics.Bitmap pb = android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), po);
@@ -208,8 +211,8 @@ public class MainActivity extends AppCompatActivity {
                         mx.postRotate(pd);
                         pb = android.graphics.Bitmap.createBitmap(pb, 0, 0, pb.getWidth(), pb.getHeight(), mx, true);
                     }
-                    if (Math.max(pb.getWidth(), pb.getHeight()) > 1280) {
-                        float sc = 1280f / Math.max(pb.getWidth(), pb.getHeight());
+                    if (Math.max(pb.getWidth(), pb.getHeight()) > pm) {
+                        float sc = (float) pm / Math.max(pb.getWidth(), pb.getHeight());
                         pb = android.graphics.Bitmap.createScaledBitmap(pb, Math.round(pb.getWidth() * sc), Math.round(pb.getHeight() * sc), true);
                     }
                     java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
@@ -801,6 +804,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Could not change the icon: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
+        }
+
+        @JavascriptInterface
+        public void scanPhotoHi() {
+            photoMax = 2400;
+            scanPhoto();
         }
 
         @JavascriptInterface
