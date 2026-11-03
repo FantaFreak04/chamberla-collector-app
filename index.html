@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261103162553--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261103163520--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -359,7 +359,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261103162553',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261103163520',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1341,7 +1341,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
  if(document.hidden||document.querySelector('.mdl,#tourov'))return;clearInterval(tw);window.openTour()}catch(e){clearInterval(tw)}},1500)}
 /* ===== home polish, A-Z jump strip, shareable cards ===== */
 (function(){
- const st=document.createElement('style');st.textContent='.gc-empty{display:none!important}#azs{position:fixed;right:2px;top:50%;transform:translateY(-50%);z-index:35;display:flex;flex-direction:column;align-items:center;padding:4px 1px;border-radius:10px;background:rgba(124,58,237,.16);font:700 10px/1.2 system-ui,sans-serif;user-select:none;-webkit-user-select:none}#azs b{display:block;width:18px;text-align:center;padding:1px 0;color:var(--ac,#7c3aed);cursor:pointer}#azs b.no{opacity:.28}';document.head.appendChild(st);
+ const st=document.createElement('style');st.textContent='.gc-empty{display:none!important}#azs{position:fixed;right:0;top:88px;bottom:84px;z-index:35;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:6px 0;width:30px;border-radius:14px 0 0 14px;background:var(--card,#fff);border:1px solid var(--bd,#c9bfdc);border-right:0;box-shadow:-2px 0 10px rgba(0,0,0,.18);font:700 15px/1 system-ui,sans-serif;user-select:none;-webkit-user-select:none}#azs b{display:flex;align-items:center;justify-content:center;width:100%;flex:1;color:var(--ac,#6d28d9);cursor:pointer}#azs b.no{opacity:.3}body.azon #list{padding-right:34px}#azbub{position:fixed;right:44px;top:50%;transform:translateY(-50%);z-index:36;width:76px;height:76px;border-radius:18px;background:var(--ac,#7c3aed);color:#fff;font:700 44px/76px Pixelify Sans,system-ui,sans-serif;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.4);pointer-events:none}';document.head.appendChild(st);
  /* --- empty home: hide the company grid until the first game --- */
  const emptyHome=()=>{try{const mf=document.getElementById('mf');if(mf)mf.classList.toggle('gc-empty',ownedMap().size===0)}catch(e){}};
  const _rh=render;render=function(){const r=_rh.apply(this,arguments);emptyHome();setTimeout(azUpd,0);return r};
@@ -1351,14 +1351,15 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
  const rowsOf=d=>[...d.querySelectorAll('label.row')].filter(r=>r.querySelector('input[type=checkbox]'));
  const curDet=()=>[...document.querySelectorAll('#list details[open]')].find(d=>{const r=d.getBoundingClientRect();return r.top<innerHeight*.5&&r.bottom>innerHeight*.35});
  const LET='#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
- const jump=l=>{const d=curDet();if(!d)return;const rows=rowsOf(d);let i=LET.indexOf(l),tgt=null;for(;i<LET.length&&!tgt;i++)tgt=rows.find(r=>initial(r)===LET[i]);if(!tgt)return;window.scrollTo({top:tgt.getBoundingClientRect().top+scrollY-96,behavior:'auto'})};
+ let bt=0;const bub=l=>{let e=document.getElementById('azbub');if(!e){e=document.createElement('div');e.id='azbub';document.body.appendChild(e)}e.textContent=l;e.hidden=false;clearTimeout(bt);bt=setTimeout(()=>{e.hidden=true},700)};
+ const jump=l=>{const d=curDet();if(!d)return;bub(l);const rows=rowsOf(d);let i=LET.indexOf(l),tgt=null;for(;i<LET.length&&!tgt;i++)tgt=rows.find(r=>initial(r)===LET[i]);if(!tgt)return;window.scrollTo({top:tgt.getBoundingClientRect().top+scrollY-96,behavior:'auto'})};
  const mkAz=()=>{if(az)return az;az=document.createElement('div');az.id='azs';az.hidden=true;az.innerHTML=LET.map(l=>'<b data-l="'+l+'">'+l+'</b>').join('');document.body.appendChild(az);
   const go=(x,y)=>{const e=document.elementFromPoint(x,y),b=e&&e.closest&&e.closest('#azs b');if(b)jump(b.dataset.l)};
   az.addEventListener('touchstart',e=>{e.preventDefault();go(e.touches[0].clientX,e.touches[0].clientY)},{passive:false});
   az.addEventListener('touchmove',e=>{e.preventDefault();go(e.touches[0].clientX,e.touches[0].clientY)},{passive:false});
   az.addEventListener('click',e=>{const b=e.target.closest('b');if(b)jump(b.dataset.l)});return az};
  let azKey='';
- window.azUpd=function(){try{const d=curDet(),a=mkAz();const rows=d?rowsOf(d):[];if(!d||rows.length<60){a.hidden=true;return}a.hidden=false;
+ window.azUpd=function(){try{const d=curDet(),a=mkAz();const rows=d?rowsOf(d):[];if(!d||rows.length<60){a.hidden=true;document.body.classList.remove('azon');return}a.hidden=false;document.body.classList.add('azon');
   const k=d.dataset.p+'|'+rows.length;if(k!==azKey){azKey=k;const have=new Set(rows.map(initial));a.querySelectorAll('b').forEach(b=>b.classList.toggle('no',!have.has(b.dataset.l)))}}catch(e){}};
  let tk=0;window.addEventListener('scroll',()=>{if(tk)return;tk=1;requestAnimationFrame(()=>{tk=0;azUpd()})},{passive:true});
  document.addEventListener('toggle',e=>{if(e.target&&e.target.tagName==='DETAILS')setTimeout(azUpd,50)},true);
@@ -1432,7 +1433,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='27.01';
+const PAGE_VER='27.02';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
