@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261103173604--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261103190439--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -359,7 +359,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261103173604',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261103190439',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1408,6 +1408,28 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
  const whenFree=(fn,tries)=>{tries=tries||0;if(document.hidden||document.querySelector('.mdl,#tourov,#hmenu')){if(tries<40)setTimeout(()=>whenFree(fn,tries+1),1000);return}fn()};
  const firstCard=async ck=>{const ic=await svgImg(starSvg());const o=await showCard({kicker:'FIRST GAME ADDED',col:'#ffd23f',icon:ic,iw:500,ih:467,iy:290,ty:890,big:titleOf(ck),sub:ck.slice(0,ck.indexOf('|'))+' \u00b7 Day 1 of my collection',bigPx:96},'my-first-game.png','I just added my first game to Chamberla Collector: '+titleOf(ck)+' ('+ck.slice(0,ck.indexOf('|'))+'). Track yours at https://chamberlacollector.com');return o};
  window.__firstCard=firstCard;
+ window.__titleOf=titleOf;
+ /* share one game as a card, a link, or a "looking for" card */
+ window.shareGame=function(p,k,title){const ck=p+'|'+k;const r=D.find((x,i)=>x[0]===p&&key(x[1])===k&&!off.has(i));const own=!!r||add.has(ck);
+  const ed=ED[ck]||'',cd=cond[ck]||'',vl=verLevel(ck);let val=null;try{if(r){const v=pv(r);if(v>0)val=v}}catch(e){}
+  const base='https://fantafreak04.github.io/chamberla-collector-app/?g='+encodeURIComponent(ck);
+  const o=overlay('<h3 style="margin:0 0 4px">Share this game</h3><p class="mu" style="margin:0 0 10px">'+esc(title)+' · '+esc(p)+'</p>'
+   +'<label class="t" style="display:block;margin:6px 0"><input type="checkbox" id="sgl" checked> Include a link that opens this game</label>'
+   +(own&&val?'<label class="t" style="display:block;margin:6px 0"><input type="checkbox" id="sgv"> Show its price on the card</label>':'')
+   +(own?'':'<p class="mu" style="margin:6px 0;font-size:13px">You do not own this one yet, so the card says you are looking for it.</p>')
+   +'<div class="ctl" style="margin-top:12px"><button id="sgc" style="font-weight:700">Make card</button><button id="sgs">Share link only</button><button id="sgx">Cancel</button></div>');
+  o.querySelector('#sgx').onclick=()=>o.remove();
+  const txt=(lk)=>(own?'I have '+title+' ('+p+') in my collection.':'I am looking for '+title+' ('+p+').')+' Chamberla Collector: '+(lk?base:'https://chamberlacollector.com');
+  o.querySelector('#sgs').onclick=()=>{o.remove();shareOut(txt(true),'Copied. Paste it into a message.')};
+  o.querySelector('#sgc').onclick=async()=>{const lk=o.querySelector('#sgl').checked,sv=o.querySelector('#sgv')&&o.querySelector('#sgv').checked;o.remove();
+   const badge=!own?'':vl===2?'Double-checked (barcode and label)':vl===1?'Verified':'';
+   const mid=own?(sv&&val?'$'+val.toFixed(2):(cd||'')):'';
+   const sub=p+(ed?' · '+ed:'')+(own&&cd&&mid!==cd?' · '+cd:'');
+   const spec={kicker:own?'ON MY SHELF':'LOOKING FOR',col:own?'#ffd23f':'#7ee0ff',icon:await svgImg(own&&vl?starSvg():'<svg viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><path d="M1 1h10v9l-1 1v3H2v-3l-1-1z" fill="#8f7bff"/><rect x="2" y="2" width="8" height="5" fill="#3b2a7a"/><rect x="3" y="3" width="6" height="3" fill="#d8d0ee"/><rect x="3" y="9" width="6" height="1" fill="#5b3fd0"/><rect x="3" y="11" width="6" height="2" fill="#2a1f55"/></svg>'),iw:360,ih:own&&vl?337:360,iy:290,ty:800,big:title,bigPx:92,mid,sub};
+   if(badge){spec.game=badge;spec.gameLabel='Status'}
+   await showCard(spec,'game-'+key(title).slice(0,24)+'.png',txt(lk),lk?'Your link opens this game in Chamberla Collector.':'')}};
+ {const _og=window.openGame;window.openGame=function(p,k,t){_og(p,k,t);try{const ms=document.querySelectorAll('.mdl'),o=ms[ms.length-1],x=o&&o.querySelector('#gxt');if(x&&!o.querySelector('#gshare')){x.insertAdjacentHTML('beforebegin','<div style="margin:0 0 10px"><button id="gshare" style="font-weight:700">Share this game</button></div>');o.querySelector('#gshare').onclick=()=>window.shareGame(p,k,t)}}catch(e){}}}
+
  /* first game: watch the owned set */
  let prev=null;setInterval(()=>{try{if(document.hidden)return;const cur=new Set(ownedMap().keys());if(prev===null){prev=cur;if(cur.size>0)lss('gc-first','1');return}
   const add=[...cur].filter(k=>!prev.has(k));prev=cur;if(!add.length||lsg('gc-first'))return;lss('gc-first','1');if(add.length!==1)return;whenFree(()=>firstCard(add[0]))}catch(e){}},1200);
@@ -1459,7 +1481,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='27.04';
+const PAGE_VER='27.05';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1745,6 +1767,7 @@ function paintBd(){let d;try{d=msCalc()}catch(e){return}const col={};d.rows.conc
  document.querySelectorAll('#mf .stat').forEach(el=>{const b=el.querySelector('b');const n=b?b.textContent.split(':')[0].trim():'';gl(el,col[n]);if(b&&full.has(n))b.insertAdjacentHTML('beforeend',CROWN)})}
 render=function(){_r.apply(this,arguments);renderGoals();paintHdr();checkMs();paintBd();recVal()};
 render();
+{const g=(new URLSearchParams(location.search).get('g')||'').trim();const gi=g.indexOf('|');if(gi>0)setTimeout(()=>{try{const p=g.slice(0,gi),k=g.slice(gi+1);if(D.some(x=>x[0]===p&&key(x[1])===k))openGame(p,k,window.__titleOf(g))}catch(e){}},900)}
 {const u=(new URLSearchParams(location.search).get('u')||'').trim();if(u&&/^[A-Za-z0-9]{4,8}$/.test(u))setTimeout(()=>viewPublic(u),300)}
 
 /* ===== web barcode scanner (browser only; the Android app uses its own scanner) ===== */
