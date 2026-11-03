@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private android.webkit.ValueCallback<android.net.Uri[]> fileCb;
+    private boolean photoMode = false;
 
     @Override
     protected void onActivityResult(int req, int res, android.content.Intent data) {
@@ -182,6 +183,45 @@ public class MainActivity extends AppCompatActivity {
         }
         if (req == 4712) {
             final File lf = new File(new File(getCacheDir(), "shared"), "label.jpg");
+            if (photoMode) {
+                photoMode = false;
+                if (res != RESULT_OK || !lf.exists()) { js("window.onPhotoData&&window.onPhotoData('')"); return; }
+                try {
+                    android.graphics.BitmapFactory.Options po = new android.graphics.BitmapFactory.Options();
+                    po.inJustDecodeBounds = true;
+                    android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), po);
+                    int big = Math.max(po.outWidth, po.outHeight), ss = 1;
+                    while (big / (ss * 2) >= 1280) ss *= 2;
+                    po.inJustDecodeBounds = false;
+                    po.inSampleSize = ss;
+                    android.graphics.Bitmap pb = android.graphics.BitmapFactory.decodeFile(lf.getAbsolutePath(), po);
+                    if (pb == null) { js("window.onPhotoData&&window.onPhotoData('')"); return; }
+                    int pd = 0;
+                    try {
+                        int o2 = new android.media.ExifInterface(lf.getAbsolutePath()).getAttributeInt(android.media.ExifInterface.TAG_ORIENTATION, android.media.ExifInterface.ORIENTATION_NORMAL);
+                        if (o2 == android.media.ExifInterface.ORIENTATION_ROTATE_90) pd = 90;
+                        else if (o2 == android.media.ExifInterface.ORIENTATION_ROTATE_180) pd = 180;
+                        else if (o2 == android.media.ExifInterface.ORIENTATION_ROTATE_270) pd = 270;
+                    } catch (Exception e) { /* keep 0 */ }
+                    if (pd != 0) {
+                        android.graphics.Matrix mx = new android.graphics.Matrix();
+                        mx.postRotate(pd);
+                        pb = android.graphics.Bitmap.createBitmap(pb, 0, 0, pb.getWidth(), pb.getHeight(), mx, true);
+                    }
+                    if (Math.max(pb.getWidth(), pb.getHeight()) > 1280) {
+                        float sc = 1280f / Math.max(pb.getWidth(), pb.getHeight());
+                        pb = android.graphics.Bitmap.createScaledBitmap(pb, Math.round(pb.getWidth() * sc), Math.round(pb.getHeight() * sc), true);
+                    }
+                    java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+                    pb.compress(android.graphics.Bitmap.CompressFormat.JPEG, 72, bos);
+                    String b64 = android.util.Base64.encodeToString(bos.toByteArray(), android.util.Base64.NO_WRAP);
+                    lf.delete();
+                    js("window.onPhotoData&&window.onPhotoData('" + b64 + "')");
+                } catch (Exception e) {
+                    js("window.onPhotoData&&window.onPhotoData('')");
+                }
+                return;
+            }
             if (res != RESULT_OK || !lf.exists()) { js("window.onLabelText&&window.onLabelText('',false)"); return; }
             try {
                 android.graphics.BitmapFactory.Options bo = new android.graphics.BitmapFactory.Options();
@@ -764,6 +804,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public void scanPhoto() {
+            photoMode = true;
+            scanLabel();
+        }
+
+        @JavascriptInterface
         public void scanLabel() {
             runOnUiThread(() -> {
                 try {
@@ -778,6 +824,7 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.startActivityForResult(i, 4712);
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, "Camera not available: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    if (photoMode) { photoMode = false; js("window.onPhotoData&&window.onPhotoData('')"); return; }
                     js("window.onLabelText&&window.onLabelText('',false)");
                 }
             });
