@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261105040850--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261105041537--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -365,7 +365,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261105040850',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261105041537',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1547,7 +1547,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='38.02';
+const PAGE_VER='39.01';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1992,7 +1992,7 @@ const NB=window.Android||window.__wscan;if(NB){(function(){
 if(window.Android&&Android.art){(function(){
  const AK='gc-art';let cache={};try{cache=JSON.parse(localStorage.getItem(AK)||'{}')}catch(e){}{let ch=0;Object.keys(cache).forEach(k=>{const v=cache[k];if(!v||(!v.c&&!v.u&&(!v.x||Date.now()-v.x>6048e5))){delete cache[k];ch=1}});if(ch)try{localStorage.setItem(AK,JSON.stringify(cache))}catch(e){}}
  const saveC=()=>{try{localStorage.setItem(AK,JSON.stringify(cache))}catch(e){}};
- if(localStorage.getItem('gc-artsrc')!=='igdb'){let ch=0;Object.keys(cache).forEach(k=>{const v=cache[k];if(v&&v.u&&/^https:\/\/(thumbnails\.libretro\.com|upload\.wikimedia\.org)\//.test(v.u)){delete v.u;if(!v.c)delete cache[k];ch=1}else if(v&&v.x&&!v.c&&!v.u){delete cache[k];ch=1}});if(ch)saveC();try{localStorage.setItem('gc-artsrc','igdb')}catch(e){}} /* art now comes from IGDB only: drop old libretro/Wikipedia entries and old misses */
+ if(localStorage.getItem('gc-artsrc')!=='igdb2'){let ch=0;const nz=s=>String(s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'');Object.keys(cache).forEach(k=>{const v=cache[k];if(v&&v.c&&v.n&&nz(v.n)!==nz(k.slice(k.indexOf('|')+1))){delete cache[k];ch=1;return}if(v&&v.u&&/^https:\/\/(thumbnails\.libretro\.com|upload\.wikimedia\.org)\//.test(v.u)){delete v.u;if(!v.c)delete cache[k];ch=1}else if(v&&v.x&&!v.c&&!v.u){delete cache[k];ch=1}});if(ch)saveC();try{localStorage.setItem('gc-artsrc','igdb2')}catch(e){}} /* art now comes from IGDB only: drop old libretro/Wikipedia entries and old misses */
  const kw=p=>p.replace(/^(Microsoft|Sony|Nintendo|Sega|Atari)\s+/i,'').replace(/\/.*$/,'').toLowerCase();
  /* libretro thumbnails: free box art, no account needed */
  const LIBSYS={'NES/Famicom':'Nintendo - Nintendo Entertainment System','SNES/Super Famicom':'Nintendo - Super Nintendo Entertainment System','Nintendo 64':'Nintendo - Nintendo 64','Nintendo GameCube':'Nintendo - GameCube','Nintendo Wii':'Nintendo - Wii','Nintendo Wii U':'Nintendo - Wii U','Nintendo Game Boy':'Nintendo - Game Boy','Nintendo Game Boy Color':'Nintendo - Game Boy Color','Nintendo Game Boy Advance':'Nintendo - Game Boy Advance','Nintendo DS':'Nintendo - Nintendo DS','Nintendo 3DS':'Nintendo - Nintendo 3DS','Sega Master System':'Sega - Master System - Mark III','Sega Genesis/Mega Drive':'Sega - Mega Drive - Genesis','Sega CD':'Sega - Mega-CD - Sega CD','Sega 32X':'Sega - 32X','Sega Saturn':'Sega - Saturn','Sega Dreamcast':'Sega - Dreamcast','Sega Game Gear':'Sega - Game Gear','Atari 2600':'Atari - 2600','Atari 5200':'Atari - 5200','Atari 7800':'Atari - 7800','Atari Jaguar':'Atari - Jaguar','Atari Lynx':'Atari - Lynx','Sony PlayStation':'Sony - PlayStation','Sony PlayStation 2':'Sony - PlayStation 2','Sony PlayStation 3':'Sony - PlayStation 3','Sony PSP':'Sony - PlayStation Portable','Sony PlayStation Vita':'Sony - PlayStation Vita','Microsoft Xbox':'Microsoft - Xbox','Microsoft Xbox 360':'Microsoft - Xbox 360','TurboGrafx-16':'NEC - PC Engine - TurboGrafx 16','3DO':'The 3DO Company - 3DO','Intellivision':'Mattel - Intellivision','ColecoVision':'Coleco - ColecoVision','Neo Geo AES':'SNK - Neo Geo CD'};
@@ -2007,12 +2007,15 @@ if(window.Android&&Android.art){(function(){
   cb(n?LB+encodeURIComponent(sys)+'/Named_Boxarts/'+encodeURIComponent(n).replace(/'/g,'%27')+'.png':null)})}
  {const st=document.createElement('style');st.textContent='.gw .row.noart::before{content:"?";display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;opacity:.55}';document.head.appendChild(st)}
  const _gk=key;let _mt=null;const _wait={};const pending=new Set();let bad=false;
- function pickRes(res,plat){const k=kw(plat);const w=res.filter(r=>r.cover&&r.cover.image_id);if(!w.length)return null;
-  const m=w.find(r=>(r.platforms||[]).some(x=>{const n=(x.name||'').toLowerCase();return n.includes(k)||k.includes(n)}));
+ function pickRes(res,plat,ti){const k=kw(plat);const w=res.filter(r=>r.cover&&r.cover.image_id);if(!w.length)return null;
+  const tn=ti?nk(ti):'',onP=r=>(r.platforms||[]).some(x=>{const n=(x.name||'').toLowerCase();return n.includes(k)||k.includes(n)});
+  /* prefer the exact title, then one on this console, so bundles and spin-offs do not win */
+  const sc=r=>{const n=nk(r.name||'');return(tn&&n===tn?8:0)+(onP(r)?4:0)+(tn&&n&&(n.startsWith(tn)||tn.startsWith(n))?1:0)};
+  let m=null,bs=-1;w.forEach(r=>{const s=sc(r);if(s>bs){bs=s;m=r}});
   const r=m||w[0];return{c:r.cover.image_id,s:r.summary||'',n:r.name||'',g:r.aggregated_rating!=null?Math.round(r.aggregated_rating):null}}
  window.onArt=function(key,res,err){pending.delete(key);
   if(err){if(/credentials|401|403/.test(err)){bad=true;toast('Box art: '+err+' — check Box art setup')}return}
-  const plat=key.split('|')[0];{const old=cache[key]||{};const nw=pickRes(res,plat)||{c:'',s:'',n:''};cache[key]=Object.assign({},nw,{s:nw.s||old.s||''},old.u?{u:old.u}:{})}saveC();paint(key);{const a=cache[key];if(a&&a.g!=null){const ti=key.slice(plat.length+1);xmeta[plat+'|'+_gk(ti)]=a.g;try{localStorage.setItem('gc-meta',JSON.stringify(xmeta))}catch(e){}if(srtm==='meta'){clearTimeout(_mt);_mt=setTimeout(()=>render(),1500)}}}if(_wait[key]){const w=_wait[key];delete _wait[key];w(cache[key]||null)}};
+  const plat=key.split('|')[0];{const old=cache[key]||{};const nw=pickRes(res,plat,key.slice(plat.length+1))||{c:'',s:'',n:''};cache[key]=Object.assign({},nw,{s:nw.s||old.s||''},old.u?{u:old.u}:{})}saveC();paint(key);{const a=cache[key];if(a&&a.g!=null){const ti=key.slice(plat.length+1);xmeta[plat+'|'+_gk(ti)]=a.g;try{localStorage.setItem('gc-meta',JSON.stringify(xmeta))}catch(e){}if(srtm==='meta'){clearTimeout(_mt);_mt=setTimeout(()=>render(),1500)}}}if(_wait[key]){const w=_wait[key];delete _wait[key];w(cache[key]||null)}};
 
  /* Wikipedia fallback: free, no key. One call returns the intro text and the page image. */
  function wikiFind(plat,title,cb){cb(null)}
@@ -2022,7 +2025,7 @@ if(window.Android&&Android.art){(function(){
   let t=setTimeout(()=>done(null),6000);fetch(u).then(r=>r.json()).then(j=>{clearTimeout(t);const pg=Object.values((j.query||{}).pages||{}).sort((a,b)=>a.index-b.index);const want=nk(title);
    const hit=pg.find(x=>{const n=nk((x.title||'').replace(/\s*\([^)]*\)\s*$/,''));return n&&want&&(n===want||(want.length>=6&&(n.startsWith(want)||want.startsWith(n))))&&/video game|game/i.test(x.extract||x.title||'')});
    if(!hit){done(null);return}done({s:(hit.extract||'').trim(),u:hit.thumbnail?hit.thumbnail.source:'',n:hit.title})}).catch(()=>{clearTimeout(t);done(null)})}
- const onArt0=window.onArt;window.onArt=function(key,res,err){if(err)return onArt0(key,res,err);const plat=key.split('|')[0],ti=key.slice(plat.length+1),nw=pickRes(res,plat);if(nw&&nw.c&&nw.s)return onArt0(key,res,err);
+ const onArt0=window.onArt;window.onArt=function(key,res,err){if(err)return onArt0(key,res,err);const plat=key.split('|')[0],ti=key.slice(plat.length+1),nw=pickRes(res,plat,ti);if(nw&&nw.c&&nw.s)return onArt0(key,res,err);
   wikiFind(plat,ti,w=>{if(w){const o=cache[key]||{};cache[key]=Object.assign({},o,{s:w.s||o.s||''},(nw&&nw.c)||!w.u?{}:{u:w.u})}onArt0(key,res,err);{const a=cache[key];if(a&&!a.c&&!a.u){a.x=Date.now();saveC();paint(key)}}})};
  const canProxy=()=>{try{return !!sbSess()}catch(e){return false}};
  /* community box art: approved photos from verified owners, credited by name */
@@ -2052,7 +2055,14 @@ if(window.Android&&Android.art){(function(){
       else{bx.textContent=w.status===403||w.status===401?'Only verified owners can add art. Verify this game first.':w.status===409?'You already sent art for this game.':'Could not send. Try again.'}}
      catch(e){bx.textContent='Could not use that photo. Try another.'}}})})};
 
- let pxBad=0;function viaProxy(k,title,done){if(Date.now()<pxBad){done(false);return}sbApi('/functions/v1/igdb',{method:'POST',body:{title}}).then(r=>{if(r.ok&&Array.isArray(r.data)){window.onArt(k,r.data,null);done(true)}else{if(r.status===500||r.status===502||r.status===401)pxBad=Date.now()+300000;done(false)}}).catch(()=>done(false))}
+ let pxBad=0;const PQ=[];let PAct=0;
+ /* IGDB allows about 4 lookups a second, so requests are queued two at a time and retried instead of being counted as "no art" */
+ function pxPump(){if(!PQ.length||PAct>=2)return;const w=pxBad-Date.now();if(w>0){setTimeout(pxPump,w+30);return}
+  const it=PQ.shift();PAct++;const fin=()=>{PAct--;setTimeout(pxPump,300)};
+  const retry=st=>{if(st===401||it[3]>=3){it[2](false);return}it[3]++;PQ.unshift(it);pxBad=Date.now()+1500*it[3]};
+  sbApi('/functions/v1/igdb',{method:'POST',body:{title:it[1]}}).then(r=>{if(r.ok&&Array.isArray(r.data)){window.onArt(it[0],r.data,null);it[2](true)}else retry(r.status);fin()}).catch(()=>{retry(0);fin()});
+  setTimeout(pxPump,300)}
+ function viaProxy(k,title,done){PQ.push([k,title,done,0]);pxPump()}
  window.__artInfo=function(plat,title,cb){const k=plat+'|'+title;if(cache[k]&&cache[k].s){cb(cache[k]);return}if(!false||bad){const fin=()=>{if(canProxy()){_wait[k]=cb;viaProxy(k,title,ok=>{if(!ok){delete _wait[k];cb(cache[k]||null)}})}else cb(cache[k]||null)};wikiFind(plat,title,w=>{if(w){cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n},cache[k]&&(cache[k].u||cache[k].c)?{}:{u:w.u});saveC();paint(k);if(cache[k].s)cb(cache[k]);else fin()}else fin()});return}_wait[k]=cb;Android.art(k,title)};
  window.__artFor=function(pl,ti,cb){const k=pl+'|'+ti,c=cache[k];if(c&&(c.u||c.c)){cb(c);return}if(c&&c.x&&Date.now()-c.x<6048e5){cb(null);return}
   const give=()=>cb(cache[k]&&(cache[k].u||cache[k].c)?cache[k]:null);
@@ -2060,7 +2070,7 @@ if(window.Android&&Android.art){(function(){
    wikiFind(pl,ti,w=>{if(w&&w.u){cache[k]=Object.assign({},cache[k]||{},{u:w.u,n:w.n||ti,s:w.s||''});saveC();give();return}
     if(w&&w.s)cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n||ti});
     if(!bad&&false){_wait[k]=()=>give();Android.art(k,ti);return}
-    const aft=()=>{const c=cache[k];if(c&&(c.c||c.u)){give();return}cartFind(pl,ti,d=>{if(d)cartPut(k,d);give()})};if(canProxy())viaProxy(k,ti,()=>aft());else aft()})})};
+    const aft=()=>{const c=cache[k];if(c&&(c.c||c.u)){give();return}cartFind(pl,ti,d=>{if(d)cartPut(k,d);give()})};if(canProxy())viaProxy(k,ti,ok=>{if(ok)aft();else give()});else aft()})})};
  function toast(t){let d=document.getElementById('arttoast');if(!d){d=document.createElement('div');d.id='arttoast';d.style.cssText='position:fixed;bottom:12px;left:12px;right:12px;background:#222;color:#fff;padding:10px;border-radius:8px;z-index:99;font-size:14px';document.body.appendChild(d)}d.textContent=t;setTimeout(()=>d.remove(),4000)}
  function keyOf(lb){const d=lb.closest('details');return d?d.dataset.p+'|'+titleOf(lb):null}
  function titleOf(lb){const n=lb.querySelector('.nm');return n&&n.firstChild?n.firstChild.textContent:''}
@@ -2077,7 +2087,7 @@ if(window.Android&&Android.art){(function(){
    libFind(pl,ti,u=>{if(u){pending.delete(k);cache[k]=Object.assign({},cache[k]||{},{u,n:ti,s:(cache[k]&&cache[k].s)||''});saveC();paint(k);return}
     wikiFind(pl,ti,w=>{if(w&&w.u){pending.delete(k);cache[k]=Object.assign({},cache[k]||{},{u:w.u,n:w.n||ti,s:w.s||''});saveC();paint(k);return}
      if(w&&w.s)cache[k]=Object.assign({},cache[k]||{},{s:w.s,n:w.n||ti});
-     if(!bad&&false){Android.art(k,ti);return}const aft=()=>{const c=cache[k];if(c&&(c.c||c.u)){pending.delete(k);paint(k);return}cartFind(pl,ti,d=>{if(d){pending.delete(k);cartPut(k,d);paint(k);return}none()})};if(canProxy())viaProxy(k,ti,()=>aft());else aft()})})}),{rootMargin:'900px'});
+     if(!bad&&false){Android.art(k,ti);return}const aft=()=>{const c=cache[k];if(c&&(c.c||c.u)){pending.delete(k);paint(k);return}cartFind(pl,ti,d=>{if(d){pending.delete(k);cartPut(k,d);paint(k);return}none()})};if(canProxy())viaProxy(k,ti,ok=>{if(ok)aft();else{pending.delete(k);delete lb.dataset.ao}});else aft()})})}),{rootMargin:'900px'});
  function scanRows(){document.querySelectorAll('details[open] label.row').forEach(lb=>{if(lb.querySelector('.nm')&&!lb.dataset.ao){lb.dataset.ao=1;io.observe(lb)}})}
  const r0=render;render=function(){r0.apply(this,arguments);scanRows()};
  document.addEventListener('toggle',scanRows,true);
