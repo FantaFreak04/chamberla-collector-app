@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261108113352--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261108122929--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -93,7 +93,7 @@ try{off=new Set(JSON.parse(localStorage.getItem('gc-off')||'[]'))}catch(e){}
 let tot={};try{tot=JSON.parse(localStorage.getItem('gc-tot')||'{}')}catch(e){}
 const $=id=>document.getElementById(id),m$=x=>'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),
 esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
-pv=r=>{const ck=r[0]+'|'+key(r[1]),c=cond[ck];let v;if(c&&mode==='v'){const x=c==='Loose'?r[5]:(c==='CIB'||c==='Boxed')?r[6]:c==='New'?r[7]:r[4];v=x==null?r[4]:x}else v=r[K[mode]];const e=xval[ck]||0;return(v==null&&!e)?v:(v||0)+e};
+pv=r=>{const ck=r[0]+'|'+key(r[1]),c=cond[ck];let v;if(c&&mode==='v'){let P=[r[5],r[6],r[7]];try{P=prOf(r[0],r[1],r)}catch(e){}const x=c==='Loose'?P[0]:(c==='CIB'||c==='Boxed')?P[1]:c==='New'?P[2]:r[4];v=x==null?r[4]:x}else v=r[K[mode]];const e=xval[ck]||0;return(v==null&&!e)?v:(v||0)+e};
 const cpn=(r,ck)=>(r[8]||1)+(xtra[ck]||0);
 function save(){try{const d0=new Date().toISOString().slice(0,10);let ch0=0;add.forEach(k=>{if(!adt[k]){adt[k]=d0;ch0=1}});man.forEach(m=>{const k=m[0]+'|'+key(m[1]);if(!adt[k]){adt[k]=d0;ch0=1}});if(ch0)localStorage.setItem('gc-adt',JSON.stringify(adt))}catch(e){}try{localStorage.setItem('gc-off',JSON.stringify([...off]));localStorage.setItem('gc-tot',JSON.stringify(tot));localStorage.setItem('gc-lists',JSON.stringify(lists));localStorage.setItem('gc-add',JSON.stringify([...add]));localStorage.setItem('gc-wish',JSON.stringify([...wish]));localStorage.setItem('gc-goal',JSON.stringify([...goal]));localStorage.setItem('gc-cond',JSON.stringify(cond));localStorage.setItem('gc-man',JSON.stringify(man));localStorage.setItem('gc-xtra',JSON.stringify(xtra));localStorage.setItem('gc-xval',JSON.stringify(xval));localStorage.setItem('gc-ed',JSON.stringify(ED));localStorage.setItem('gc-pko',JSON.stringify(PKO))}catch(e){}}
 const GEN6=new Set(['NES/Famicom','SNES/Super Famicom','Nintendo 64','Sega Genesis/Mega Drive','Sega CD','Sega 32X','Sega Master System','Sega Game Gear','Nintendo Game Boy Advance','Nintendo GameCube','Sony PlayStation 2','Sega Dreamcast','Microsoft Xbox']);
@@ -371,7 +371,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261108113352',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261108122929',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1553,7 +1553,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='53.01';
+const PAGE_VER='54.01';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1770,10 +1770,12 @@ window.__gameSocial=async function(o,p,k,title,ck){
   ms.textContent=w.ok?'Saved.':sbErr(w)};
  box.querySelector('#gcl').onclick=async()=>{ms.textContent='Clearing...';const w=await sbApi('/rest/v1/game_reviews?user_id=eq.'+me+'&game_key=eq.'+encodeURIComponent(ck),{method:'DELETE'});rating=0;drawS();box.querySelector('#gnt').value='';ms.textContent=w.ok?'Cleared.':sbErr(w)};
 };
+/* one place that answers "what are this game's loose/CIB/new prices": live price list first, then the built-in data, then whatever the game saved */
+let DBM=null;function prOf(p,t,r){const ok=v=>v&&v[0]!=null&&v[1]!=null&&v[2]!=null&&!(v[0]===v[1]&&v[1]===v[2]);const k=key(t);const x=PX[p]&&(PX[p][k]||PX[p][key0(t)]);if(ok(x))return[x[0],x[1],x[2]];if(!DBM){DBM={};DB.forEach(q=>{DBM[q[0]+'|'+key(q[1])]=q})}const b=DBM[p+'|'+k];if(b&&ok([b[5],b[6],b[7]]))return[b[5],b[6],b[7]];if(r)return[r[5],r[6],r[7]];return x?[x[0],x[1],x[2]]:[]}
 function openGame(p,k,title){
  let ri=-1;const r=D.find((x,i)=>{if(x[0]===p&&key(x[1])===k&&!off.has(i)){ri=i;return true}return false});
  const px=PX[p]&&PX[p][k],m=META[p]&&META[p][k],ms=(m&&m[0]!=null)?m[0]:xmeta[p+'|'+k];
- const pr=r?[r[5],r[6],r[7]]:(px||[]);const ck=p+'|'+k;const own=!!r||add.has(ck);
+ const pr=prOf(p,r?r[1]:title,r);const ck=p+'|'+k;const own=!!r||add.has(ck);
  const q=encodeURIComponent(title+' '+platQ(p)),qs=encodeURIComponent(title+' '+platQ(p)+' video game');
  const L=[['eBay','https://www.ebay.com/sch/i.html?_nkw='+q+'&_sacat=1249'],['Amazon','https://www.amazon.com/s?k='+qs],['PriceCharting','https://www.pricecharting.com/search-products?type=prices&q='+q],['Mercari','https://www.mercari.com/search/?keywords='+q],['GameStop','https://www.gamestop.com/search/?q='+q],['Google Shopping','https://www.google.com/search?tbm=shop&q='+qs]];
  const pill=(n,v)=>'<span style="display:inline-block;margin:0 10px 4px 0"><small class="mu">'+n+'</small> <b>'+(v!=null?m$(v):'n/a')+'</b></span>';
