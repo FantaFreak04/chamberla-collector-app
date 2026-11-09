@@ -744,7 +744,7 @@ public class MainActivity extends AppCompatActivity {
                             if (ps == null || ps.length() == 0) break;
                             for (int i = 0; i < ps.length(); i++) {
                                 JSONObject o = ps.getJSONObject(i);
-                                out.put(row(o.optString("productName"), o.optString("price1"), o.optString("price2"), o.optString("price3")));
+                                out.put(row(o.optString("productName"), o.optString("price1"), o.optString("price3"), o.optString("price2"))); // later pages list price2 as new and price3 as CIB
                             }
                             cursor = j.optString("cursor", "");
                             Thread.sleep(600);
