@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261109092513--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261109094437--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -375,7 +375,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261109092513',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261109094437',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1557,7 +1557,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='57.02';
+const PAGE_VER='58.01';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1790,7 +1790,7 @@ function openGame(p,k,title){
   
 +'<div id="gph">'+priceChart(ck,pr)+'</div>'
   +'<div id="gsoc"></div><div id="gxt"></div>'
-  +'<b>Find it online</b><p class="mu" style="margin:2px 0 8px;font-size:12px">Opens a search in your browser. Check the condition and seller before you buy.</p><div>'+L.map(([n,u])=>'<a class="lnk" target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+'</a>').join('')+'</div><small class="mu" style="display:block;margin-top:10px;font-size:10px;opacity:.6">App build 20261109092513</small>');
+  +'<b>Find it online</b><p class="mu" style="margin:2px 0 8px;font-size:12px">Opens a search in your browser. Check the condition and seller before you buy.</p><div>'+L.map(([n,u])=>'<a class="lnk" target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+'</a>').join('')+'</div><small class="mu" style="display:block;margin-top:10px;font-size:10px;opacity:.6">App build 20261109094437</small>');
  o.querySelector('#gx').onclick=()=>o.remove();
  try{window.__gameExtra&&window.__gameExtra(o,p,k,title,ck,own)}catch(e){}try{window.__gameSocial&&window.__gameSocial(o,p,k,title,ck)}catch(e){}
  const d=o.querySelector('#gdesc');
@@ -2145,22 +2145,31 @@ if(window.Android&&Android.art){(function(){
  Object.keys(pxu).forEach(p=>{const o=pxu[p];if(o)Object.keys(o).forEach(k=>{const v=o[k];if(v&&v[0]!=null&&v[0]===v[1]&&v[1]===v[2])delete o[k]})});try{localStorage.setItem('gc-pxu',JSON.stringify(pxu))}catch(e){}
  Object.keys(pxu).forEach(apply);
  const when=()=>{try{return localStorage.getItem('gc-pxt')||''}catch(e){return''}};
- let queue=[],busy=false,got=0,fail=0,total=0;
+ const etDay=()=>{try{return new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'})}catch(e){return new Date().toISOString().slice(0,10)}};
+ const W=3; /* consoles fetched at once; each runs on its own thread in the app */
+ let queue=[],busy=false,got=0,fail=0,total=0,act=0,quiet=false,stop=false;
  function status(t){const b=document.getElementById('pxr');if(b)b.textContent=t}
  function next(){
-  if(!queue.length){busy=false;try{localStorage.setItem('gc-pxt',new Date().toISOString().slice(0,10))}catch(e){}status('Refresh prices (updated '+when()+')');toast('Prices updated: '+got+' platforms'+(fail?', '+fail+' failed':''));render();return}
-  const p=queue.shift();status('Prices '+(total-queue.length)+'/'+total+': '+p);
-  setTimeout(()=>Android.prices(SLUG[p],p),900);
+  while(act<W&&queue.length&&!stop){const p=queue.shift();act++;status('Prices '+(got+fail)+'/'+total+'…');setTimeout(()=>Android.prices(SLUG[p],p),act*250)}
+  if(act===0&&(!queue.length||stop)){busy=false;if(!stop||got)try{localStorage.setItem('gc-pxt',etDay())}catch(e){}status('Refresh prices (updated '+when()+')');if(!quiet||fail)toast('Prices updated: '+got+' consoles'+(fail?', '+fail+' failed':''));try{render()}catch(e){};stop=false}
  }
  window.onPrices=function(p,rows,err){
-  if(err||!rows.length){fail++;if(/429|403/.test(err||'')){queue=[];toast('PriceCharting is rate-limiting; try again in a few minutes')}}
+  act=Math.max(0,act-1);
+  if(err||!rows.length){fail++;if(/429|403/.test(err||'')&&!stop){stop=true;queue=[];toast('PriceCharting is rate-limiting; prices will try again later')}}
   else{const m={};rows.forEach(([n,a,b,c])=>{const k=key(n);if(!k)return;if(a!=null&&a===b&&b===c)return; /* identical loose/CIB/new is almost always a bad read: keep the last good prices */const plain=!/\[/.test(n);if(!m[k]||plain&&!m[k].plain)m[k]=Object.assign([a,b,c],{plain})});
    const o={};Object.keys(m).forEach(k=>o[k]=[m[k][0],m[k][1],m[k][2]]);pxu[p]=o;apply(p);got++;
    try{localStorage.setItem('gc-pxu',JSON.stringify(pxu))}catch(e){}}
   next();
  };
- function start(){if(busy)return;const ps=Object.keys(PRE).filter(p=>SLUG[p]);if(!ps.length)return;busy=true;got=0;fail=0;total=ps.length;queue=ps.slice();toast('Pulling prices from PriceCharting. This takes a few minutes; keep the app open.');next()}
- const b=document.createElement('button');b.id='pxr';b.textContent='Refresh prices'+(when()?' (updated '+when()+')':'');const pxb=document.getElementById('px');if(pxb)pxb.parentNode.insertBefore(b,pxb.nextSibling);else{const ctl=document.getElementById('all').parentNode;ctl.insertBefore(b,ctl.firstChild)}b.onclick=start;
+ function start(q){if(busy)return;let ps=Object.keys(PRE).filter(p=>SLUG[p]);if(!ps.length)return;
+  /* consoles you own games on go first */
+  const mine={};try{D.forEach(r=>{mine[r[0]]=(mine[r[0]]||0)+1})}catch(e){}
+  ps.sort((a,b)=>(mine[b]||0)-(mine[a]||0));
+  busy=true;quiet=!!q;stop=false;got=0;fail=0;act=0;total=ps.length;queue=ps.slice();if(!quiet)toast('Pulling prices from PriceCharting. Keep the app open for a minute or two.');next()}
+ /* automatic: once a day, the first time the app is open after midnight Eastern */
+ function auto(){try{if(!busy&&when()!==etDay()&&navigator.onLine!==false)start(true)}catch(e){}}
+ setTimeout(auto,6000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(auto,3000)});setInterval(auto,10*60*1000);
+ const b=document.createElement('button');b.id='pxr';b.textContent='Refresh prices'+(when()?' (updated '+when()+')':'');const pxb=document.getElementById('px');if(pxb)pxb.parentNode.insertBefore(b,pxb.nextSibling);else{const ctl=document.getElementById('all').parentNode;ctl.insertBefore(b,ctl.firstChild)}b.onclick=()=>start(false);
 })();
 
 /* ===== cloud sync + self update (APK only) ===== */
