@@ -105,7 +105,7 @@ footer a{color:var(--ink)}
 <div class="wrap">
   <header class="top">
     <a class="logo" href="./">Chamberla Collector</a>
-    <nav aria-label="Main"><a href="#verify">Verification</a><a href="#friends">Friends</a><a href="#guides">Guides</a><a href="#free">Free</a></nav>
+    <nav aria-label="Main"><a href="#verify">Verification</a><a href="#shelfscan">Shelf scan</a><a href="#friends">Friends</a><a href="#guides">Guides</a><a href="#free">Free</a></nav>
   </header>
 
   <div class="hero">
@@ -116,7 +116,7 @@ footer a{color:var(--ink)}
         <a class="btn p" href="https://github.com/FantaFreak04/chamberla-collector-app/releases/tag/latest">Download for Android</a>
         <a class="btn s" href="https://fantafreak04.github.io/chamberla-collector-app/">Open in your browser</a>
       </div>
-      <p class="fine">Scan games by barcode in the Android app or in Safari and Chrome on your phone. You can also type the number under the barcode.</p>
+      <p class="fine">Scan games by barcode in the Android app or in Safari and Chrome on your phone, or add a whole shelf from one photo. You can also type the number under the barcode.</p>
     </div>
     <div class="stage">
       <div class="phone"><img src="img/shelf.png" width="390" height="800" alt="The home screen showing a collection with percentages for each console and a total value"></div>
@@ -137,6 +137,17 @@ footer a{color:var(--ink)}
       <li><h3>Check the label (beta)</h3><p>Photograph the printed code on a disc or cartridge and the app compares it with known codes for that title. It works on about 30 consoles, but reading the print is hit and miss, and many newer consoles have no code list yet. Loose games can use it too.</p></li>
       <li><h3>Get double-checked</h3><p>When both the barcode and the label match, the game shows as double-checked. Profiles count verified and double-checked games separately, so a plain barcode scan is still worth showing.</p></li>
     </ol>
+  </section>
+
+  <section id="shelfscan">
+    <h2>Add a whole shelf from one photo (beta)</h2>
+    <p class="sub">Scanning games one at a time is slow when you own hundreds. Take one photo of a shelf and the app reads the titles off the spines or covers for you.</p>
+    <ol class="steps">
+      <li><h3>Photograph the shelf</h3><p>One console per photo, with the spines or covers clear and well lit.</p></li>
+      <li><h3>The app reads the titles</h3><p>When you are signed in, an AI reader picks out each title and matches it to that console's game list. The photo is not saved. You get 10 AI shelf scans a day.</p></li>
+      <li><h3>Check and add</h3><p>Tick the matches that are right and add them in one go. Games you add count as verified from your photo, and you can check their disc labels afterward to make them double-checked.</p></li>
+    </ol>
+    <p class="fine" style="margin-top:14px">It is not perfect. Worn spines, small print and glare can trip it up, so look over each match before adding. Signed out, a basic on-device reader is used instead, and those games are not marked verified.</p>
   </section>
 
   <section id="shelf">
