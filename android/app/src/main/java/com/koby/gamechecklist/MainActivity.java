@@ -605,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
                     FileOutputStream o = new FileOutputStream(f);
                     o.write(android.util.Base64.decode(b64, android.util.Base64.DEFAULT));
                     o.close();
-                    final android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, "com.koby.gamechecklist.fp", f);
+                    final android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, getPackageName() + ".fp", f);
                     runOnUiThread(() -> {
                         android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
                         i.setType(mime);
@@ -721,7 +721,7 @@ public class MainActivity extends AppCompatActivity {
                     o.close();
                     in.close();
                     if (f.length() < 1000000) throw new Exception("download incomplete");
-                    final android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, "com.koby.gamechecklist.fp", f);
+                    final android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, getPackageName() + ".fp", f);
                     runOnUiThread(() -> {
                         android.content.Intent it = new android.content.Intent(android.content.Intent.ACTION_VIEW);
                         it.setDataAndType(u, "application/vnd.android.package-archive");
@@ -867,7 +867,7 @@ public class MainActivity extends AppCompatActivity {
                     dir.mkdirs();
                     File f = new File(dir, "label.jpg");
                     if (f.exists()) f.delete();
-                    android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, "com.koby.gamechecklist.fp", f);
+                    android.net.Uri u = androidx.core.content.FileProvider.getUriForFile(MainActivity.this, getPackageName() + ".fp", f);
                     android.content.Intent i = new android.content.Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, u);
                     i.addFlags(android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION | android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);

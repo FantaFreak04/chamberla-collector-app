@@ -1,12 +1,14 @@
 plugins { id 'com.android.application' }
 def buildNum = Integer.parseInt(System.getenv('VCODE') ?: '1')
+// The Google Play build (workflow play.yml) sets PLAY=1: newer SDK, release signing. The sideload build is unchanged.
+def play = System.getenv('PLAY') == '1'
 android {
     namespace 'com.koby.gamechecklist'
-    compileSdk 34
+    compileSdk play ? 36 : 34
     defaultConfig {
-        applicationId 'com.koby.gamechecklist'
+        applicationId play ? 'com.chamberlacollector.app' : 'com.koby.gamechecklist'
         minSdk 23
-        targetSdk 34
+        targetSdk play ? 36 : 34
         versionCode buildNum
         versionName '1.' + buildNum
     }
@@ -20,7 +22,17 @@ android {
             }
         }
     }
-    buildTypes { release { minifyEnabled false } }
+    signingConfigs {
+        release {
+            if (System.getenv('KEYSTORE_PATH')) {
+                storeFile file(System.getenv('KEYSTORE_PATH'))
+                storePassword System.getenv('KEYSTORE_PASSWORD') ?: 'android'
+                keyAlias System.getenv('KEY_ALIAS') ?: 'key'
+                keyPassword System.getenv('KEY_PASSWORD') ?: 'android'
+            }
+        }
+    }
+    buildTypes { release { minifyEnabled false; signingConfig signingConfigs.release } }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
 }
 dependencies {

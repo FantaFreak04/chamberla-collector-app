@@ -1,0 +1,55 @@
+# Google Play build: a signed .aab for Play, plus a test APK of the same build to install on a phone.
+# Differences from the sideload build (apk.yml): newer Android SDK, the page is bundled and never self-updates, no APK-install permission, package com.chamberlacollector.app.
+name: Build for Google Play
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - name: Load signing key from repository secrets
+        env: { KEYSTORE_B64: '${{ secrets.KEYSTORE_B64 }}' }
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then echo "Missing KEYSTORE_B64 secret."; exit 1; fi
+          mkdir -p /home/runner/ci-key
+          echo "$KEYSTORE_B64" | base64 -d > /home/runner/ci-key/key.jks
+      - name: Play build settings
+        run: |
+          cp index.html android/app/src/main/assets/index.html
+          touch android/app/src/main/assets/play.flag
+          sed -i '/REQUEST_INSTALL_PACKAGES/d' android/app/src/main/AndroidManifest.xml
+          sed -i "s/version '8.5.2'/version '8.11.1'/" android/build.gradle
+          grep -n "version" android/build.gradle
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: '8.14.3' }
+      - name: Build
+        env: { PLAY: '1', VCODE: '${{ github.run_number }}', KEYSTORE_PATH: '/home/runner/ci-key/key.jks', KEYSTORE_PASSWORD: '${{ secrets.KEYSTORE_PASSWORD }}', KEY_ALIAS: '${{ secrets.KEY_ALIAS }}', KEY_PASSWORD: '${{ secrets.KEY_PASSWORD }}' }
+        run: cd android && gradle bundleRelease assembleRelease --no-daemon
+      - name: Check 16 KB page alignment of native libraries
+        run: |
+          mkdir -p /tmp/apk && cd /tmp/apk && unzip -q -o $GITHUB_WORKSPACE/android/app/build/outputs/apk/release/app-release.apk 'lib/arm64-v8a/*' || true
+          python3 - <<'PY'
+          import glob,struct
+          for f in sorted(glob.glob('/tmp/apk/lib/arm64-v8a/*.so')):
+              d=open(f,'rb').read(4096);phoff=struct.unpack_from('<Q',d,32)[0];phes=struct.unpack_from('<H',d,54)[0];phn=struct.unpack_from('<H',d,56)[0]
+              al=[struct.unpack_from('<Q',d,phoff+i*phes+48)[0] for i in range(phn) if struct.unpack_from('<I',d,phoff+i*phes)[0]==1]
+              print(('OK  ' if al and min(al)>=16384 else 'BAD ')+f.split('/')[-1],min(al) if al else '?')
+          PY
+      - name: Keep the files
+        uses: actions/upload-artifact@v4
+        with:
+          name: play-build-${{ github.run_number }}
+          path: |
+            android/app/build/outputs/bundle/release/app-release.aab
+            android/app/build/outputs/apk/release/app-release.apk
+      - name: Publish test APK
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk ChamberlaCollector-play-test.apk
+          gh release delete play-test --yes --cleanup-tag || true
+          gh release create play-test ChamberlaCollector-play-test.apk --prerelease --title "Play test build" --notes "Test build of the Google Play version, run ${{ github.run_number }}."
