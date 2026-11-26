@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261126222426--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261126223259--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -446,7 +446,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261126222426',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261126223259',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -650,7 +650,7 @@ async function sbToken(){let s=sbSess();if(!s)return null;if(s.exp&&s.exp-60>Dat
 window.gcOpen=k=>{try{openAccount(k==='msg'?'msg':'up')}catch(e){}};
 setTimeout(()=>{try{if(window.Android&&Android.nsGet){const c=sbSess();if(!c){Android.nsClear();return}let n=null;try{n=JSON.parse(Android.nsGet()||'null')}catch(e){}if(n&&n.rt&&n.exp>c.exp&&n.rt!==c.rt)lss('gc-sbs',JSON.stringify({at:n.at,rt:n.rt,exp:n.exp,uid:c.uid,email:c.email}));nsPush()}}catch(e){}},1500);
 function nsPush(){try{const s=sbSess();if(!s||!window.Android||!Android.nsSession)return;const c=sbCfg();Android.nsSession(JSON.stringify(Object.assign({},s,{url:c.url,key:c.key,nm:lsg('gc-nm')!=='0',na:lsg('gc-na')!=='0'})))}catch(e){}}
-function sbStore(d){const o={at:d.access_token,rt:d.refresh_token,exp:d.expires_at||(Math.floor(Date.now()/1000)+(d.expires_in||3600)),uid:d.user&&d.user.id||(sbSess()||{}).uid,email:d.user&&d.user.email||(sbSess()||{}).email};if(o.uid){const ow=lsg('gc-sbo');if(ow&&ow!==o.uid){/* a different account is signing in on this device: don't hand it the previous account's local collection */SBK.forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});['gc-sbb','gc-sbt'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});window.__sbWiped=true}lss('gc-sbo',o.uid)}lss('gc-sbs',JSON.stringify(o));nsPush();if(window.__sbWiped)setTimeout(()=>location.reload(),150)}
+function sbStore(d){const o={at:d.access_token,rt:d.refresh_token,exp:d.expires_at||(Math.floor(Date.now()/1000)+(d.expires_in||3600)),uid:d.user&&d.user.id||(sbSess()||{}).uid,email:d.user&&d.user.email||(sbSess()||{}).email};if(o.uid){const ow=lsg('gc-sbo');if(ow&&ow!==o.uid){/* a different account is signing in on this device: don't hand it the previous account's local collection */SBK.forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});['gc-sbb','gc-sbt'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});window.__sbWiped=true;lss('gc-sbpull','1')}lss('gc-sbo',o.uid)}lss('gc-sbs',JSON.stringify(o));nsPush();if(window.__sbWiped)setTimeout(()=>location.reload(),150)}
 async function sbApi(path,o){o=o||{};const t=await sbToken();if(!t)return{ok:false,status:401,data:{message:'Please sign in again.'}};o.token=t;return sbRaw(path,o)}
 const sbErr=r=>(r.data&&(r.data.msg||r.data.message||r.data.error_description||r.data.error))||('Something went wrong ('+r.status+')');
 const FCODE=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<8;i++)s+=a[Math.floor(Math.random()*a.length)];return s};
@@ -717,7 +717,7 @@ async function sbSync(force){if(sbBusy||!sbSess())return{err:'Not signed in'};sb
 let syncT=null;function scheduleSync(){if(!sbSess())return;clearTimeout(syncT);syncT=setTimeout(()=>{sbSync().then(()=>{})},8000)}
 {const _sv=save;save=function(){_sv.apply(this,arguments);scheduleSync();schedulePub()}}
 {const _s=sbSess();if(_s&&_s.uid&&!lsg('gc-sbo'))lss('gc-sbo',_s.uid)}
-setTimeout(()=>{if(sbSess()){sbLoadProfile().then(()=>{sbSync().then(()=>pubNow())})}},2500);
+setTimeout(()=>{if(sbSess()){const _pf=lsg('gc-sbpull');if(_pf)lss('gc-sbpull','');sbLoadProfile().then(()=>{sbSync(_pf?'pullall':undefined).then(()=>pubNow())})}},2500);
 /* ---- UI ---- */
 const pctTxt=p=>(+p).toFixed(1)+'%';
 const tierChip=(pct)=>{const l=msLvl(pct);if(!l.length)return'';const i=MST.indexOf(l[l.length-1]);return'<span style="display:inline-block;padding:1px 7px;border-radius:6px;font-size:11px;font-weight:700;background:'+MCOL[i]+';color:'+(MDK[i]?'#222':'#fff')+';box-shadow:0 0 6px '+MCOL[i]+'">'+MTN[i]+'</span>'};
@@ -1633,7 +1633,7 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='77.03';
+const PAGE_VER='77.04';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb?' (a newer app is available)':''):'')}
 
 const PATCH=[
@@ -1872,7 +1872,7 @@ function openGame(p,k,title){
   
 +'<div id="gph">'+priceChart(ck,pr)+'</div>'
   +'<div id="gsoc"></div><div id="gxt"></div>'
-  +'<b>Find it online</b><p class="mu" style="margin:2px 0 8px;font-size:12px">Opens a search in your browser. Check the condition and seller before you buy.</p><div>'+L.map(([n,u])=>'<a class="lnk" target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+'</a>').join('')+'</div>'+(r&&ri>=0&&ri===D.length-man.length+man.findIndex(m=>m[0]===p&&key(m[1])===k)?'<button class="bt" id="gdel" style="margin-top:14px">Delete this hand-added game</button>':'')+'<small class="mu" style="display:block;margin-top:10px;font-size:10px;opacity:.6">App build 20261126222426</small>');
+  +'<b>Find it online</b><p class="mu" style="margin:2px 0 8px;font-size:12px">Opens a search in your browser. Check the condition and seller before you buy.</p><div>'+L.map(([n,u])=>'<a class="lnk" target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+'</a>').join('')+'</div>'+(r&&ri>=0&&ri===D.length-man.length+man.findIndex(m=>m[0]===p&&key(m[1])===k)?'<button class="bt" id="gdel" style="margin-top:14px">Delete this hand-added game</button>':'')+'<small class="mu" style="display:block;margin-top:10px;font-size:10px;opacity:.6">App build 20261126223259</small>');
  o.querySelector('#gx').onclick=()=>o.remove();
  try{window.__gameExtra&&window.__gameExtra(o,p,k,title,ck,own)}catch(e){}try{window.__gameSocial&&window.__gameSocial(o,p,k,title,ck)}catch(e){}
  const d=o.querySelector('#gdesc');
