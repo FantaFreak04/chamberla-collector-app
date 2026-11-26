@@ -293,7 +293,8 @@ public class MainActivity extends AppCompatActivity {
             androidx.core.view.WindowInsetsControllerCompat wc = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
             wc.setAppearanceLightStatusBars(false);
             wc.setAppearanceLightNavigationBars(false);
-            ViewCompat.setOnApplyWindowInsetsListener(web, (v, wi) -> {
+            // Pad the window's content frame, not the WebView itself: padding on a WebView is ignored for fixed-position page elements, which let the bottom bar slide under the system buttons.
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, wi) -> {
                 Insets i = wi.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.ime());
                 v.setPadding(i.left, i.top, i.right, i.bottom);
                 return WindowInsetsCompat.CONSUMED;
