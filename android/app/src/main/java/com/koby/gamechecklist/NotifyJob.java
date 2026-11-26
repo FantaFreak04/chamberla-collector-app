@@ -92,8 +92,7 @@ public class NotifyJob extends JobService {
 
         // messages
         long lastM = sp.getLong("lm", -1);
-        String[] r = http("GET", url + "/rest/v1/messages?select=id,sender_id,body&recipient_id=eq." + uid
-                + "&read_at=is.null&order=id.asc&limit=30", key, at, null);
+        String[] r = {"0", ""}; // private messages are switched off
         if (r[0].equals("200")) {
             JSONArray a = new JSONArray(r[1]);
             long max = lastM;
@@ -124,8 +123,7 @@ public class NotifyJob extends JobService {
 
         // message requests (people who are not friends yet)
         long lastR = sp.getLong("lr", -1);
-        r = http("GET", url + "/rest/v1/message_requests?select=id,sender_id,body&recipient_id=eq." + uid
-                + "&status=eq.pending&order=id.asc&limit=30", key, at, null);
+        r = new String[]{"0", ""};
         if (r[0].equals("200")) {
             JSONArray a = new JSONArray(r[1]);
             long max = lastR;

@@ -11,7 +11,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.webkit.WebViewAssetLoader;
 
 import com.google.mlkit.vision.barcode.common.Barcode;
@@ -58,6 +63,18 @@ public class MainActivity extends AppCompatActivity {
         return d;
     }
 
+    /* The Google Play build carries an empty assets/play.flag file. It uses the bundled page only and never updates itself. */
+    private Boolean playFlag;
+
+    private boolean play() {
+        if (playFlag == null) {
+            boolean f = false;
+            try { getAssets().open("play.flag").close(); f = true; } catch (Exception e) { /* not the Play build */ }
+            playFlag = f;
+        }
+        return playFlag;
+    }
+
     private SharedPreferences ghp() { return getSharedPreferences("gh", MODE_PRIVATE); }
 
     private static long stamp(java.io.InputStream in) {
@@ -75,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String startUrl() {
         String base = "https://appassets.androidplatform.net/";
+        if (play()) return base + "assets/index.html";
         try {
             File f = new File(remoteDir(), "index.html");
             if (f.exists() && stamp(new java.io.FileInputStream(f)) >= stamp(getAssets().open("index.html")))
@@ -259,6 +277,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(b);
         web = new WebView(this);
         setContentView(web);
+        // Back button / gesture: close any open panel first; if nothing was open, close the app.
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                web.evaluateJavascript("(window.gcBack&&gcBack())?'1':'0'", value -> {
+                    if (!"\"1\"".equals(value)) finish();
+                });
+            }
+        });
+        if (play()) {
+            // Android 15+ draws apps edge to edge: keep the page clear of the status bar, navigation bar, camera cutout and keyboard.
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+            getWindow().getDecorView().setBackgroundColor(0xFF0F0D1A);
+            androidx.core.view.WindowInsetsControllerCompat wc = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+            wc.setAppearanceLightStatusBars(false);
+            wc.setAppearanceLightNavigationBars(false);
+            ViewCompat.setOnApplyWindowInsetsListener(web, (v, wi) -> {
+                Insets i = wi.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.ime());
+                v.setPadding(i.left, i.top, i.right, i.bottom);
+                return WindowInsetsCompat.CONSUMED;
+            });
+        }
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
@@ -362,13 +402,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) { /* ignore */ }
     }
 
-    @Override
-    public void onBackPressed() {
-        // Close any open panel first; if nothing was open, close the app.
-        web.evaluateJavascript("(window.gcBack&&gcBack())?'1':'0'", value -> {
-            if (!"\"1\"".equals(value)) finish();
-        });
-    }
 
     private void js(final String code) {
         runOnUiThread(() -> web.evaluateJavascript(code, null));
@@ -531,6 +564,7 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void ghUpdate() {
+            if (play()) { js("window.onUpdate('same','')"); return; }
             new Thread(() -> {
                 String res = "same", msg = "";
                 try {
@@ -615,12 +649,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public boolean isPlay() {
+            return play();
+        }
+
+        @JavascriptInterface
         public int appBuild() {
             return myBuild();
         }
 
         @JavascriptInterface
         public void apkCheck() {
+            if (play()) { js("window.onApk('none','')"); return; }
             new Thread(() -> {
                 String res = "none", msg = "";
                 try {
@@ -640,6 +680,7 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void apkInstall() {
+            if (play()) return;
             if (android.os.Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
                 runOnUiThread(() -> {
                     try {
