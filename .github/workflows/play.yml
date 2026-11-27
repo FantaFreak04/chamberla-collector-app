@@ -51,5 +51,6 @@ jobs:
         env: { GH_TOKEN: '${{ github.token }}' }
         run: |
           cp android/app/build/outputs/apk/release/app-release.apk ChamberlaCollector-play-test.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab ChamberlaCollector-play-test.aab
           gh release delete play-test --yes --cleanup-tag || true
-          gh release create play-test ChamberlaCollector-play-test.apk --prerelease --title "Play test build" --notes "Test build of the Google Play version, run ${{ github.run_number }}."
+          gh release create play-test ChamberlaCollector-play-test.apk ChamberlaCollector-play-test.aab --prerelease --title "Play test build" --notes "Test build of the Google Play version, run ${{ github.run_number }}."
