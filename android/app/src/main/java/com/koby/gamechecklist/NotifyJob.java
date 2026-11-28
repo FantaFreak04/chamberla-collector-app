@@ -86,7 +86,7 @@ public class NotifyJob extends JobService {
             sp.edit().putString("s", s.toString()).apply();
         }
         String at = s.getString("at");
-        boolean nm = s.optBoolean("nm", true), na = s.optBoolean("na", true);
+        boolean nm = s.optBoolean("nm", true), na = s.optBoolean("na", true), nr = s.optBoolean("nr", true);
         boolean show = !MainActivity.fg;
         Map<String, String> names = new HashMap<>();
 
@@ -179,6 +179,87 @@ public class NotifyJob extends JobService {
                     text = fresh.length() + " new updates from your friends";
                 }
                 notify(2, "updates", "Friend updates", title, text, "up");
+            }
+        }
+
+        // friend requests
+        String lastF = sp.getString("lf", "");
+        r = http("GET", url + "/rest/v1/friendships?select=user_id,created_at&friend_id=eq." + uid
+                + "&status=eq.pending&order=created_at.desc&limit=20", key, at, null);
+        if (r[0].equals("200")) {
+            JSONArray a = new JSONArray(r[1]);
+            String max = lastF;
+            JSONArray fresh = new JSONArray();
+            for (int i = 0; i < a.length(); i++) {
+                JSONObject m = a.getJSONObject(i);
+                String t = m.optString("created_at", "");
+                if (t.compareTo(max) > 0) max = t;
+                if (!lastF.isEmpty() && t.compareTo(lastF) > 0) fresh.put(m);
+            }
+            if (!max.equals(lastF) || lastF.isEmpty()) sp.edit().putString("lf", max.isEmpty() ? "0" : max).apply();
+            if (show && nr && fresh.length() > 0) {
+                fill(names, fresh, "user_id", url, key, at);
+                String text = fresh.length() == 1
+                        ? nm(names, fresh.getJSONObject(0).getString("user_id"), "Someone") + " sent you a friend request"
+                        : fresh.length() + " new friend requests";
+                notify(4, "social", "Requests and invites", "Friend request", text, "fr");
+            }
+        }
+
+        // event invites
+        long lastI = sp.getLong("li", -1);
+        r = http("GET", url + "/rest/v1/event_invites?select=id,event_name,from_id&to_id=eq." + uid
+                + "&status=eq.pending&order=id.desc&limit=20", key, at, null);
+        if (r[0].equals("200")) {
+            JSONArray a = new JSONArray(r[1]);
+            long max = lastI;
+            JSONArray fresh = new JSONArray();
+            for (int i = 0; i < a.length(); i++) {
+                JSONObject m = a.getJSONObject(i);
+                long id = m.getLong("id");
+                if (id > max) max = id;
+                if (lastI >= 0 && id > lastI) fresh.put(m);
+            }
+            if (lastI < 0 || max > lastI) sp.edit().putLong("li", Math.max(max, 0)).apply();
+            if (show && nr && fresh.length() > 0) {
+                fill(names, fresh, "from_id", url, key, at);
+                JSONObject m = fresh.getJSONObject(0);
+                String text = fresh.length() == 1
+                        ? nm(names, m.getString("from_id"), "A friend") + " invited you to " + m.optString("event_name", "an event")
+                        : fresh.length() + " new event invites";
+                notify(5, "social", "Requests and invites", "Event invite", text, "ev");
+            }
+        }
+
+        // reactions on my updates
+        String lastE = sp.getString("lre", "");
+        r = http("GET", url + "/rest/v1/activity?select=id&user_id=eq." + uid + "&order=id.desc&limit=100", key, at, null);
+        if (r[0].equals("200")) {
+            JSONArray mine = new JSONArray(r[1]);
+            Set<Long> ids = new HashSet<>();
+            for (int i = 0; i < mine.length(); i++) ids.add(mine.getJSONObject(i).getLong("id"));
+            r = http("GET", url + "/rest/v1/activity_reactions?select=activity_id,user_id,emoji,created_at&user_id=neq." + uid
+                    + "&order=created_at.desc&limit=40", key, at, null);
+            if (r[0].equals("200")) {
+                JSONArray a = new JSONArray(r[1]);
+                String max = lastE;
+                JSONArray fresh = new JSONArray();
+                for (int i = 0; i < a.length(); i++) {
+                    JSONObject m = a.getJSONObject(i);
+                    if (!ids.contains(m.getLong("activity_id"))) continue;
+                    String t = m.optString("created_at", "");
+                    if (t.compareTo(max) > 0) max = t;
+                    if (!lastE.isEmpty() && t.compareTo(lastE) > 0) fresh.put(m);
+                }
+                if (!max.equals(lastE) || lastE.isEmpty()) sp.edit().putString("lre", max.isEmpty() ? "0" : max).apply();
+                if (show && nr && fresh.length() > 0) {
+                    fill(names, fresh, "user_id", url, key, at);
+                    JSONObject m = fresh.getJSONObject(0);
+                    String text = fresh.length() == 1
+                            ? nm(names, m.getString("user_id"), "A friend") + " reacted " + m.optString("emoji", "") + " to your update"
+                            : fresh.length() + " new reactions on your updates";
+                    notify(6, "social", "Requests and invites", "New reaction", text, "up");
+                }
             }
         }
     }
