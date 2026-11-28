@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--gc-build:20261128090832--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
+<!DOCTYPE html><!--gc-build:20261128091349--><html lang="en"><head><meta charset="utf-8"><meta property="og:title" content="Chamberla Collector"><meta property="og:description" content="Track, verify and show off your physical video game collection. Compare with friends."><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="description" content="Track, verify and show off your physical video game collection.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chamberla Collector</title>
 <style>
@@ -466,7 +466,7 @@ function openSettings(){const o=overlay('<h3 style="margin:0 0 10px">Settings</h
  const draw=()=>{box.innerHTML=IC.map((c,k)=>'<button data-ic="'+k+'" aria-label="'+c[0]+'" title="'+c[0]+'" style="width:48px;height:48px;padding:0;border-radius:12px;background:#'+c[1]+';border:3px solid '+(k===cur?'var(--ac)':'transparent')+';display:flex;align-items:center;justify-content:center"><span style="display:block;width:16px;height:16px;background:#'+c[2]+';transform:rotate(45deg);border-radius:2px"></span></button>').join('');
   box.querySelectorAll('[data-ic]').forEach(b=>b.onclick=()=>{if(!can){msg.textContent='Changing the app icon needs the latest Android app. Update it from the menu, Check for updates.';return}const k=+b.dataset.ic;try{Android.setIcon(k);cur=k;lss('gc-icon',String(k));msg.textContent=IC[k][0]+' icon set. Your phone may take a few seconds to show it.';draw()}catch(e){msg.textContent='Could not change the icon.'}})};draw();if(!can)msg.textContent='Needs the latest Android app.'}
  o.querySelector('#stcp').checked=!!SET.compact};
- {const bv='20261128090832',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
+ {const bv='20261128091349',vs=$('stver')||o.querySelector('#stver');if(vs){const f=bv.length===14?bv.slice(0,4)+'-'+bv.slice(4,6)+'-'+bv.slice(6,8)+' '+bv.slice(8,10)+':'+bv.slice(10,12)+' UTC':'web';vs.textContent=verLabel()+' · page build '+f+(location.pathname.indexOf('/remote/')>=0?' (downloaded update)':location.pathname.indexOf('/assets/')>=0?' (bundled in app)':'')}}
 
  paint();o.querySelector('#stpn').onclick=()=>{o.remove();openPatch()};const ch=()=>{saveSet();applySet();paint()};
  o.onclick=e=>{const t=e.target;if(t===o){o.remove();return}if(t.dataset.th){SET.theme=t.dataset.th;ch()}else if(t.dataset.ac!==undefined&&t.tagName==='BUTTON'){SET.accent=t.dataset.ac;ch()}else if(t.dataset.fn){SET.font=t.dataset.fn;ch()}else if(t.dataset.sz){SET.size=t.dataset.sz;ch()}else if(t.id==='strs'){SET={theme:'auto',accent:'',size:'M',compact:false,font:'pixel'};ch()}else if(t.id==='stgy'){pickCsv(r=>{o.querySelector('#stgm').textContent=r.err?r.err:'Imported '+r.added+' games ('+r.dup+' already in your collection'+(r.skip?', '+r.skip+' skipped: not owned physical games':'')+').';if(!r.err){render();importSummary(r)}})}else if(t.id==='stsy'){o.remove();openTools()}else if(t.id==='ster'){let a=[];try{a=JSON.parse(localStorage.getItem('gc-errlog')||'[]')}catch(e){}const txt=a.length?a.join('\n'):'No errors recorded.';const q=overlay('<h3 style="margin:0 0 8px">Error log</h3><p class="mu" style="font-size:12px">Send this to support if something breaks. It stays on your device until you copy it.</p><pre style="white-space:pre-wrap;font-size:11px;max-height:50vh;overflow:auto">'+esc(txt)+'</pre><div class="ctl"><button id="ercp">Copy</button><button id="ercl">Clear</button><button id="erdn">Done</button></div>');q.onclick=ev=>{const i=ev.target.id;if(ev.target===q||i==='erdn')q.remove();else if(i==='ercl'){try{localStorage.removeItem('gc-errlog')}catch(e){}q.remove()}else if(i==='ercp'){try{navigator.clipboard.writeText(txt);snack('Copied')}catch(e){}}}}else if(t.id==='stdn')o.remove()};
@@ -1256,15 +1256,15 @@ function openLabelVerify(p,k,title,done){if(sealedOf(p+'|'+k)){snack('Sealed gam
  o.querySelector('#lbx').onclick=()=>o.remove();const R=o.querySelector('#lbr');
  const PHOTO_LIVE=true;
  const aiOffer=(direct)=>{if(!PHOTO_LIVE||R.querySelector('#lbair'))return;const nat=!!(window.Android&&typeof Android.scanPhoto==='function'),web=!nat&&!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
-  R.insertAdjacentHTML('beforeend','<div style="margin-top:'+(direct?0:12)+'px;'+(direct?'':'padding-top:10px;border-top:1px solid var(--bd)')+'"><b style="font-size:13px">'+(direct?'Verify with a photo':'Can\'t use a code?')+'</b><div class="mu" style="font-size:12px;margin:4px 0 8px">Take a photo of the disc or cartridge. An AI service reads the title from the photo. The photo is not saved.</div><button id="lbshot" style="width:100%;padding:12px;font-weight:700">📷 Take photo</button><input type="file" id="lbai" accept="image/*" capture="environment" hidden style="max-width:100%;margin-top:6px"><div id="lbair" style="margin-top:8px;font-size:14px"></div></div>');
-  const A=R.querySelector('#lbair'),fin=R.querySelector('#lbai');
+  R.insertAdjacentHTML('beforeend','<div style="margin-top:'+(direct?0:12)+'px;'+(direct?'':'padding-top:10px;border-top:1px solid var(--bd)')+'"><b style="font-size:13px">'+(direct?'Verify with a photo':'Can\'t use a code?')+'</b><div class="mu" style="font-size:12px;margin:4px 0 8px">Take a photo of the disc or cartridge. Use your camera on your own disc or cartridge. Saved pictures, screens and box art are rejected. An AI service reads the title from the photo, and the photo is not saved.</div><button id="lbshot" style="width:100%;padding:12px;font-weight:700">📷 Take photo</button><div id="lbair" style="margin-top:8px;font-size:14px"></div></div>');
+  const A=R.querySelector('#lbair');
   const send=async img=>{if(!sbSess()){A.textContent='Sign in to use the photo check.';return}A.textContent='Checking the photo...';
    try{const r=await sbApi('/functions/v1/verify-photo',{method:'POST',body:{platform:p,title:title,key:p+'|'+k,image:img}});const d=r.data||{};
     if(r.ok&&d.match){const ck=p+'|'+k;VER[ck]=ld();lss('gc-ver',JSON.stringify(VER));verFlag(ck,'l');A.innerHTML='✅ The photo shows <b>'+esc(d.title||title)+'</b>. This game is now verified.';setTimeout(()=>{o.remove();done&&done()},1400)}
     else A.textContent=d.msg||d.message||'The photo check could not run. Try again in a moment.'}catch(err){A.textContent='Could not use that photo. Try another one.'}};
   const shrink=async f=>{const bm=await createImageBitmap(f);const sc=Math.min(1,1280/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*sc);cv.height=Math.round(bm.height*sc);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);return cv.toDataURL('image/jpeg',.72).split(',')[1]};
-  fin.onchange=async e=>{const f=e.target.files[0];if(!f)return;try{send(await shrink(f))}catch(err){A.textContent='Could not use that photo. Try another one.'}};
-  const pick=()=>{fin.hidden=false;A.textContent='Choose a photo of the disc or cartridge.'};
+  
+  const pick=()=>{A.textContent='The camera could not open. Allow camera access for this app, or type the code instead. Saved or downloaded pictures are not accepted.'};
   R.querySelector('#lbshot').onclick=()=>{
    if(nat){A.textContent='Opening the camera...';window.onPhotoData=b=>{if(!b){A.textContent='No photo taken.';return}send(b)};try{Android.scanPhoto()}catch(e){pick()}return}
    if(!web){pick();return}
@@ -1662,11 +1662,12 @@ window.openTour=function(){try{const old=document.getElementById('tourov');if(ol
   if(b.textContent!==t)b.textContent=t}
  setInterval(()=>{if(!document.hidden)hlEnsure()},1200);setTimeout(hlEnsure,300)}
 /* ===== patch notes ===== */
-const PAGE_VER='78.07';
+const PAGE_VER='78.08';
 function verLabel(){let b=0;try{if(window.Android&&Android.appBuild)b=Android.appBuild()}catch(e){}const pb=parseInt(PAGE_VER,10);let pl=false;try{pl=!!Android.isPlay()}catch(e){}return 'Version '+PAGE_VER+(b?' · app build '+b+(b<pb&&!pl?' (a newer app is available)':''):'')}
 
 const PATCH=[
  {d:'Nov 27, 2026',t:'Sign in with username',i:[
+  'Fixed: photo verification is stricter. It now needs a live camera photo of your real disc or cartridge, and rejects box art, screens, stock images and reused photos.',
   'New: Xbox disc to digital now lists every Xbox One and Series X|S game A to Z, with search, filters and letter buttons.',
   'Fixed: removing a game from your library now also removes its verified and double-checked marks.',
   'Fixed: the Milestones screen no longer flashes "No trophies yet" before your trophies load.',
@@ -1948,7 +1949,7 @@ function openGame(p,k,title){
   
 +'<div id="gph">'+priceChart(ck,pr)+'</div>'
   +'<div id="gsoc"></div><div id="gxt"></div>'
-  +'<b>Find it online</b><p class="mu" style="margin:2px 0 8px;font-size:12px">Opens a search in your browser. Check the condition and seller before you buy.</p><div>'+L.map(([n,u])=>'<a class="lnk" target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+'</a>').join('')+'</div>'+(own&&!man.some(m=>m[0]===p&&key(m[1])===k)?'<button class="bt" id="gun" data-p="'+esc(p)+'" data-k="'+esc(k)+'" style="margin-top:14px">Remove from my collection</button>':'')+(man.some(m=>m[0]===p&&key(m[1])===k)?'<button class="bt" id="gdel" style="margin-top:14px">Delete this hand-added game</button>':'')+'<small class="mu" style="display:block;margin-top:10px;font-size:10px;opacity:.6">App build 20261128090832</small>');
+  +'<b>Find it online</b><p class="mu" style="margin:2px 0 8px;font-size:12px">Opens a search in your browser. Check the condition and seller before you buy.</p><div>'+L.map(([n,u])=>'<a class="lnk" target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+'</a>').join('')+'</div>'+(own&&!man.some(m=>m[0]===p&&key(m[1])===k)?'<button class="bt" id="gun" data-p="'+esc(p)+'" data-k="'+esc(k)+'" style="margin-top:14px">Remove from my collection</button>':'')+(man.some(m=>m[0]===p&&key(m[1])===k)?'<button class="bt" id="gdel" style="margin-top:14px">Delete this hand-added game</button>':'')+'<small class="mu" style="display:block;margin-top:10px;font-size:10px;opacity:.6">App build 20261128091349</small>');
  o.querySelector('#gx').onclick=()=>o.remove();
  try{window.__gameExtra&&window.__gameExtra(o,p,k,title,ck,own)}catch(e){}try{window.__gameSocial&&window.__gameSocial(o,p,k,title,ck)}catch(e){}
  const d=o.querySelector('#gdesc');
