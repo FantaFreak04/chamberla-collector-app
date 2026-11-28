@@ -73,7 +73,8 @@
    "e": "2026-11-07",
    "u": "https://www.detroitretrogamingshow.com/",
    "src": "official site",
-   "b": 1
+   "b": 1,
+   "k": 1
   },
   {
    "n": "Houston Arcade Expo 2026",
@@ -138,7 +139,8 @@
    "e": "2026-11-29",
    "u": "http://www.swanseavge.com",
    "src": "vgeevents.com",
-   "v": "Brangwyn Hall, Guildhall Rd S, Swansea SA1 4PE, UK"
+   "v": "Brangwyn Hall, Guildhall Rd S, Swansea SA1 4PE, UK",
+   "k": 1
   },
   {
    "n": "CCXP 2026",
@@ -326,7 +328,18 @@
    "e": "2027-02-07",
    "u": "https://www.eventbrite.co.uk/o/replay-events-ltd-7754692509",
    "src": "eventbrite.co.uk",
-   "v": "Royal Armouries Museum, Leeds, UK"
+   "v": "Royal Armouries Museum, Leeds, UK",
+   "k": 1
+  },
+  {
+   "n": "Festival Vintage & Retrogaming Épernay 2027",
+   "c": "Épernay, France",
+   "s": "2027-02-12",
+   "e": "2027-02-14",
+   "u": "https://tradefest.io/en/event/festival-vintage-retrogaming-epernay",
+   "src": "tradefest.io",
+   "v": "Le Millésium, Avenue du Général Margueritte, 51200 Épernay, France",
+   "k": 1
   },
   {
    "n": "FAN EXPO Vancouver",
@@ -368,7 +381,8 @@
    "e": "2027-02-20",
    "u": "https://www.eventbrite.co.uk/o/replay-events-ltd-7754692509",
    "src": "eventbrite.co.uk",
-   "v": "K2 Crawley, Crawley, UK"
+   "v": "K2 Crawley, Crawley, UK",
+   "k": 1
   },
   {
    "n": "Bristol Video Games Expo 2027",
@@ -377,7 +391,8 @@
    "e": "2027-02-27",
    "u": "http://bristolvge.com",
    "src": "vgeevents.com",
-   "v": "UWE Centre for Sport, Frenchay Campus, Bristol, UK"
+   "v": "UWE Centre for Sport, Frenchay Campus, Bristol, UK",
+   "k": 1
   },
   {
    "n": "Lake George Games Expo - Winter 2027",
@@ -385,7 +400,8 @@
    "s": "2027-02-27",
    "e": "2027-02-27",
    "u": "https://fancons.com/events/info/28885/lake-george-games-expo---winter-2027",
-   "src": "fancons.com"
+   "src": "fancons.com",
+   "k": 1
   },
   {
    "n": "Bolton Gaming Market 2027",
@@ -394,7 +410,8 @@
    "e": "2027-02-28",
    "u": "https://www.eventbrite.co.uk/o/replay-events-ltd-7754692509",
    "src": "eventbrite.co.uk",
-   "v": "Toughsheet Community Stadium, Bolton, UK"
+   "v": "Toughsheet Community Stadium, Bolton, UK",
+   "k": 1
   },
   {
    "n": "Game Developers Conference (GDC)",
@@ -442,7 +459,8 @@
    "s": "2027-03-19",
    "e": "2027-03-20",
    "u": "https://fancons.com/events/info/28015/augusta-video-gaming-exposition-2027",
-   "src": "fancons.com"
+   "src": "fancons.com",
+   "k": 1
   },
   {
    "n": "Toronto Comicon",
@@ -475,7 +493,8 @@
    "e": "2027-03-21",
    "u": "https://www.eventbrite.co.uk/o/replay-events-ltd-7754692509",
    "src": "eventbrite.co.uk",
-   "v": "National Indoor Athletics Centre, Cardiff, UK"
+   "v": "National Indoor Athletics Centre, Cardiff, UK",
+   "k": 1
   },
   {
    "n": "EVO Brazil 2027",
@@ -533,7 +552,8 @@
    "s": "2027-04-08",
    "e": "2027-04-10",
    "u": "https://conventiongrid.com/shows/pintastic-pinball-and-game-room-expo/2027/marlborough/",
-   "src": "conventiongrid.com"
+   "src": "conventiongrid.com",
+   "k": 1
   },
   {
    "n": "Concinnity 2027",
@@ -566,7 +586,8 @@
    "e": "2027-04-18",
    "u": "https://www.eventbrite.co.uk/o/replay-events-ltd-7754692509",
    "src": "eventbrite.co.uk",
-   "v": "Royal National Hotel, Bedford Way, London, UK"
+   "v": "Royal National Hotel, Bedford Way, London, UK",
+   "k": 1
   },
   {
    "n": "Gamescom Latam 2027",
@@ -601,7 +622,8 @@
    "u": "https://www.midwestgamingclassic.com/",
    "src": "official site",
    "b": 1,
-   "v": "Baird Center, 400 W Wisconsin Ave, Milwaukee, WI"
+   "v": "Baird Center, 400 W Wisconsin Ave, Milwaukee, WI",
+   "k": 1
   },
   {
    "n": "Comic Con Cape Town 2027",
@@ -619,7 +641,8 @@
    "e": "2027-04-24",
    "u": "https://www.messen.de/de/22982/garching-b-muenchen/retrogamescon-muenchen/info",
    "src": "messen.de",
-   "v": "Bürgerhaus Garching, Bürgerplatz 9, 85748 Garching bei München, Germany"
+   "v": "Bürgerhaus Garching, Bürgerplatz 9, 85748 Garching bei München, Germany",
+   "k": 1
   },
   {
    "n": "C2E2 - Chicago Comic & Entertainment",
@@ -628,6 +651,17 @@
    "e": "2027-05-02",
    "u": "https://conventiongrid.com/shows/c2e2-chicago-comic-and-entertainment/2027/chicago/",
    "src": "conventiongrid.com"
+  },
+  {
+   "n": "Retropalooza Houston 2027",
+   "c": "Pasadena, TX",
+   "s": "2027-05-08",
+   "e": "2027-05-09",
+   "u": "https://retropaloozahouston.com/",
+   "src": "rostercon.com",
+   "v": "Pasadena Convention Center, 7902 Fairmont Pkwy, Pasadena, TX",
+   "b": 1,
+   "k": 1
   },
   {
    "n": "Anime Central",
@@ -692,7 +726,8 @@
    "e": "2027-05-30",
    "u": "https://www.visitluxembourg.com/event/geek-foire",
    "src": "visitluxembourg.com",
-   "v": "Rotondes, 3 Place des Rotondes, L-2448 Luxembourg"
+   "v": "Rotondes, 3 Place des Rotondes, L-2448 Luxembourg",
+   "k": 1
   },
   {
    "n": "RetroFest UK 2027",
@@ -701,7 +736,8 @@
    "e": "2027-06-06",
    "u": "https://retrofest.uk/",
    "src": "retrofest.uk",
-   "v": "STEAM Museum of the Great Western Railway, Fire Fly Avenue, Swindon SN2 2EY, UK"
+   "v": "STEAM Museum of the Great Western Railway, Fire Fly Avenue, Swindon SN2 2EY, UK",
+   "k": 1
   },
   {
    "n": "Origins Game Fair",
@@ -758,7 +794,8 @@
    "s": "2027-06-25",
    "e": "2027-06-27",
    "u": "https://conventiongrid.com/shows/toomanygames/2027/oaks/",
-   "src": "conventiongrid.com"
+   "src": "conventiongrid.com",
+   "k": 1
   },
   {
    "n": "Anime Expo 2027",
@@ -799,7 +836,8 @@
    "s": "2027-07-10",
    "e": "2027-07-11",
    "u": "https://fancons.com/events/info/28689/retro-matsuri-2027",
-   "src": "fancons.com"
+   "src": "fancons.com",
+   "k": 1
   },
   {
    "n": "ConnectiCon 2027",
@@ -825,7 +863,8 @@
    "u": "https://gameatl.com/",
    "src": "official site",
    "b": 1,
-   "v": "Renaissance Atlanta Waverly Hotel & Convention Center, 2450 Galleria Pkwy SE, Atlanta, GA 30339"
+   "v": "Renaissance Atlanta Waverly Hotel & Convention Center, 2450 Galleria Pkwy SE, Atlanta, GA 30339",
+   "k": 1
   },
   {
    "n": "Notts Video Games Expo 2027",
@@ -834,7 +873,8 @@
    "e": "2027-07-17",
    "u": "http://nottsvge.com",
    "src": "vgeevents.com",
-   "v": "Crowne Plaza Nottingham, UK"
+   "v": "Crowne Plaza Nottingham, UK",
+   "k": 1
   },
   {
    "n": "Comic-Con International: San Diego",
@@ -853,7 +893,8 @@
    "u": "https://classicgamefest.com/",
    "src": "official site, dates approximate",
    "b": 2,
-   "v": "Palmer Events Center, 900 Barton Springs Rd, Austin, TX 78704"
+   "v": "Palmer Events Center, 900 Barton Springs Rd, Austin, TX 78704",
+   "k": 1
   },
   {
    "n": "Belfast Anime & Gaming Con 2027",
@@ -872,7 +913,8 @@
    "u": "https://southeastgameexchange.com/",
    "src": "organizer site",
    "b": 2,
-   "v": "Greenville Convention Center, 1 Exposition Dr, Greenville, SC 29607"
+   "v": "Greenville Convention Center, 1 Exposition Dr, Greenville, SC 29607",
+   "k": 1
   },
   {
    "n": "Animate! Orlando 2027",
@@ -881,6 +923,17 @@
    "e": "2027-08-15",
    "u": "https://www.thepopverse.com/comic-conventions-cons-con-near-me-nycc-san-diego-anime-tickets",
    "src": "thepopverse.com"
+  },
+  {
+   "n": "Long Island Retro Gaming Expo 2027",
+   "c": "Garden City, NY",
+   "s": "2027-08-13",
+   "e": "2027-08-15",
+   "u": "https://liretro.com",
+   "src": "liretro.com",
+   "v": "Cradle of Aviation Museum, 1 Davis Ave, Garden City, NY",
+   "b": 1,
+   "k": 1
   },
   {
    "n": "Gamescom",
@@ -931,7 +984,8 @@
    "u": "https://mrgexpo.com/",
    "src": "official site",
    "b": 2,
-   "v": "2747 S 11th St, Kalamazoo, MI 49009"
+   "v": "2747 S 11th St, Kalamazoo, MI 49009",
+   "k": 1
   },
   {
    "n": "PAX West",
@@ -1008,7 +1062,8 @@
    "u": "https://fancons.com/events/info/29043/cleveland-gaming-classic-2027",
    "src": "fancons.com",
    "b": 2,
-   "v": "Huntington Convention Center of Cleveland, 300 Lakeside Ave E, Cleveland, OH 44113"
+   "v": "Huntington Convention Center of Cleveland, 300 Lakeside Ave E, Cleveland, OH 44113",
+   "k": 1
   },
   {
    "n": "gamescom asia x Thailand Game Show 2027",
